@@ -1,0 +1,15 @@
+environment:
+  matrix:
+    - PYTHON: "C:\\Python34"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36-x64"
+build: off
+install:
+  - "%PYTHON%\\python.exe -m pip install pep8"
+before_test:
+  - "%PYTHON%\\Scripts\\pep8.exe ."
+test_script:
+  - "%PYTHON%\\python.exe manage.py test"
