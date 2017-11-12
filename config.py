@@ -17,6 +17,7 @@ class TestingConfig(Config):
     TESTING = True
     WTF_CSRF_ENABLED = False
 
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig

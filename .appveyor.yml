@@ -8,8 +8,9 @@ environment:
     - PYTHON: "C:\\Python36-x64"
 build: off
 install:
-  - "%PYTHON%\\python.exe -m pip install pep8"
+  - "%PYTHON%\\python.exe -m pip install pycodestyle"
+  - "%PYTHON%\\python.exe setup.py install"
 before_test:
-  - "%PYTHON%\\Scripts\\pep8.exe ."
+  - "%PYTHON%\\Scripts\\pycodestyle.exe ."
 test_script:
   - "%PYTHON%\\python.exe manage.py test"
