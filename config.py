@@ -9,7 +9,7 @@ class Config:
         'https://login.microsoftonline.com/common/oauth2/v2.0/token'
     AUTHORIZE_URL = \
         'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
-    SCOPE = 'User.Read'
+    SCOPE = 'Notes.Create Notes.Read User.Read'
 
     @staticmethod
     def init_app(app):
