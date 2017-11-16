@@ -1,4 +1,6 @@
+import json
 from flask import render_template, Blueprint
+from onemark.microsoft_graph import microsoft_graph
 
 
 notes_blueprint = Blueprint('notes_blueprint', __name__)
@@ -6,4 +8,6 @@ notes_blueprint = Blueprint('notes_blueprint', __name__)
 
 @notes_blueprint.route('/notes')
 def notes():
-    return render_template('notes.html')
+    notes = microsoft_graph.get('me/onenote/notebooks').data.get('value')
+
+    return render_template('notes.html', notes=notes)
