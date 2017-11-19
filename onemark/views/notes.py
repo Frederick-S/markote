@@ -8,6 +8,6 @@ notes_blueprint = Blueprint('notes_blueprint', __name__)
 
 @notes_blueprint.route('/notes')
 def notes():
-    notes = microsoft_graph.get('me/onenote/notebooks').data.get('value')
+    note_books = microsoft_graph.get('me/onenote/notebooks').data.get('value')
 
-    return render_template('notes.html', notes=notes)
+    return render_template('notes.html', note_books=note_books)
