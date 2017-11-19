@@ -1,7 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for note in notes %}
-    <p>{{ note.displayName }}</p>
-{% endfor %}
+<div class="ui secondary vertical menu">
+    {% for note in notes %}
+    <div class="ui dropdown item">
+        {{ note.displayName }}
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <div class="item">
+                Section 1
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item">Page 1</div>
+                    <div class="item">Page 2</div>
+                    <div class="item">Page 3</div>
+                    <div class="item">
+                        <i class="add circle icon"></i>Add page
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                Section 2
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item">Page 1</div>
+                    <div class="item">Page 2</div>
+                    <div class="item">Page 3</div>
+                    <div class="item">
+                        <i class="add circle icon"></i>Add page
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                Section 3
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item">Page 1</div>
+                    <div class="item">Page 2</div>
+                    <div class="item">Page 3</div>
+                    <div class="item">
+                        <i class="add circle icon"></i>Add page
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <i class="add circle icon"></i>Add section
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $('.ui.dropdown').dropdown();
+</script>
 {% endblock %}

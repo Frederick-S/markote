@@ -7,10 +7,8 @@
         <link href="{{ url_for('static', filename='semantic/semantic.min.css') }}" rel="stylesheet">
     </head>
     <body>
-        <div class="ui container">
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block content %}
+        {% endblock %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='semantic/semantic.min.js') }}"></script>
         {% block script %}
