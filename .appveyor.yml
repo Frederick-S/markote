@@ -9,6 +9,7 @@ environment:
 build: off
 install:
   - "%PYTHON%\\python.exe -m pip install pycodestyle"
+  - "%PYTHON%\\python.exe -m pip install cryptography"
   - "%PYTHON%\\python.exe setup.py install"
 before_test:
   - "%PYTHON%\\Scripts\\pycodestyle.exe ."
