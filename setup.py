@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 requires = [
     'Flask==1.0.2',
     'Flask-Script==2.0.6',
-    'Flask-OAuthlib==0.9.4',
+    'Authlib==0.7',
     'Flask-Login==0.4.1'
 ]
 

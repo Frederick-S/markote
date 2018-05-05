@@ -6,6 +6,7 @@ api_blueprint = Blueprint('api', __name__)
 
 @api_blueprint.route('/notebooks', methods=['GET'])
 def get_notebooks():
-    notebooks = microsoft_graph.get('me/onenote/notebooks').data.get('value')
+    client = microsoft_graph.create_client('microsoft graph')
+    notebooks = client.get('me/onenote/notebooks').json()
 
     return jsonify(notebooks)

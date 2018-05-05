@@ -1,5 +1,6 @@
 import os
-from flask_oauthlib.client import OAuth
+from flask import session
+from authlib.flask.client import OAuth
 
 
 client_id = os.environ.get('CLIENT_ID') or 'client id'
@@ -9,13 +10,17 @@ authorize_url = \
     'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
 scope = 'Notes.Create Notes.Read User.Read'
 
-oauth = OAuth()
-microsoft_graph = oauth.remote_app(
-    'microsoft graph',
-    base_url='https://graph.microsoft.com/v1.0/',
-    request_token_url=None,
+
+def fetch_token(name):
+    return session.get('token')
+
+
+microsoft_graph = OAuth(fetch_token=fetch_token)
+microsoft_graph.register(
+    name='microsoft graph',
+    client_id=client_id,
+    client_secret=client_secret,
+    api_base_url='https://graph.microsoft.com/v1.0/',
     access_token_url=access_token_url,
     authorize_url=authorize_url,
-    request_token_params={'scope': scope},
-    consumer_key=client_id,
-    consumer_secret=client_secret)
+    client_kwargs={'scope': scope})
