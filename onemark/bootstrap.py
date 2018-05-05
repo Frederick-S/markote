@@ -1,9 +1,11 @@
 from flask import Flask
+from config import config
 from onemark.views.home import home_blueprint
-from onemark.views.login import login_blueprint
+from onemark.views.auth import auth_blueprint
 from onemark.views.notes import notes_blueprint
 from onemark.views.error import error_blueprint
-from config import config
+from onemark.api.api import api_blueprint
+from onemark.login_manager import login_manager
 
 
 def create_app(config_name):
@@ -12,9 +14,12 @@ def create_app(config_name):
 
     config[config_name].init_app(app)
 
+    login_manager.init_app(app)
+
     app.register_blueprint(home_blueprint)
-    app.register_blueprint(login_blueprint)
+    app.register_blueprint(auth_blueprint)
     app.register_blueprint(notes_blueprint)
     app.register_blueprint(error_blueprint)
+    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
     return app

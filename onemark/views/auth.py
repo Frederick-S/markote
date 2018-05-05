@@ -3,20 +3,20 @@ from flask import session, request, redirect, url_for, Blueprint
 from onemark.microsoft_graph import microsoft_graph
 
 
-login_blueprint = Blueprint('login_blueprint', __name__)
+auth_blueprint = Blueprint('auth_blueprint', __name__)
 
 
-@login_blueprint.route('/login')
+@auth_blueprint.route('/login')
 def login():
     guid = uuid.uuid4()
     session['state'] = guid
 
     return microsoft_graph.authorize(
-        callback=url_for('login_blueprint.authorized', _external=True),
+        callback=url_for('auth_blueprint.authorized', _external=True),
         state=guid)
 
 
-@login_blueprint.route('/login/authorized')
+@auth_blueprint.route('/login/authorized')
 def authorized():
     response = microsoft_graph.authorized_response()
 
