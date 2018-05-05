@@ -1,6 +1,5 @@
 import uuid
-from flask import session, request, redirect, url_for, \
-    current_app, render_template, Blueprint
+from flask import session, request, redirect, url_for, Blueprint
 from onemark.microsoft_graph import microsoft_graph
 
 
@@ -25,7 +24,7 @@ def authorized():
         message = 'Access Denied: Reason={0}, Error={1}'.format(
             request.args['error'], request.args['error_description'])
 
-        return redirect('error', message=message)
+        return redirect('error', message)
 
     if str(session['state']) != str(request.args['state']):
         raise Exception('State has been messed with, end authentication')

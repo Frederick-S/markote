@@ -1,4 +1,3 @@
-import json
 from flask import render_template, Blueprint
 from onemark.microsoft_graph import microsoft_graph
 
