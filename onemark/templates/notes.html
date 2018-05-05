@@ -1,40 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="ui grid">
-    <div class="two wide column">
-        <div class="ui secondary vertical menu">
-            {% for note_book in note_books %}
-            <a class="item">
-                {{ note_book.displayName }}
-            </a>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="two wide column">
-        <div class="ui secondary vertical menu">
-            {% for note_book in note_books %}
-            <a class="item">
-                {{ note_book.displayName }}
-            </a>
-            {% endfor %}
-            <a class="item">
-                <i class="add circle icon"></i>Add section
-            </a>
-        </div>
-    </div>
-    <div class="two wide column">
-        <div class="ui secondary vertical menu">
-            {% for note_book in note_books %}
-            <a class="item">
-                {{ note_book.displayName }}
-            </a>
-            {% endfor %}
-            <a class="item">
-                <i class="add circle icon"></i>Add page
-            </a>
-        </div>
-    </div>
-    <div class="ten wide column"></div>
-</div>
+    <ul>
+        {% for note_book in note_books %}
+        <li>
+            {{ note_book.displayName }}
+        </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
