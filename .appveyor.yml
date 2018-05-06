@@ -1,4 +1,5 @@
 environment:
+  nodejs_version: "8"
   matrix:
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
@@ -11,7 +12,9 @@ install:
   - "%PYTHON%\\python.exe -m pip install pycodestyle"
   - "%PYTHON%\\python.exe -m pip install cryptography"
   - "%PYTHON%\\python.exe setup.py install"
+  - npm install
 before_test:
   - "%PYTHON%\\Scripts\\pycodestyle.exe ."
+  - npm run lint
 test_script:
   - "%PYTHON%\\python.exe manage.py test"
