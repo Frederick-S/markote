@@ -6,7 +6,11 @@ python:
 install:
   - pip install pycodestyle codecov
   - python setup.py install
+  - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  - apt-get install -y nodejs
+  - npm install
 script:
+  - npm run lint
   - make lint
   - make coverage
 after_success:
