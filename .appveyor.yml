@@ -1,5 +1,5 @@
 environment:
-  nodejs_version: "8"
+  nodejs_version: "LTS"
   matrix:
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
