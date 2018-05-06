@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "debug": "webpack --config webpack.config.debug.js"
+    "debug": "webpack --config webpack.config.debug.js",
+    "lint": "tslint -c tslint.json ./onemark/static/js/src/**/*.ts"
   },
   "repository": {
     "type": "git",
