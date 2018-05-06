@@ -1,0 +1,29 @@
+{
+  "name": "onemark",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/Frederick-S/onemark.svg?branch=master)](https://travis-ci.org/Frederick-S/onemark) [![Build status](https://ci.appveyor.com/api/projects/status/34bb6bb8lvmrtuss/branch/master?svg=true)](https://ci.appveyor.com/project/Frederick-S/onemark/branch/master) [![codecov](https://codecov.io/gh/Frederick-S/onemark/branch/master/graph/badge.svg)](https://codecov.io/gh/Frederick-S/onemark)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "debug": "webpack --config webpack.config.debug.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frederick-S/onemark.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Frederick-S/onemark/issues"
+  },
+  "homepage": "https://github.com/Frederick-S/onemark#readme",
+  "devDependencies": {
+    "ts-loader": "^4.2.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.7.0",
+    "webpack-cli": "^2.1.2"
+  }
+}
