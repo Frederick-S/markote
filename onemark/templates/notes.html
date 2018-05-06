@@ -12,3 +12,7 @@
         <div class="column is-one-fifth"></div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/dist/notes.js') }}"></script>
+{% endblock %}
