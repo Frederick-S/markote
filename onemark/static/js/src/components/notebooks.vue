@@ -12,13 +12,16 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import notebookStore from '../stores/notebook'
 
     @Component
     export default class Notebooks extends Vue {
-        data() {
-            return {
-                notebooks: []
-            }
+        get notebooks() {
+            return notebookStore.state.notebooks
+        }
+
+        mounted() {
+            notebookStore.dispatch('getNotebooks')
         }
     }
 </script>
