@@ -4,7 +4,8 @@ from onemark.views.home import home_blueprint
 from onemark.views.auth import auth_blueprint
 from onemark.views.notes import notes_blueprint
 from onemark.views.error import error_blueprint
-from onemark.api.api import api_blueprint
+from onemark.api.api_blueprint import api_blueprint
+import onemark.api.api_bootstrap
 from onemark.login_manager import login_manager
 from onemark.oauth import oauth
 

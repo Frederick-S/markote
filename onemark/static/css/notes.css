@@ -1,3 +1,7 @@
 .main {
     height: 100vh;
 }
+
+.notebooks {
+    border-right: 1px solid #d2d2d2;
+}

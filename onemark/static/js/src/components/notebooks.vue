@@ -1,5 +1,5 @@
 <template>
-    <div class="column is-one-fifth">
+    <div class="column is-one-fifth notebooks">
         <aside class="menu">
             <p class="menu-label">Notebooks</p>
             <ul class="menu-list">

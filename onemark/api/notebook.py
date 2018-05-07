@@ -1,7 +1,6 @@
-from flask import Blueprint, jsonify
+from flask import jsonify
+from onemark.api.api_blueprint import api_blueprint
 from onemark.oauth import oauth
-
-api_blueprint = Blueprint('api', __name__)
 
 
 @api_blueprint.route('/notebooks', methods=['GET'])
