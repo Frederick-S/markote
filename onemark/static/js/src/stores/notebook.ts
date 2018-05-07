@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -6,13 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     actions: {
         getNotebooks(context) {
-            const notebooks = [
-                {
-                    displayName: 'Notebook',
-                },
-            ]
-
-            context.commit('setNotebooks', notebooks)
+            axios.get('/api/v1/notebooks').then((response) => {
+                context.commit('setNotebooks', response.data.value)
+            })
         },
     },
     mutations: {

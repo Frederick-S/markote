@@ -6,7 +6,8 @@
     "jsRules": {},
     "rules": {
         "quotemark": ["single"],
-        "semicolon": false
+        "semicolon": false,
+        "no-console": false
     },
     "rulesDirectory": []
 }
