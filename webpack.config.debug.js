@@ -1,4 +1,5 @@
 const path = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const entries = require('./webpack-entries')
 const entryPath = './onemark/static/js/src'
 const distPath = './onemark/static/js/dist'
@@ -16,7 +17,7 @@ module.exports = {
         path: path.join(__dirname, distPath)
     },
     resolve: {
-        extensions: ['.ts'],
+        extensions: ['.ts', '.vue'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js'
         }
@@ -24,11 +25,28 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
                 test: /\.ts$/,
-                loader: 'ts-loader'
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+                options: {
+                    appendTsSuffixTo: [/\.vue$/]
+                }
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'css-loader'
+                ]
             }
         ]
     },
+    plugins: [
+        new VueLoaderPlugin()
+    ],
     devtool: 'source-map',
     mode: 'development'
 }

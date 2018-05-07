@@ -21,9 +21,13 @@
   },
   "homepage": "https://github.com/Frederick-S/onemark#readme",
   "devDependencies": {
+    "css-loader": "^0.28.11",
     "ts-loader": "^4.2.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3",
+    "vue-loader": "^15.0.9",
+    "vue-property-decorator": "^6.0.0",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "^4.7.0",
     "webpack-cli": "^2.1.2"
   },
