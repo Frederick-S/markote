@@ -1,6 +1,7 @@
 <template>
     <div class="column is-one-fifth">
         <aside class="menu">
+            <p class="menu-label">Notebooks</p>
             <ul class="menu-list">
                 <li v-for="notebook in notebooks">
                     <a>{{ notebook.displayName }}</a>
