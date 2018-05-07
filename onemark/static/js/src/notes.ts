@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import NotebooksComponent from './components/Notebooks.vue'
+import NotebooksComponent from './components/notebooks.vue'
 
 const vue = new Vue({
     components: {
