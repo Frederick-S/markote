@@ -8,4 +8,4 @@ coverage:
 	coverage run --source=onemark manage.py test
 
 lint:
-    pycodestyle . --exclude=venv
+    pycodestyle . --exclude=venv && npm run lint
