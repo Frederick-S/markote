@@ -2,6 +2,6 @@
     height: 100vh;
 }
 
-.notebooks, .sections {
+.notebooks, .sections, .pages {
     border-right: 1px solid #d2d2d2;
 }

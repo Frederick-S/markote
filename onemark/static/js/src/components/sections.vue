@@ -4,7 +4,7 @@
             <p class="menu-label">Sections</p>
             <ul class="menu-list">
                 <li v-for="section in sections">
-                    <a>{{ section.displayName }}</a>
+                    <a @click="getPages(section)">{{ section.displayName }}</a>
                 </li>
             </ul>
         </aside>
@@ -25,6 +25,10 @@
 
         getSections(notebook: any) {
             sectionStore.dispatch('getSections', notebook)
+        }
+
+        getPages(section: any) {
+            event.fire(events.GET_PAGES, section)
         }
 
         mounted() {
