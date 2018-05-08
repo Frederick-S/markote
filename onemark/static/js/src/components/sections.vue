@@ -1,5 +1,5 @@
 <template>
-    <div class="column is-one-fifth sections">
+    <div class="column is-2 sections">
         <aside class="menu">
             <p class="menu-label">Sections</p>
             <ul class="menu-list">
