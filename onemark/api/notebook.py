@@ -9,3 +9,12 @@ def get_notebooks():
     notebooks = oauth_client.get('me/onenote/notebooks').json()
 
     return jsonify(notebooks)
+
+
+@api_blueprint.route('/notebooks/<id>/sections', methods=['GET'])
+def get_sections(id):
+    oauth_client = oauth.microsoft_graph
+    sections = oauth_client.get(
+        'me/onenote/notebooks/{0}/sections'.format(id)).json()
+
+    return jsonify(sections)
