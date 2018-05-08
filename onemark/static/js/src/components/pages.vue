@@ -1,5 +1,5 @@
 <template>
-    <div class="column is-2 pages">
+    <div class="column is-4 pages">
         <aside class="menu">
             <p class="menu-label">Pages</p>
             <ul class="menu-list">
