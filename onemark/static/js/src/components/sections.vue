@@ -1,0 +1,34 @@
+<template>
+    <div class="column is-one-fifth sections">
+        <aside class="menu">
+            <p class="menu-label">Sections</p>
+            <ul class="menu-list">
+                <li v-for="section in sections">
+                    <a>{{ section.displayName }}</a>
+                </li>
+            </ul>
+        </aside>
+    </div>
+</template>
+
+<script lang="ts">
+    import { Vue, Component } from 'vue-property-decorator'
+    import sectionStore from '../stores/section'
+    import event from '../event'
+    import events from '../events'
+
+    @Component
+    export default class Sections extends Vue {
+        get sections() {
+            return sectionStore.state.sections
+        }
+
+        getSections(notebook: any) {
+            sectionStore.dispatch('getSections', notebook)
+        }
+
+        mounted() {
+            event.listen(events.GET_SECTIONS, this.getSections)
+        }
+    }
+</script>
