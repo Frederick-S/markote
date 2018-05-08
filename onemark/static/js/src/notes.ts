@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import EditorComponent from './components/editor.vue'
 import NavigationComponent from './components/navigation.vue'
 import NotebooksComponent from './components/notebooks.vue'
 import PagesComponent from './components/pages.vue'
@@ -6,6 +7,7 @@ import SectionsComponent from './components/sections.vue'
 
 const vue = new Vue({
     components: {
+        EditorComponent,
         NavigationComponent,
         NotebooksComponent,
         PagesComponent,
@@ -22,6 +24,9 @@ const vue = new Vue({
                         <sections-component></sections-component>
                         <pages-component></pages-component>
                     </div>
+                </div>
+                <div class="column">
+                    <editor-component></editor-component>
                 </div>
             </div>
         </div>`,
