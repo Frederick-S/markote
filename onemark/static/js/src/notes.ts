@@ -15,11 +15,11 @@ const vue = new Vue({
     },
     el: '#notes',
     template: `
-        <div>
+        <div class="container">
             <navigation-component></navigation-component>
             <div class="columns">
                 <div class="column is-5">
-                    <div class="notes-navigation columns">
+                    <div class="columns">
                         <notebooks-component></notebooks-component>
                         <sections-component></sections-component>
                         <pages-component></pages-component>
