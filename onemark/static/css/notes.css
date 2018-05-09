@@ -1,3 +1,8 @@
 .notebooks, .sections, .pages {
     border-right: 1px solid #d2d2d2;
 }
+
+.editor {
+    display: flex;
+    flex-direction: column;
+}
