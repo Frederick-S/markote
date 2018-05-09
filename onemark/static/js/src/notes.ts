@@ -17,9 +17,9 @@ const vue = new Vue({
     template: `
         <div class="container">
             <navigation-component></navigation-component>
-            <div class="columns">
+            <div class="columns notes-main">
                 <div class="column is-5">
-                    <div class="columns">
+                    <div class="columns notes-navigation">
                         <notebooks-component></notebooks-component>
                         <sections-component></sections-component>
                         <pages-component></pages-component>

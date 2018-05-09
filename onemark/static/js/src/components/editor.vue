@@ -1,5 +1,5 @@
 <template>
-    <div id="editor">
+    <div id="editor" class="editor">
         <p>Hello World!</p>
     </div>
 </template>
@@ -17,3 +17,9 @@
         }
     }
 </script>
+
+<style>
+    .editor {
+        overflow: auto;
+    }
+</style>
