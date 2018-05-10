@@ -37,11 +37,6 @@
     text-align: center;
 }
 
-.editor {
-    display: flex;
-    flex-direction: column;
-}
-
 .note-title {
     text-overflow: ellipsis;
     overflow: hidden;

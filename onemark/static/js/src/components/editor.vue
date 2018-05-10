@@ -1,6 +1,9 @@
 <template>
-    <div id="editor" class="editor">
-        <p>Hello World!</p>
+    <div class="column editor">
+        <input class="input page-title" type="text" placeholder="Title">
+        <div id="editor" class="editor">
+            <p>Hello World!</p>
+        </div>
     </div>
 </template>
 
@@ -12,6 +15,9 @@
     export default class Editor extends Vue {
         mounted() {
             const quill = new Quill('#editor', {
+                modules: {
+                    toolbar: false
+                },
                 theme: 'snow'
             })
         }
@@ -20,6 +26,12 @@
 
 <style>
     .editor {
+        display: flex;
+        flex-direction: column;
         overflow: auto;
+    }
+
+    input.page-title {
+        margin-bottom: 1rem;
     }
 </style>

@@ -25,9 +25,7 @@ const vue = new Vue({
                         <pages-component></pages-component>
                     </div>
                 </div>
-                <div class="column editor">
-                    <editor-component></editor-component>
-                </div>
+                <editor-component></editor-component>
             </div>
         </div>`,
 })
