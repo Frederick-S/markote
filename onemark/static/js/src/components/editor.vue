@@ -1,7 +1,7 @@
 <template>
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title">
-        <div id="editor" class="editor">
+        <div id="editor" class="editor-body">
             <p>Hello World!</p>
         </div>
     </div>
@@ -9,17 +9,15 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import Quill from 'quill'
+
+    declare var ace: any
 
     @Component
     export default class Editor extends Vue {
         mounted() {
-            const quill = new Quill('#editor', {
-                modules: {
-                    toolbar: false
-                },
-                theme: 'snow'
-            })
+            const editor = ace.edit('editor')
+            editor.setTheme('ace/theme/github')
+            editor.session.setMode('ace/mode/markdown')
         }
     }
 </script>
@@ -33,5 +31,9 @@
 
     input.page-title {
         margin-bottom: 1rem;
+    }
+
+    .editor-body {
+        height: 100%;
     }
 </style>

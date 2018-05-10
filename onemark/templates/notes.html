@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block style %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/notes.css') }}">
 {% endblock %}
 
@@ -10,5 +9,6 @@
 {% endblock %}
 
 {% block script %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/dist/notes.js') }}"></script>
 {% endblock %}
