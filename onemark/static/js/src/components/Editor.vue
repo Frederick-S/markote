@@ -18,7 +18,6 @@
             const editor = ace.edit('editor')
             editor.setTheme('ace/theme/github')
             editor.session.setMode('ace/mode/markdown')
-            editor.renderer.setShowGutter(false)
         }
     }
 </script>
