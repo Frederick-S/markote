@@ -8,6 +8,7 @@
                 </li>
             </ul>
         </aside>
+        <span class="note-command">Add Section</span>
     </div>
 </template>
 
