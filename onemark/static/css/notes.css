@@ -18,11 +18,16 @@
     margin: 0;
 }
 
-.notebooks, .sections, .pages {
+.note-menu {
     border-right: 1px solid #d2d2d2;
 }
 
 .editor {
     display: flex;
     flex-direction: column;
+}
+
+.note-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

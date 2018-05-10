@@ -1,10 +1,10 @@
 <template>
-    <div class="column is-4 notebooks">
+    <div class="column is-4 note-menu">
         <aside class="menu">
             <p class="menu-label">Notebooks</p>
             <ul class="menu-list">
                 <li v-for="notebook in notebooks">
-                    <a @click="getSections(notebook)">{{ notebook.displayName }}</a>
+                    <a class="note-title" @click="getSections(notebook)">{{ notebook.displayName }}</a>
                 </li>
             </ul>
         </aside>
