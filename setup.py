@@ -8,10 +8,10 @@ requires = [
 ]
 
 setup(
-    name='onemark',
+    name='markote',
     version='0.0.1',
     description='Save markdown notes to onenote.',
-    url='https://github.com/Frederick-S/onemark',
+    url='https://github.com/Frederick-S/markote',
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     install_requires=requires,

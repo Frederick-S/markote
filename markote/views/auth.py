@@ -1,5 +1,5 @@
 from flask import session, redirect, url_for, Blueprint
-from onemark.oauth import oauth
+from markote.oauth import oauth
 
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)

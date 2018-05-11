@@ -1,13 +1,13 @@
 from flask import Flask
 from config import config
-from onemark.views.home import home_blueprint
-from onemark.views.auth import auth_blueprint
-from onemark.views.notes import notes_blueprint
-from onemark.views.error import error_blueprint
-from onemark.api.api_blueprint import api_blueprint
-import onemark.api.api_bootstrap
-from onemark.login_manager import login_manager
-from onemark.oauth import oauth
+from markote.views.home import home_blueprint
+from markote.views.auth import auth_blueprint
+from markote.views.notes import notes_blueprint
+from markote.views.error import error_blueprint
+from markote.api.api_blueprint import api_blueprint
+import markote.api.api_bootstrap
+from markote.login_manager import login_manager
+from markote.oauth import oauth
 
 
 def create_app(config_name):

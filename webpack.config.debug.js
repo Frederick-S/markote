@@ -1,8 +1,8 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const entries = require('./webpack-entries')
-const entryPath = './onemark/static/js/src'
-const distPath = './onemark/static/js/dist'
+const entryPath = './markote/static/js/src'
+const distPath = './markote/static/js/dist'
 
 const entry = entries.reduce((accumulator, current) => {
     accumulator[current] = `${entryPath}/${current}`

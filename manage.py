@@ -1,5 +1,5 @@
 from flask_script import Manager, Shell
-from onemark.bootstrap import create_app
+from markote.bootstrap import create_app
 import unittest
 
 app = create_app('development')

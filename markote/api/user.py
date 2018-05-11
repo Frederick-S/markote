@@ -1,6 +1,6 @@
 from flask import jsonify
-from onemark.api.api_blueprint import api_blueprint
-from onemark.oauth import oauth
+from markote.api.api_blueprint import api_blueprint
+from markote.oauth import oauth
 
 
 @api_blueprint.route('/me', methods=['GET'])
