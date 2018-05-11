@@ -2,7 +2,7 @@
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title">
         <p class="buttons">
-            <a class="button">
+            <a class="button" @click="preview">
                 <span class="icon is-small">
                     <i class="fas fa-eye"></i>
                 </span>
@@ -13,9 +13,10 @@
                 </span>
             </a>
         </p>
-        <div id="editor" class="editor-body">
+        <div v-show="!isPreview" id="editor" class="editor-body">
             <p>Hello World!</p>
         </div>
+        <div v-show="isPreview" class="preview"></div>
     </div>
 </template>
 
@@ -25,6 +26,12 @@
     @Component
     export default class Editor extends Vue {
         private editor!: AceAjax.Editor
+
+        private isPreview: boolean = false
+
+        preview() {
+            this.isPreview = !this.isPreview
+        }
 
         mounted() {
             this.editor = ace.edit('editor')
@@ -46,6 +53,11 @@
     }
 
     .editor-body {
+        height: 100%;
+        border: 1px solid #cccccc;
+    }
+
+    .preview {
         height: 100%;
         border: 1px solid #cccccc;
     }
