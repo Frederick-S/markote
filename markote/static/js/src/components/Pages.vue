@@ -8,7 +8,7 @@
                 </li>
             </ul>
         </aside>
-        <span class="note-command">Add Page</span>
+        <span class="note-command" @click="createPage">Add Page</span>
     </div>
 </template>
 
@@ -20,12 +20,26 @@
 
     @Component
     export default class Pages extends Vue {
+        private section: any
+
         get pages() {
             return pageStore.state.pages
         }
 
         getPages(section: any) {
+            this.section = section
+
             pageStore.dispatch('getPages', section)
+        }
+
+        createPage() {
+            pageStore.dispatch('createPage', {
+                section: this.section,
+                page: {
+                    title: 'Untitled Page',
+                    content: '<div id="main"></div>'
+                }
+            })
         }
 
         mounted() {
