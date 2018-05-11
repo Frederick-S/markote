@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Frederick-S/onemark#readme",
   "devDependencies": {
+    "@types/ace": "0.0.39",
     "css-loader": "^0.28.11",
     "ts-loader": "^4.2.0",
     "tslint": "^5.10.0",

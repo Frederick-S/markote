@@ -22,14 +22,14 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
 
-    declare var ace: any
-
     @Component
     export default class Editor extends Vue {
+        private editor!: AceAjax.Editor
+
         mounted() {
-            const editor = ace.edit('editor')
-            editor.setTheme('ace/theme/github')
-            editor.session.setMode('ace/mode/markdown')
+            this.editor = ace.edit('editor')
+            this.editor.setTheme('ace/theme/github')
+            this.editor.session.setMode('ace/mode/markdown')
         }
     }
 </script>
