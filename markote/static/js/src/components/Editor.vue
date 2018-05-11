@@ -13,9 +13,7 @@
                 </span>
             </a>
         </p>
-        <div v-show="!isPreview" id="editor" class="editor-body">
-            <p>Hello World!</p>
-        </div>
+        <div v-show="!isPreview" id="editor" class="editor-body"></div>
         <div v-show="isPreview" class="preview" id="preview"></div>
     </div>
 </template>
@@ -23,6 +21,7 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import * as marked from 'marked'
+    import renderer from '../marked/renderer'
 
     declare var hljs: any
 
@@ -42,12 +41,14 @@
 
         renderPreview() {
             const content = this.editor.getValue()
-            const markedContent = marked(content)
+            const markedContent = marked(content, {
+                renderer
+            })
 
             document.getElementById('preview')!.innerHTML = markedContent
 
-            Array.prototype.forEach.call(document.querySelectorAll('pre code'), (item: any) => {
-                hljs.highlightBlock(item)
+            Array.prototype.forEach.call(document.querySelectorAll('pre'), (element: any) => {
+                hljs.highlightBlock(element)
             })
         }
 
@@ -79,5 +80,6 @@
         height: 100%;
         border: 1px solid #cccccc;
         overflow: auto;
+        padding: 1rem;
     }
 </style>
