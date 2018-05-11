@@ -36,8 +36,7 @@
             pageStore.dispatch('createPage', {
                 section: this.section,
                 page: {
-                    title: 'Untitled Page',
-                    content: '<div id="main"></div>'
+                    title: 'Untitled Page'
                 }
             })
         }
