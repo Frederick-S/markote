@@ -53,7 +53,7 @@
 
         mounted() {
             this.editor = ace.edit('editor')
-            this.editor.setTheme('ace/theme/github')
+            this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
         }
     }
@@ -78,5 +78,6 @@
     .preview {
         height: 100%;
         border: 1px solid #cccccc;
+        overflow: auto;
     }
 </style>
