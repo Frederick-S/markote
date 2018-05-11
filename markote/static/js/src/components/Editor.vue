@@ -16,21 +16,34 @@
         <div v-show="!isPreview" id="editor" class="editor-body">
             <p>Hello World!</p>
         </div>
-        <div v-show="isPreview" class="preview"></div>
+        <div v-show="isPreview" class="preview" v-html="renderedContent">{{ renderedContent }}</div>
     </div>
 </template>
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import * as marked from 'marked'
 
     @Component
     export default class Editor extends Vue {
         private editor!: AceAjax.Editor
 
-        private isPreview: boolean = false
+        private isPreview = false
+
+        private content = ''
+
+        get renderedContent() {
+            const content = this.content
+
+            return marked(content)
+        }
 
         preview() {
             this.isPreview = !this.isPreview
+
+            if (this.isPreview) {
+                this.content = this.editor.getValue()
+            }
         }
 
         mounted() {
