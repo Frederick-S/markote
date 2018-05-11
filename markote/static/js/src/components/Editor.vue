@@ -1,6 +1,18 @@
 <template>
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title">
+        <p class="buttons">
+            <a class="button">
+                <span class="icon is-small">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </a>
+            <a class="button">
+                <span class="icon is-small">
+                    <i class="fas fa-save"></i>
+                </span>
+            </a>
+        </p>
         <div id="editor" class="editor-body">
             <p>Hello World!</p>
         </div>
