@@ -39,15 +39,19 @@
 
         getComputedStyle(element: HTMLElement): string {
             let computedStyle = window.getComputedStyle(element)
-            let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size']
+            let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style', 'font-style', 'font-style', 'text-align', 'text-align']
 
-            return supportedStyleRules.map((rule) => `${rule}:${computedStyle[rule]}`).join(';')
+            return supportedStyleRules.map((rule) => `${rule}: ${computedStyle[rule]}`).join(';')
         }
 
         getInnerHtmlWithComputedStyle(element: HTMLElement): string {
             return Array.prototype.map.call(element.childNodes, (child: HTMLElement) => {
                 if (child.nodeType === 1) {
-                    return `<${child.tagName} style="${this.getComputedStyle(child)}">${this.getInnerHtmlWithComputedStyle(child)}</${child.tagName}>`
+                    let tagName = child.tagName.toLowerCase()
+                    let style = this.getComputedStyle(child)
+                    let childHtml = this.getInnerHtmlWithComputedStyle(child)
+
+                    return `<${tagName} style="${style}">${childHtml}</${tagName}>`
                 } else if (child.nodeType === 3) {
                     return child.nodeValue
                 } else {
