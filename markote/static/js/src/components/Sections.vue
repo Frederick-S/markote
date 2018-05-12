@@ -26,12 +26,12 @@
             return sectionStore.state.sections
         }
 
-        getSections(notebook: Notebook) {
-            sectionStore.dispatch('getSections', notebook)
-        }
-
         getPages(section: Section) {
             event.fire(events.GET_PAGES, section)
+        }
+
+        getSections(notebook: Notebook) {
+            sectionStore.dispatch('getSections', notebook)
         }
 
         mounted() {

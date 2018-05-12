@@ -28,12 +28,6 @@
             return pageStore.state.pages
         }
 
-        getPages(section: Section) {
-            this.section = section
-
-            pageStore.dispatch('getPages', section)
-        }
-
         createPage() {
             pageStore.dispatch('createPage', {
                 section: this.section,
@@ -43,6 +37,12 @@
             }).then((page: Page) => {
                 event.fire(events.NEW_PAGE, page)
             })
+        }
+
+        getPages(section: Section) {
+            this.section = section
+
+            pageStore.dispatch('getPages', section)
         }
 
         mounted() {

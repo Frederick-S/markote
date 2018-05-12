@@ -12,6 +12,8 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 axios.post(`/api/v1/sections/${section.id}/pages`, page).then((response) => {
                     if (response.status === 200) {
+                        page.id = response.data.id
+
                         context.commit('addPage', page)
 
                         resolve(page)
@@ -26,6 +28,11 @@ export default new Vuex.Store({
         getPages(context, section: Section) {
             axios.get(`/api/v1/sections/${section.id}/pages`).then((response) => {
                 context.commit('setPages', response.data.value)
+            })
+        },
+        updatePage(context, page: Page) {
+            axios.patch(`/api/v1/pages/${page.id}/content`, page).then((response) => {
+                console.log(response)
             })
         },
     },

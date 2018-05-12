@@ -7,7 +7,7 @@
                     <i class="fas fa-eye"></i>
                 </span>
             </a>
-            <a class="button">
+            <a class="button" @click="save">
                 <span class="icon is-small">
                     <i class="fas fa-save"></i>
                 </span>
@@ -24,6 +24,7 @@
     import event from '../event'
     import events from '../events'
     import Page from '../models/page'
+    import pageStore from '../stores/page'
     import renderer from '../marked/renderer'
 
     declare var hljs: any
@@ -35,6 +36,11 @@
         private isPreview = false
 
         private page: Page = new Page()
+
+        newPageCreated(page: Page) {
+            this.page = page
+            this.editor.setValue('')
+        }
 
         preview() {
             this.isPreview = !this.isPreview
@@ -56,9 +62,11 @@
             })
         }
 
-        newPageCreated(page: Page) {
-            this.page = page
-            this.editor.setValue('')
+        save() {
+            this.page.content = document.getElementById('preview').innerHTML
+            this.page.markdown = this.editor.getValue()
+
+            pageStore.dispatch('updatePage', this.page)
         }
 
         mounted() {
