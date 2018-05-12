@@ -37,6 +37,25 @@
 
         private page: Page = new Page()
 
+        getComputedStyle(element: HTMLElement): string {
+            let computedStyle = window.getComputedStyle(element)
+            let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size']
+
+            return supportedStyleRules.map((rule) => `${rule}:${computedStyle[rule]}`).join(';')
+        }
+
+        getInnerHtmlWithComputedStyle(element: HTMLElement): string {
+            return Array.prototype.map.call(element.childNodes, (child: HTMLElement) => {
+                if (child.nodeType === 1) {
+                    return `<${child.tagName} style="${this.getComputedStyle(child)}">${this.getInnerHtmlWithComputedStyle(child)}</${child.tagName}>`
+                } else if (child.nodeType === 3) {
+                    return child.nodeValue
+                } else {
+                    return ''
+                }
+            }).join('')
+        }
+
         newPageCreated(page: Page) {
             this.page = page
             this.editor.setValue('')
@@ -63,7 +82,7 @@
         }
 
         save() {
-            this.page.content = document.getElementById('preview').innerHTML
+            this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
 
             pageStore.dispatch('updatePage', this.page)
