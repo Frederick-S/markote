@@ -8,11 +8,12 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import User from '../models/user'
     import userStore from '../stores/user'
 
     @Component
     export default class Navigation extends Vue {
-        get me() {
+        get me(): User {
             return userStore.state.me
         }
 

@@ -21,9 +21,10 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import * as marked from 'marked'
-    import renderer from '../marked/renderer'
     import event from '../event'
     import events from '../events'
+    import Page from '../models/page'
+    import renderer from '../marked/renderer'
 
     declare var hljs: any
 
@@ -33,7 +34,7 @@
 
         private isPreview = false
 
-        private page = {}
+        private page: Page = new Page()
 
         preview() {
             this.isPreview = !this.isPreview
@@ -45,18 +46,17 @@
 
         renderPreview() {
             const content = this.editor.getValue()
-            const markedContent = marked(content, {
+
+            document.getElementById('preview')!.innerHTML = marked(content, {
                 renderer
             })
-
-            document.getElementById('preview')!.innerHTML = markedContent
 
             Array.prototype.forEach.call(document.querySelectorAll('pre'), (element: any) => {
                 hljs.highlightBlock(element)
             })
         }
 
-        newPageCreated(page) {
+        newPageCreated(page: Page) {
             this.page = page
             this.editor.setValue('')
         }

@@ -14,21 +14,23 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import sectionStore from '../stores/section'
     import event from '../event'
     import events from '../events'
+    import Notebook from '../models/notebook'
+    import Section from '../models/section'
+    import sectionStore from '../stores/section'
 
     @Component
     export default class Sections extends Vue {
-        get sections() {
+        get sections(): Section[] {
             return sectionStore.state.sections
         }
 
-        getSections(notebook: any) {
+        getSections(notebook: Notebook) {
             sectionStore.dispatch('getSections', notebook)
         }
 
-        getPages(section: any) {
+        getPages(section: Section) {
             event.fire(events.GET_PAGES, section)
         }
 

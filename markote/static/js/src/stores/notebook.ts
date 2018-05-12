@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Notebook from '../models/notebook'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,7 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        setNotebooks(state, notebooks) {
+        setNotebooks(state, notebooks: Notebook[]) {
             state.notebooks = notebooks
         },
     },

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import User from '../models/user'
 
 Vue.use(Vuex)
 
@@ -13,11 +14,11 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        setMe(state, me) {
+        setMe(state, me: User) {
             state.me = me
         },
     },
     state: {
-        me: {},
+        me: new User(),
     },
 })

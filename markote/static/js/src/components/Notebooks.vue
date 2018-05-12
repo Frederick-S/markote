@@ -13,17 +13,18 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
+    import Notebook from '../models/notebook'
     import notebookStore from '../stores/notebook'
     import event from '../event'
     import events from '../events'
 
     @Component
     export default class Notebooks extends Vue {
-        get notebooks() {
+        get notebooks(): Notebook[] {
             return notebookStore.state.notebooks
         }
 
-        getSections(notebook: any) {
+        getSections(notebook: Notebook) {
             event.fire(events.GET_SECTIONS, notebook)
         }
 

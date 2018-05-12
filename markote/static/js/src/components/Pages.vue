@@ -14,19 +14,21 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import pageStore from '../stores/page'
     import event from '../event'
     import events from '../events'
+    import Page from '../models/page'
+    import pageStore from '../stores/page'
+    import Section from '../models/section'
 
     @Component
     export default class Pages extends Vue {
-        private section: any
+        private section: Section = new Section()
 
-        get pages() {
+        get pages(): Page[] {
             return pageStore.state.pages
         }
 
-        getPages(section: any) {
+        getPages(section: Section) {
             this.section = section
 
             pageStore.dispatch('getPages', section)
@@ -38,7 +40,7 @@
                 page: {
                     title: 'Untitled Page'
                 }
-            }).then((page) => {
+            }).then((page: Page) => {
                 event.fire(events.NEW_PAGE, page)
             })
         }
