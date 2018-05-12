@@ -38,6 +38,8 @@
                 page: {
                     title: 'Untitled Page'
                 }
+            }).then((page) => {
+                event.fire(events.NEW_PAGE, page)
             })
         }
 

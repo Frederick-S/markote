@@ -1,6 +1,6 @@
 <template>
     <div class="column editor">
-        <input class="input page-title" type="text" placeholder="Title">
+        <input class="input page-title" type="text" placeholder="Title" v-model="page.title">
         <p class="buttons">
             <a class="button" @click="preview">
                 <span class="icon is-small">
@@ -22,6 +22,8 @@
     import { Vue, Component } from 'vue-property-decorator'
     import * as marked from 'marked'
     import renderer from '../marked/renderer'
+    import event from '../event'
+    import events from '../events'
 
     declare var hljs: any
 
@@ -30,6 +32,8 @@
         private editor!: AceAjax.Editor
 
         private isPreview = false
+
+        private page = {}
 
         preview() {
             this.isPreview = !this.isPreview
@@ -52,10 +56,17 @@
             })
         }
 
+        newPageCreated(page) {
+            this.page = page
+            this.editor.setValue('')
+        }
+
         mounted() {
             this.editor = ace.edit('editor')
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
+
+            event.listen(events.NEW_PAGE, this.newPageCreated)
         }
     }
 </script>
