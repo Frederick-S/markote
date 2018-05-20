@@ -56,6 +56,6 @@ def update_page(id):
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
-        'PATCH', 'me/onenote/pages/{0}/content'.format(page['id']), json=data)
+        'PATCH', 'me/onenote/pages/{0}/content'.format(id), json=data)
 
     return response.content
