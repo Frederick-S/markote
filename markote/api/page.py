@@ -1,3 +1,4 @@
+import io
 from flask import jsonify, request
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
@@ -6,21 +7,25 @@ from markote.oauth import oauth
 @api_blueprint.route('/sections/<section_id>/pages', methods=['POST'])
 def create_page(section_id):
     page = request.json
-    headers = {'Content-type': 'text/html'}
     content = '''
         <!DOCTYPE html>
         <html>
             <head>
                 <title>{0}</title>
             </head>
-            <body></body>
+            <body>
+                <object data-attachment="markdown.md" data="name:markdown" type="text/markdown" />
+            </body>
         </html>
     '''.format(page['title'])
+    files = {
+        'Presentation': ('Presentation.html', io.StringIO(content), 'text/html'),
+        'markdown': ('markdown.md', io.StringIO(''), 'text/plain')
+    }
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.post(
-        'me/onenote/sections/{0}/pages'.format(section_id),
-        headers=headers, data=content).json()
+        'me/onenote/sections/{0}/pages'.format(section_id), files=files).json()
 
     return jsonify(response)
 
