@@ -124,4 +124,8 @@
         overflow: auto;
         padding: 1rem;
     }
+
+    pre.hljs {
+        background-color: white;
+    }
 </style>
