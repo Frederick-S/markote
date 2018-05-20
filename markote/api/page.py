@@ -58,15 +58,11 @@ def update_page(id):
     content_div = document('div[data-id="content"]')
     page = request.json
 
-    target, action = (content_div.attr('id'), 'replace') if content_div \
-        else ('body', 'append')
-
     commands = [
         {
-            'target': target,
-            'action': action,
-            'content': '<div data-id="content">{0}</div>'.format(
-                page['content'])
+            'target': 'title',
+            'action': 'replace',
+            'content': page['title']
         },
         {
             'target': '#markdown-file',
@@ -74,6 +70,21 @@ def update_page(id):
             'content': MARKDOWN_FILE_OBJECT_HTML
         }
     ]
+
+    content = '<div data-id="content">{0}</div>'.format(page['content'])
+
+    if content_div:
+        commands.append({
+            'target': content_div.attr('id'),
+            'action': 'replace',
+            'content': content
+        })
+    else:
+        commands.append({
+            'target': 'body',
+            'action': 'append',
+            'content': content
+        })
 
     files = {
         'Commands': ('', io.StringIO(json.dumps(commands)),
