@@ -42,7 +42,7 @@
             let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style',
                 'font-weight', 'strike-through', 'text-align', 'text-decoration']
 
-            return supportedStyleRules.map((rule) => `${rule}: ${computedStyle[rule]}`).join(';')
+            return supportedStyleRules.map((rule) => `${rule}:${computedStyle[rule]}`).join(';')
         }
 
         getInnerHtmlWithComputedStyle(element: HTMLElement): string {
