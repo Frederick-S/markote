@@ -1,8 +1,14 @@
 import io
+import json
 from flask import jsonify, request
 from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
+
+MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
+                            'data-attachment="markdown.md" ' \
+                            'data="name:markdown" ' \
+                            'type="text/markdown" />'
 
 
 @api_blueprint.route('/sections/<section_id>/pages', methods=['POST'])
@@ -15,14 +21,13 @@ def create_page(section_id):
                 <title>{0}</title>
             </head>
             <body>
-                <object data-attachment="markdown.md" data="name:markdown" \
-                    type="text/markdown" />
+                {1}
             </body>
         </html>
-    '''.format(page['title'])
+    '''.format(page['title'], MARKDOWN_FILE_OBJECT_HTML)
     files = {
         'Presentation': ('', io.StringIO(content), 'text/html'),
-        'markdown': ('markdown.md', io.StringIO(''), 'text/plain')
+        'markdown': ('markdown.md', io.StringIO(''), 'text/markdown')
     }
 
     oauth_client = oauth.microsoft_graph
@@ -56,18 +61,30 @@ def update_page(id):
     target, action = (content_div.attr('id'), 'replace') if content_div \
         else ('body', 'append')
 
-    data = [
+    commands = [
         {
             'target': target,
             'action': action,
             'content': '<div data-id="content">{0}</div>'.format(
                 page['content'])
+        },
+        {
+            'target': '#markdown-file',
+            'action': 'replace',
+            'content': MARKDOWN_FILE_OBJECT_HTML
         }
     ]
 
+    files = {
+        'Commands': ('', io.StringIO(json.dumps(commands)),
+                     'application/json'),
+        'markdown': ('markdown.md', io.StringIO(page['markdown']),
+                     'text/markdown')
+    }
+
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
-        'PATCH', 'me/onenote/pages/{0}/content'.format(id), json=data)
+        'PATCH', 'me/onenote/pages/{0}/content'.format(id), files=files)
 
     return response.content
 
