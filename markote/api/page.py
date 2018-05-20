@@ -14,12 +14,13 @@ def create_page(section_id):
                 <title>{0}</title>
             </head>
             <body>
-                <object data-attachment="markdown.md" data="name:markdown" type="text/markdown" />
+                <object data-attachment="markdown.md" data="name:markdown" \
+                    type="text/markdown" />
             </body>
         </html>
     '''.format(page['title'])
     files = {
-        'Presentation': ('Presentation.html', io.StringIO(content), 'text/html'),
+        'Presentation': ('', io.StringIO(content), 'text/html'),
         'markdown': ('markdown.md', io.StringIO(''), 'text/plain')
     }
 
