@@ -39,7 +39,8 @@
 
         getComputedStyle(element: HTMLElement): string {
             let computedStyle = window.getComputedStyle(element)
-            let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style', 'font-style', 'font-style', 'text-align', 'text-align']
+            let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style',
+                'font-weight', 'strike-through', 'text-align', 'text-decoration']
 
             return supportedStyleRules.map((rule) => `${rule}: ${computedStyle[rule]}`).join(';')
         }
@@ -51,7 +52,11 @@
                     let style = this.getComputedStyle(child)
                     let childHtml = this.getInnerHtmlWithComputedStyle(child)
 
-                    return `<${tagName} style="${style}">${childHtml}</${tagName}>`
+                    if (tagName === 'table') {
+                        return `<${tagName} style="${style}" border="1">${childHtml}</${tagName}>`
+                    } else {
+                        return `<${tagName} style="${style}">${childHtml}</${tagName}>`
+                    }
                 } else if (child.nodeType === 3) {
                     return child.nodeValue
                 } else {

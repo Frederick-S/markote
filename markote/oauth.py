@@ -7,6 +7,10 @@ def fetch_token(name):
     return session.get('token')
 
 
+def update_token(name, token):
+    session['token'] = token.get('access_token')
+
+
 client_id = os.environ.get('CLIENT_ID') or 'client id'
 client_secret = os.environ.get('CLIENT_SECRET') or 'client secret'
 access_token_url = 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
@@ -14,7 +18,7 @@ authorize_url = \
     'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
 scope = 'Notes.Create Notes.Read User.Read'
 
-oauth = OAuth(fetch_token=fetch_token)
+oauth = OAuth(fetch_token=fetch_token, update_token=update_token)
 oauth.register(
     name='microsoft_graph',
     client_id=client_id,
