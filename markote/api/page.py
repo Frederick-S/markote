@@ -1,5 +1,6 @@
 import io
 from flask import jsonify, request
+from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
 
@@ -42,26 +43,38 @@ def get_page(id):
 
 @api_blueprint.route('/pages/<id>/content', methods=['GET'])
 def get_page_content(id):
-    oauth_client = oauth.microsoft_graph
-    response = oauth_client.get(
-        'me/onenote/pages/{0}/content?includeIDs=true'.format(id))
-
-    return response.content
+    return _get_page_content(id)
 
 
 @api_blueprint.route('/pages/<id>/content', methods=['PATCH'])
 def update_page(id):
+    original_content = _get_page_content(id)
+    document = PyQuery(original_content)
+    content_div = document('div[data-id="content"]')
     page = request.json
+
+    target, action = (content_div.attr('id'), 'replace') if content_div \
+        else ('body', 'append')
+
     data = [
         {
-            'target': 'body',
-            'action': 'append',
-            'content': page['content']
+            'target': target,
+            'action': action,
+            'content': '<div data-id="content">{0}</div>'.format(
+                page['content'])
         }
     ]
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
         'PATCH', 'me/onenote/pages/{0}/content'.format(id), json=data)
+
+    return response.content
+
+
+def _get_page_content(id):
+    oauth_client = oauth.microsoft_graph
+    response = oauth_client.get(
+        'me/onenote/pages/{0}/content?includeIDs=true'.format(id))
 
     return response.content
