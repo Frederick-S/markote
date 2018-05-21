@@ -4,7 +4,7 @@
             <p class="menu-label">Pages</p>
             <ul class="menu-list">
                 <li v-for="page in pages">
-                    <a class="note-title">{{ page.title }}</a>
+                    <a :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" @click="getPageContent(page)">{{ page.title }}</a>
                 </li>
             </ul>
         </aside>
@@ -22,7 +22,9 @@
 
     @Component
     export default class Pages extends Vue {
-        private section: Section = new Section()
+        private selectedPage = new Page()
+
+        private section = new Section()
 
         get pages(): Page[] {
             return pageStore.state.pages
@@ -43,6 +45,10 @@
             this.section = section
 
             pageStore.dispatch('getPages', section)
+        }
+
+        private getPageContent(page: Page) {
+            this.selectedPage = page
         }
 
         private mounted() {

@@ -4,7 +4,7 @@
             <p class="menu-label">Sections</p>
             <ul class="menu-list">
                 <li v-for="section in sections">
-                    <a class="note-title" @click="getPages(section)">{{ section.displayName }}</a>
+                    <a :class="[section.id === selectedSection.id ? 'selected' : '', 'note-title']" @click="getPages(section)">{{ section.displayName }}</a>
                 </li>
             </ul>
         </aside>
@@ -22,11 +22,15 @@
 
     @Component
     export default class Sections extends Vue {
+        private selectedSection = new Section()
+
         get sections(): Section[] {
             return sectionStore.state.sections
         }
 
         private getPages(section: Section) {
+            this.selectedSection = section
+
             event.fire(events.GET_PAGES, section)
         }
 

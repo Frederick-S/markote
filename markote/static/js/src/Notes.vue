@@ -76,4 +76,8 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+
+    .selected {
+        background-color: #f5f5f5;
+    }
 </style>

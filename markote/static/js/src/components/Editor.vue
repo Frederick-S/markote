@@ -35,7 +35,7 @@
 
         private isPreview = false
 
-        private page: Page = new Page()
+        private page = new Page()
 
         private getComputedStyle(element: HTMLElement): string {
             const computedStyle = window.getComputedStyle(element)

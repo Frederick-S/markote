@@ -4,7 +4,7 @@
             <p class="menu-label">Notebooks</p>
             <ul class="menu-list">
                 <li v-for="notebook in notebooks">
-                    <a class="note-title" @click="getSections(notebook)">{{ notebook.displayName }}</a>
+                    <a :class="[notebook.id === selectedNotebook.id ? 'selected' : '', 'note-title']" @click="getSections(notebook)">{{ notebook.displayName }}</a>
                 </li>
             </ul>
         </aside>
@@ -20,11 +20,15 @@
 
     @Component
     export default class Notebooks extends Vue {
+        private selectedNotebook = new Notebook()
+
         get notebooks(): Notebook[] {
             return notebookStore.state.notebooks
         }
 
         private getSections(notebook: Notebook) {
+            this.selectedNotebook = notebook
+
             event.fire(events.GET_SECTIONS, notebook)
         }
 
