@@ -12,11 +12,11 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
-    import Notebook from '../models/notebook'
-    import notebookStore from '../stores/notebook'
+    import { Component, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
+    import Notebook from '../models/notebook'
+    import notebookStore from '../stores/notebook'
 
     @Component
     export default class Notebooks extends Vue {
@@ -24,11 +24,11 @@
             return notebookStore.state.notebooks
         }
 
-        getSections(notebook: Notebook) {
+        private getSections(notebook: Notebook) {
             event.fire(events.GET_SECTIONS, notebook)
         }
 
-        mounted() {
+        private mounted() {
             notebookStore.dispatch('getNotebooks')
         }
     }

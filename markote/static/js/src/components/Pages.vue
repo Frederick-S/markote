@@ -13,12 +13,12 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
+    import { Component, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
     import Page from '../models/page'
-    import pageStore from '../stores/page'
     import Section from '../models/section'
+    import pageStore from '../stores/page'
 
     @Component
     export default class Pages extends Vue {
@@ -28,24 +28,24 @@
             return pageStore.state.pages
         }
 
-        createPage() {
+        private createPage() {
             pageStore.dispatch('createPage', {
-                section: this.section,
                 page: {
-                    title: 'Untitled Page'
-                }
+                    title: 'Untitled Page',
+                },
+                section: this.section,
             }).then((page: Page) => {
                 event.fire(events.NEW_PAGE, page)
             })
         }
 
-        getPages(section: Section) {
+        private getPages(section: Section) {
             this.section = section
 
             pageStore.dispatch('getPages', section)
         }
 
-        mounted() {
+        private mounted() {
             event.listen(events.GET_PAGES, this.getPages)
         }
     }

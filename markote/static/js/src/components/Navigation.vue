@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
+    import { Component, Vue } from 'vue-property-decorator'
     import User from '../models/user'
     import userStore from '../stores/user'
 
@@ -17,7 +17,7 @@
             return userStore.state.me
         }
 
-        mounted() {
+        private mounted() {
             userStore.dispatch('getMe')
         }
     }

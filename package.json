@@ -8,7 +8,7 @@
   },
   "scripts": {
     "debug": "webpack --config webpack.config.debug.js",
-    "lint": "tslint -c tslint.json ./markote/static/js/src/**/*.ts"
+    "lint": "tslint -c tslint.json ./markote/static/js/src/**/*.ts && wotan -c tslint.json"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/Frederick-S/markote#readme",
   "devDependencies": {
+    "@fimbul/valtyr": "^0.10.0",
+    "@fimbul/ve": "^0.10.0",
+    "@fimbul/wotan": "^0.10.0",
     "@types/ace": "0.0.39",
     "@types/marked": "^0.3.0",
     "css-loader": "^0.28.11",

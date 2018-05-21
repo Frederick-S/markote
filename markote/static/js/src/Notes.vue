@@ -27,8 +27,8 @@
             NavigationComponent,
             NotebooksComponent,
             PagesComponent,
-            SectionsComponent
-        }
+            SectionsComponent,
+        },
     }
 </script>
 

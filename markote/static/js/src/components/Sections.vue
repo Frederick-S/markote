@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
+    import { Component, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
     import Notebook from '../models/notebook'
@@ -26,15 +26,15 @@
             return sectionStore.state.sections
         }
 
-        getPages(section: Section) {
+        private getPages(section: Section) {
             event.fire(events.GET_PAGES, section)
         }
 
-        getSections(notebook: Notebook) {
+        private getSections(notebook: Notebook) {
             sectionStore.dispatch('getSections', notebook)
         }
 
-        mounted() {
+        private mounted() {
             event.listen(events.GET_SECTIONS, this.getSections)
         }
     }

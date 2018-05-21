@@ -19,13 +19,13 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
     import * as marked from 'marked'
+    import { Component, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
+    import renderer from '../marked/renderer'
     import Page from '../models/page'
     import pageStore from '../stores/page'
-    import renderer from '../marked/renderer'
 
     declare var hljs: any
 
@@ -37,20 +37,20 @@
 
         private page: Page = new Page()
 
-        getComputedStyle(element: HTMLElement): string {
-            let computedStyle = window.getComputedStyle(element)
-            let supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style',
+        private getComputedStyle(element: HTMLElement): string {
+            const computedStyle = window.getComputedStyle(element)
+            const supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style',
                 'font-weight', 'strike-through', 'text-align', 'text-decoration']
 
             return supportedStyleRules.map((rule) => `${rule}:${computedStyle[rule]}`).join(';')
         }
 
-        getInnerHtmlWithComputedStyle(element: HTMLElement): string {
+        private getInnerHtmlWithComputedStyle(element: HTMLElement): string {
             return Array.prototype.map.call(element.childNodes, (child: HTMLElement) => {
                 if (child.nodeType === 1) {
-                    let tagName = child.tagName.toLowerCase()
-                    let style = this.getComputedStyle(child)
-                    let childHtml = this.getInnerHtmlWithComputedStyle(child)
+                    const tagName = child.tagName.toLowerCase()
+                    const style = this.getComputedStyle(child)
+                    const childHtml = this.getInnerHtmlWithComputedStyle(child)
 
                     if (tagName === 'table') {
                         return `<${tagName} style="${style}" border="1">${childHtml}</${tagName}>`
@@ -65,12 +65,12 @@
             }).join('')
         }
 
-        newPageCreated(page: Page) {
+        private newPageCreated(page: Page) {
             this.page = page
             this.editor.setValue('')
         }
 
-        preview() {
+        private preview() {
             this.isPreview = !this.isPreview
 
             if (this.isPreview) {
@@ -78,11 +78,11 @@
             }
         }
 
-        renderPreview() {
+        private renderPreview() {
             const content = this.editor.getValue()
 
             document.getElementById('preview')!.innerHTML = marked(content, {
-                renderer
+                renderer,
             })
 
             Array.prototype.forEach.call(document.querySelectorAll('pre'), (element: any) => {
@@ -90,14 +90,14 @@
             })
         }
 
-        save() {
+        private save() {
             this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
 
             pageStore.dispatch('updatePage', this.page)
         }
 
-        mounted() {
+        private mounted() {
             this.editor = ace.edit('editor')
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
