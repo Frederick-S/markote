@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 import io
 import json
 from flask import jsonify, request
@@ -15,8 +15,7 @@ MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
 @api_blueprint.route('/sections/<section_id>/pages', methods=['POST'])
 def create_page(section_id):
     page = request.json
-    utc = datetime.datetime.utcnow()
-    created_at = utc.replace(tzinfo=datetime.timezone.utc).isoformat()
+    created_at = datetime.utcnow().replace(tzinfo=timezone.utc).isoformat()
     content = '''
         <!DOCTYPE html>
         <html>
