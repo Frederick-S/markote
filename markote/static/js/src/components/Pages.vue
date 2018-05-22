@@ -45,6 +45,12 @@
             })
         }
 
+        private getPageMarkdown(page: Page) {
+            this.selectedPage = page
+
+            event.fire(events.RENDER_PAGE, page)
+        }
+
         private getPages(section: Section) {
             this.section = section
             this.isLoading = true
@@ -52,18 +58,6 @@
 
             pageStore.dispatch('getPages', section).then(() => {
                 this.isLoading = false
-            })
-        }
-
-        private getPageMarkdown(page: Page) {
-            this.selectedPage = page
-
-            pageStore.dispatch('getPageMarkdown', page).then((markdown: string) => {
-                event.fire(events.RENDER_PAGE, {
-                    id: this.selectedPage.id,
-                    markdown,
-                    title: this.selectedPage.title,
-                })
             })
         }
 

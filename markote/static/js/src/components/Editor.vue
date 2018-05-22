@@ -13,8 +13,11 @@
                 </span>
             </a>
         </p>
-        <div v-show="!isPreview" id="editor" class="editor-body"></div>
-        <div v-show="isPreview" class="preview" id="preview"></div>
+        <div v-show="isLoading" class="spinner-wrap">
+            <div class="spinner button is-loading"></div>
+        </div>
+        <div v-show="!isLoading && !isPreview" id="editor" class="editor-body"></div>
+        <div v-show="!isLoading && isPreview" class="preview" id="preview"></div>
     </div>
 </template>
 
@@ -32,6 +35,8 @@
     @Component
     export default class Editor extends Vue {
         private editor!: AceAjax.Editor
+
+        private isLoading = false
 
         private isPreview = false
 
@@ -65,9 +70,13 @@
             }).join('')
         }
 
-        private renderPage(page: Page) {
-            this.page = page
-            this.editor.setValue(page.markdown, 1)
+        private mounted() {
+            this.editor = ace.edit('editor')
+            this.editor.setTheme('ace/theme/tomorrow')
+            this.editor.session.setMode('ace/mode/markdown')
+
+            event.listen(events.RENDER_PAGE, this.renderPage)
+            event.listen(events.RESET_EDITOR, this.reset)
         }
 
         private preview() {
@@ -76,6 +85,17 @@
             if (this.isPreview) {
                 this.renderPreview()
             }
+        }
+
+        private renderPage(page: Page) {
+            this.isLoading = true
+            this.page = page
+
+            pageStore.dispatch('getPageMarkdown', page).then((markdown: string) => {
+                this.isLoading = false
+                this.page.markdown = markdown
+                this.editor.setValue(markdown, 1)
+            })
         }
 
         private renderPreview() {
@@ -102,15 +122,6 @@
             this.page.markdown = this.editor.getValue()
 
             pageStore.dispatch('updatePage', this.page)
-        }
-
-        private mounted() {
-            this.editor = ace.edit('editor')
-            this.editor.setTheme('ace/theme/tomorrow')
-            this.editor.session.setMode('ace/mode/markdown')
-
-            event.listen(events.RENDER_PAGE, this.renderPage)
-            event.listen(events.RESET_EDITOR, this.reset)
         }
     }
 </script>
@@ -140,5 +151,9 @@
 
     pre.hljs {
         background-color: white;
+    }
+
+    .spinner-wrap {
+        height: 100%;
     }
 </style>
