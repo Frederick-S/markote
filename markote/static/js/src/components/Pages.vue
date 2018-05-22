@@ -37,7 +37,7 @@
                 },
                 section: this.section,
             }).then((page: Page) => {
-                event.fire(events.NEW_PAGE, page)
+                event.fire(events.RENDER_PAGE, page)
             })
         }
 
@@ -51,7 +51,8 @@
             this.selectedPage = page
 
             pageStore.dispatch('getPageMarkdown', page).then((markdown: string) => {
-                event.fire(events.NEW_PAGE, {
+                event.fire(events.RENDER_PAGE, {
+                    id: this.selectedPage.id,
                     markdown,
                     title: this.selectedPage.title,
                 })
