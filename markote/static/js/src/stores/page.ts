@@ -39,8 +39,18 @@ export default new Vuex.Store({
             })
         },
         getPages(context, section: Section) {
-            axios.get(`/api/v1/sections/${section.id}/pages`).then((response) => {
-                context.commit('setPages', response.data.value)
+            return new Promise((resolve, reject) => {
+                axios.get(`/api/v1/sections/${section.id}/pages`).then((response) => {
+                    if (response.status === 200) {
+                        context.commit('setPages', response.data.value)
+
+                        resolve()
+                    } else {
+                        reject()
+                    }
+                }).catch((error) => {
+                    reject()
+                })
             })
         },
         updatePage(context, page: Page) {

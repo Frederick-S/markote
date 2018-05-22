@@ -1,6 +1,7 @@
 <template>
     <div class="column is-4 note-menu">
-        <aside class="menu">
+        <div v-if="isLoading" class="spinner button is-loading"></div>
+        <aside v-else class="menu">
             <p class="menu-label">Pages</p>
             <ul class="menu-list">
                 <li v-for="page in pages">
@@ -22,6 +23,8 @@
 
     @Component
     export default class Pages extends Vue {
+        private isLoading = false
+
         private selectedPage = new Page()
 
         private section = new Section()
@@ -43,8 +46,11 @@
 
         private getPages(section: Section) {
             this.section = section
+            this.isLoading = true
 
-            pageStore.dispatch('getPages', section)
+            pageStore.dispatch('getPages', section).then(() => {
+                this.isLoading = false
+            })
         }
 
         private getPageMarkdown(page: Page) {

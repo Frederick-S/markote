@@ -80,4 +80,8 @@
     .selected {
         background-color: #f5f5f5;
     }
+
+    .spinner {
+        flex: 1;
+    }
 </style>
