@@ -90,6 +90,12 @@
             })
         }
 
+        private reset() {
+            this.isPreview = false
+            this.page = new Page()
+            this.editor.setValue('', 1)
+        }
+
         private save() {
             this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
@@ -103,6 +109,7 @@
             this.editor.session.setMode('ace/mode/markdown')
 
             event.listen(events.RENDER_PAGE, this.renderPage)
+            event.listen(events.RESET_EDITOR, this.reset)
         }
     }
 </script>

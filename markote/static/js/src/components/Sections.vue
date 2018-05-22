@@ -32,6 +32,7 @@
             this.selectedSection = section
 
             event.fire(events.GET_PAGES, section)
+            event.fire(events.RESET_EDITOR, null)
         }
 
         private getSections(notebook: Notebook) {

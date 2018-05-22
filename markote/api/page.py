@@ -58,7 +58,8 @@ def get_page_content(id):
 def get_page_markdown(id):
     content = _get_page_content(id)
     document = PyQuery(content)
-    markdown_file_url = document('object[data-id="markdown-file"]').attr('data')
+    markdown_file_url = \
+        document('object[data-id="markdown-file"]').attr('data')
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(markdown_file_url)

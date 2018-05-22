@@ -30,6 +30,7 @@
             this.selectedNotebook = notebook
 
             event.fire(events.GET_SECTIONS, notebook)
+            event.fire(events.RESET_EDITOR, null)
         }
 
         private mounted() {
