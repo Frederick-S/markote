@@ -3,4 +3,5 @@ export default {
     GET_SECTIONS: 'getSections',
     RENDER_PAGE: 'renderPage',
     RESET_EDITOR: 'resetEditor',
+    RESET_PAGES: 'resetPages',
 }

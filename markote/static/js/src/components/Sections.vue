@@ -1,6 +1,7 @@
 <template>
     <div class="column is-4 note-menu">
-        <aside class="menu">
+        <div v-if="isLoading" class="spinner button is-loading"></div>
+        <aside v-else class="menu">
             <p class="menu-label">Sections</p>
             <ul class="menu-list">
                 <li v-for="section in sections">
@@ -22,6 +23,8 @@
 
     @Component
     export default class Sections extends Vue {
+        private isLoading = false
+
         private selectedSection = new Section()
 
         get sections(): Section[] {
@@ -36,7 +39,12 @@
         }
 
         private getSections(notebook: Notebook) {
-            sectionStore.dispatch('getSections', notebook)
+            this.isLoading = true
+            this.selectedSection = new Section()
+
+            sectionStore.dispatch('getSections', notebook).then(() => {
+                this.isLoading = false
+            })
         }
 
         private mounted() {

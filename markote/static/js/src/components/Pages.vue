@@ -47,6 +47,7 @@
         private getPages(section: Section) {
             this.section = section
             this.isLoading = true
+            this.selectedPage = new Page()
 
             pageStore.dispatch('getPages', section).then(() => {
                 this.isLoading = false
@@ -67,6 +68,13 @@
 
         private mounted() {
             event.listen(events.GET_PAGES, this.getPages)
+            event.listen(events.RESET_PAGES, this.reset)
+        }
+
+        private reset() {
+            this.selectedPage = new Page()
+
+            pageStore.commit('setPages', [])
         }
     }
 </script>
