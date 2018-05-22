@@ -82,6 +82,10 @@
     }
 
     .spinner {
-        flex: 1;
+        display: block;
+        border: none;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
     }
 </style>

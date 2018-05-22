@@ -1,9 +1,9 @@
 <template>
     <div class="column is-4 note-menu">
-        <div v-if="isLoading" class="spinner button is-loading"></div>
-        <aside v-else class="menu">
+        <aside class="menu">
             <p class="menu-label">Sections</p>
-            <ul class="menu-list">
+            <div v-if="isLoading" class="spinner button is-loading"></div>
+            <ul v-else class="menu-list">
                 <li v-for="section in sections">
                     <a :class="[section.id === selectedSection.id ? 'selected' : '', 'note-title']" @click="getPages(section)">{{ section.displayName }}</a>
                 </li>
