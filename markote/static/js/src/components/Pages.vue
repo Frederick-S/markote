@@ -4,7 +4,7 @@
             <p class="menu-label">Pages</p>
             <ul class="menu-list">
                 <li v-for="page in pages">
-                    <a :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" @click="getPageContent(page)">{{ page.title }}</a>
+                    <a :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" @click="getPageMarkdown(page)">{{ page.title }}</a>
                 </li>
             </ul>
         </aside>
@@ -47,8 +47,15 @@
             pageStore.dispatch('getPages', section)
         }
 
-        private getPageContent(page: Page) {
+        private getPageMarkdown(page: Page) {
             this.selectedPage = page
+
+            pageStore.dispatch('getPageMarkdown', page).then((markdown: string) => {
+                event.fire(events.NEW_PAGE, {
+                    markdown,
+                    title: this.selectedPage.title,
+                })
+            })
         }
 
         private mounted() {

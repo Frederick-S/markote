@@ -54,6 +54,18 @@ def get_page_content(id):
     return _get_page_content(id)
 
 
+@api_blueprint.route('/pages/<id>/markdown', methods=['GET'])
+def get_page_markdown(id):
+    content = _get_page_content(id)
+    document = PyQuery(content)
+    markdown_file_url = document('object[data-id="markdown-file"]').attr('data')
+
+    oauth_client = oauth.microsoft_graph
+    response = oauth_client.get(markdown_file_url)
+
+    return response.content
+
+
 @api_blueprint.route('/pages/<id>/content', methods=['PATCH'])
 def update_page(id):
     original_content = _get_page_content(id)

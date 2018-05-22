@@ -25,6 +25,19 @@ export default new Vuex.Store({
                 })
             })
         },
+        getPageMarkdown(context, page: Page) {
+            return new Promise((resolve, reject) => {
+                axios.get(`/api/v1/pages/${page.id}/markdown`).then((response) => {
+                    if (response.status === 200) {
+                        resolve(response.data)
+                    } else {
+                        reject()
+                    }
+                }).catch((error) => {
+                    reject()
+                })
+            })
+        },
         getPages(context, section: Section) {
             axios.get(`/api/v1/sections/${section.id}/pages`).then((response) => {
                 context.commit('setPages', response.data.value)
@@ -32,7 +45,7 @@ export default new Vuex.Store({
         },
         updatePage(context, page: Page) {
             axios.patch(`/api/v1/pages/${page.id}/content`, page).then((response) => {
-                console.log(response)
+                // pass
             })
         },
     },

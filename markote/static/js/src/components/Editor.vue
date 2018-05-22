@@ -65,9 +65,9 @@
             }).join('')
         }
 
-        private newPageCreated(page: Page) {
+        private newPage(page: Page) {
             this.page = page
-            this.editor.setValue('')
+            this.editor.setValue(page.markdown)
         }
 
         private preview() {
@@ -102,7 +102,7 @@
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
 
-            event.listen(events.NEW_PAGE, this.newPageCreated)
+            event.listen(events.NEW_PAGE, this.newPage)
         }
     }
 </script>
