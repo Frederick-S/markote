@@ -36,6 +36,7 @@
         private createPage() {
             pageStore.dispatch('createPage', {
                 page: {
+                    markdown: '',
                     title: 'Untitled Page',
                 },
                 section: this.section,

@@ -97,6 +97,7 @@
         }
 
         private save() {
+            this.renderPreview()
             this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
 
