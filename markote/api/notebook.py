@@ -6,7 +6,7 @@ from markote.oauth import oauth
 @api_blueprint.route('/notebooks', methods=['GET'])
 def get_notebooks():
     oauth_client = oauth.microsoft_graph
-    response = oauth_client.get('me/onenote/notebooks').json()
+    response = oauth_client.get('me/onenote/notebooks?$select=id,displayName').json()
 
     return jsonify(response)
 
@@ -15,6 +15,6 @@ def get_notebooks():
 def get_sections(notebook_id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
-        'me/onenote/notebooks/{0}/sections'.format(notebook_id)).json()
+        'me/onenote/notebooks/{0}/sections?$select=id,displayName'.format(notebook_id)).json()
 
     return jsonify(response)

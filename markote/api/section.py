@@ -7,6 +7,6 @@ from markote.oauth import oauth
 def get_pages(section_id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
-        'me/onenote/sections/{0}/pages'.format(section_id)).json()
+        'me/onenote/sections/{0}/pages?$select=id,title'.format(section_id)).json()
 
     return jsonify(response)
