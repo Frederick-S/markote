@@ -41,7 +41,7 @@
                 },
                 section: this.section,
             }).then((page: Page) => {
-                event.fire(events.RENDER_PAGE, page)
+                event.fire(events.NEW_PAGE, page)
             })
         }
 

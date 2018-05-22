@@ -75,8 +75,14 @@
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
 
+            event.listen(events.NEW_PAGE, this.newPage)
             event.listen(events.RENDER_PAGE, this.renderPage)
             event.listen(events.RESET_EDITOR, this.reset)
+        }
+
+        private newPage(page: Page) {
+            this.page = page
+            this.editor.setValue('', 1)
         }
 
         private preview() {
