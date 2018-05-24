@@ -18,4 +18,4 @@ Save markdown notes to OneNote (WIP).
 
 ## Known issues
 * Background color of highlight.js are removed
-* Images are displayed as block level element
+* Images are displayed as block level elements
