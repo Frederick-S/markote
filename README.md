@@ -3,18 +3,18 @@
 Save markdown notes to OneNote (WIP).
 
 ## Supported markdown syntax
-### Headings
-* h1
-* h2
-* h3
-* h4
-* h5
-* h6
-
-### Styling text
+* Heading
 * Bold
 * Italic
 * Strikethrough
+* Quoting code
+* List
+* Table
+
+## Unsupported markdown syntax
+* Quoting text
+* Link
+* Image
 
 ## Known issues
 * Background color of code highlight will be removed in output html
