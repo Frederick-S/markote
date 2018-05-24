@@ -9,12 +9,12 @@ Save markdown notes to OneNote (WIP).
 * Strikethrough
 * Quoting code
 * List
+* Link
+* Image
 * Table
 
 ## Unsupported markdown syntax
 * Quoting text
-* Link
-* Image
 
 ## Known issues
 * Background color of code highlight will be removed in output html
