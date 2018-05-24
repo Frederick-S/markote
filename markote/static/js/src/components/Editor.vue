@@ -56,12 +56,27 @@
                     const tagName = child.tagName.toLowerCase()
                     const style = this.getComputedStyle(child)
                     const childHtml = this.getInnerHtmlWithComputedStyle(child)
+                    const attributes = [`style="${style}"`]
 
-                    if (tagName === 'table') {
-                        return `<${tagName} style="${style}" border="1">${childHtml}</${tagName}>`
-                    } else {
-                        return `<${tagName} style="${style}">${childHtml}</${tagName}>`
+                    switch (tagName) {
+                        case 'table':
+                            attributes.push('border="1"')
+
+                            break;
+                        case 'img':
+                            attributes.push(`src="${child.getAttribute('src')}"`)
+                            attributes.push(`alt="${child.getAttribute('alt')}"`)
+
+                            break;
+                        case 'a':
+                            attributes.push(`href="${child.getAttribute('href')}"`)
+
+                            break;
+                        default:
+                            break;
                     }
+
+                    return `<${tagName} ${attributes.join(' ')}>${childHtml}</${tagName}>`
                 } else if (child.nodeType === 3) {
                     return child.nodeValue
                 } else {
