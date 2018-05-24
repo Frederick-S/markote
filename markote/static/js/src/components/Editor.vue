@@ -17,7 +17,7 @@
             <div class="spinner button is-loading"></div>
         </div>
         <div v-show="!isLoading && !isPreview" id="editor" class="editor-body"></div>
-        <div v-show="!isLoading && isPreview" class="preview" id="preview"></div>
+        <div v-show="!isLoading && isPreview" class="preview content" id="preview"></div>
     </div>
 </template>
 
@@ -81,6 +81,7 @@
         }
 
         private newPage(page: Page) {
+            this.isPreview = false
             this.page = page
             this.editor.setValue('', 1)
         }
