@@ -20,4 +20,4 @@
 * Images are displayed as block level elements
 
 ## License
-Markote is MIT licensed. See [LICENSE](LICENSE.md).
+Markote is MIT licensed. See [LICENSE](LICENSE).
