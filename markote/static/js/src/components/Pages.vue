@@ -41,6 +41,8 @@
                 },
                 section: this.section,
             }).then((page: Page) => {
+                this.selectedPage = page
+
                 event.fire(events.NEW_PAGE, page)
             })
         }
