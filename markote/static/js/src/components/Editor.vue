@@ -81,9 +81,7 @@
         }
 
         private newPage(page: Page) {
-            this.isPreview = false
-            this.page = page
-            this.editor.setValue('', 1)
+            this.reset(page)
         }
 
         private preview() {
@@ -99,9 +97,9 @@
             this.page = page
 
             pageStore.dispatch('getPageMarkdown', page).then((markdown: string) => {
-                this.isLoading = false
-                this.page.markdown = markdown
-                this.editor.setValue(markdown, 1)
+                page.markdown = markdown
+
+                this.reset(page)
             })
         }
 
@@ -117,10 +115,13 @@
             })
         }
 
-        private reset() {
+        private reset(page) {
             this.isPreview = false
-            this.page = new Page()
-            this.editor.setValue('', 1)
+            this.isLoading = false
+            this.page = page || new Page()
+            this.editor.setValue(this.page.markdown, 1)
+
+            document.getElementById('preview').innerHTML = ''
         }
 
         private save() {
