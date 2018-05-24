@@ -17,4 +17,5 @@ Save markdown notes to OneNote (WIP).
 * Quoting text
 
 ## Known issues
-* Background color of code highlight will be removed in output html
+* Background color of highlight.js are removed
+* Images are displayed as block level element
