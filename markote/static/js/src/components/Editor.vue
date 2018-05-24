@@ -9,7 +9,8 @@
             </a>
             <a class="button" @click="save">
                 <span class="icon is-small">
-                    <i class="fas fa-save"></i>
+                    <i v-if="isSaving" class="fas fa-spinner"></i>
+                    <i v-else class="fas fa-save"></i>
                 </span>
             </a>
         </p>
@@ -39,6 +40,8 @@
         private isLoading = false
 
         private isPreview = false
+
+        private isSaving = false
 
         private page = new Page()
 
@@ -140,11 +143,14 @@
         }
 
         private save() {
+            this.isSaving = true
             this.renderPreview()
             this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
 
-            pageStore.dispatch('updatePage', this.page)
+            pageStore.dispatch('updatePage', this.page).then(() => {
+                this.isSaving = false
+            })
         }
     }
 </script>
