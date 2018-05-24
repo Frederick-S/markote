@@ -1,5 +1,13 @@
-from flask_login import LoginManager
+from functools import wraps
+from flask import request, redirect, url_for, session
 
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth_blueprint.login'
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('token') is None:
+            return redirect(url_for('auth_blueprint.login', next=request.url))
+
+        return f(*args, **kwargs)
+
+    return decorated_function

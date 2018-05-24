@@ -6,7 +6,6 @@ from markote.views.notes import notes_blueprint
 from markote.views.error import error_blueprint
 from markote.api.api_blueprint import api_blueprint
 import markote.api.api_bootstrap
-from markote.login_manager import login_manager
 from markote.oauth import oauth
 
 
@@ -16,7 +15,6 @@ def create_app(config_name):
 
     config[config_name].init_app(app)
 
-    login_manager.init_app(app)
     oauth.init_app(app)
 
     app.register_blueprint(home_blueprint)
