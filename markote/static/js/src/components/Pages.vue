@@ -9,7 +9,10 @@
                 </li>
             </ul>
         </aside>
-        <span class="note-command" @click="createPage">Add Page</span>
+        <span v-if="isCreatingPage" class="note-command">
+            <a class="button is-loading is-creating-page">Loading</a>
+        </span>
+        <span v-else class="note-command" @click="createPage">Add Page</span>
     </div>
 </template>
 
@@ -23,6 +26,8 @@
 
     @Component
     export default class Pages extends Vue {
+        private isCreatingPage = false
+
         private isLoading = false
 
         private selectedPage = new Page()
@@ -34,6 +39,8 @@
         }
 
         private createPage() {
+            this.isCreatingPage = true
+
             pageStore.dispatch('createPage', {
                 page: {
                     markdown: '',
@@ -42,6 +49,7 @@
                 section: this.section,
             }).then((page: Page) => {
                 this.selectedPage = page
+                this.isCreatingPage = false
 
                 event.fire(events.NEW_PAGE, page)
             })
@@ -75,3 +83,12 @@
         }
     }
 </script>
+
+<style>
+    .is-creating-page {
+        background-color: initial;
+        padding: 0;
+        border: none;
+        height: 1.5rem;
+    }
+</style>
