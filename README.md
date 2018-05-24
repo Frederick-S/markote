@@ -2,5 +2,19 @@
 
 Save markdown notes to OneNote (WIP).
 
-## Known Issues
-### Background color of code highlight will be removed in output html
+## Supported markdown syntax
+### Headings
+* h1
+* h2
+* h3
+* h4
+* h5
+* h6
+
+### Styling text
+* Bold
+* Italic
+* Strikethrough
+
+## Known issues
+* Background color of code highlight will be removed in output html
