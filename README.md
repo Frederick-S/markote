@@ -16,7 +16,7 @@
 * Quoting text
 
 ## Known issues
-* Background color of highlight.js are removed
+* Background color of highlight.js is removed
 * Images are displayed as block level elements
 
 ## License
