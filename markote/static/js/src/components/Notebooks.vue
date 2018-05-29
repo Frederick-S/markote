@@ -2,7 +2,8 @@
     <div class="column is-4 note-menu">
         <aside class="menu">
             <p class="menu-label">Notebooks</p>
-            <ul class="menu-list">
+            <div v-if="isLoading" class="spinner button is-loading"></div>
+            <ul v-else class="menu-list">
                 <li v-for="notebook in notebooks">
                     <a :class="[notebook.id === selectedNotebook.id ? 'selected' : '', 'note-title']" @click="getSections(notebook)">{{ notebook.displayName }}</a>
                 </li>
@@ -20,6 +21,8 @@
 
     @Component
     export default class Notebooks extends Vue {
+        private isLoading = true
+
         private selectedNotebook = new Notebook()
 
         get notebooks(): Notebook[] {
@@ -35,7 +38,9 @@
         }
 
         private mounted() {
-            notebookStore.dispatch('getNotebooks')
+            notebookStore.dispatch('getNotebooks').then(() => {
+                this.isLoading = false
+            })
         }
     }
 </script>

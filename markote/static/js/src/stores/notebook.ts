@@ -8,8 +8,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     actions: {
         getNotebooks(context) {
-            axios.get('/api/v1/notebooks').then((response) => {
-                context.commit('setNotebooks', response.data.value)
+            return new Promise((resolve, reject) => {
+                axios.get('/api/v1/notebooks').then((response) => {
+                    context.commit('setNotebooks', response.data.value)
+
+                    resolve()
+                }).catch((error) => {
+                    reject(error)
+                })
             })
         },
     },
