@@ -20,4 +20,4 @@
 * Images are displayed as block level elements
 
 ## License
-[MIT](LICENSE).
+[MIT](LICENSE)
