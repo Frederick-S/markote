@@ -11,6 +11,7 @@
             </div>
             <editor-component></editor-component>
         </div>
+        <settings-component></settings-component>
     </div>
 </template>
 
@@ -20,6 +21,7 @@
     import NotebooksComponent from './components/Notebooks.vue'
     import PagesComponent from './components/Pages.vue'
     import SectionsComponent from './components/Sections.vue'
+    import SettingsComponent from './components/Settings'
 
     export default {
         components: {
@@ -28,6 +30,7 @@
             NotebooksComponent,
             PagesComponent,
             SectionsComponent,
+            SettingsComponent,
         },
     }
 </script>

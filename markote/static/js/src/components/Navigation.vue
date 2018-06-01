@@ -12,7 +12,7 @@
                 </div>
                 <div class="dropdown-menu" id="settings" role="menu">
                     <div class="dropdown-content">
-                        <a class="dropdown-item">Settings</a>
+                        <a class="dropdown-item" @click="openSettings">Settings</a>
                     </div>
                 </div>
             </div>
@@ -22,6 +22,8 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    import event from '../event'
+    import events from '../events'
     import User from '../models/user'
     import userStore from '../stores/user'
 
@@ -33,6 +35,10 @@
 
         private mounted() {
             userStore.dispatch('getMe')
+        }
+
+        private openSettings() {
+            event.fire(events.OPEN_SETTINGS, null)
         }
     }
 </script>
