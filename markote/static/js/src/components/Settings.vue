@@ -7,7 +7,28 @@
                 <button class="delete" aria-label="close" @click="close"></button>
             </header>
             <section class="modal-card-body">
-                <h1>Hello</h1>
+                <div class="field">
+                    <label class="label">Editor Theme</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select>
+                                <option>Chrome</option>
+                                <option>Clouds</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Code Theme</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select>
+                                <option>Default</option>
+                                <option>Agate</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </section>
             <footer class="modal-card-foot">
                 <button class="button is-success">Save</button>
