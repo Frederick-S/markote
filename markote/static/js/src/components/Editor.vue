@@ -89,6 +89,12 @@
         }
 
         private mounted() {
+            MathJax.Hub.Config({
+                SVG: {
+                    useGlobalCache: false
+                }
+            })
+
             this.editor = ace.edit('editor')
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
@@ -127,6 +133,8 @@
             document.getElementById('preview')!.innerHTML = marked(content, {
                 renderer,
             })
+
+            MathJax.Hub.Queue(['Typeset', MathJax.Hub])
 
             Array.prototype.forEach.call(document.querySelectorAll('pre'), (element: any) => {
                 hljs.highlightBlock(element)

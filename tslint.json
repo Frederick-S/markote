@@ -7,7 +7,9 @@
     "rules": {
         "quotemark": ["single"],
         "semicolon": false,
-        "no-console": false
+        "no-console": false,
+        "interface-name": false,
+        "no-namespace": false
     },
     "rulesDirectory": []
 }
