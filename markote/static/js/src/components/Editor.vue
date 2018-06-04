@@ -91,8 +91,8 @@
         private mounted() {
             MathJax.Hub.Config({
                 SVG: {
-                    useGlobalCache: false
-                }
+                    useGlobalCache: false,
+                },
             })
 
             this.editor = ace.edit('editor')
