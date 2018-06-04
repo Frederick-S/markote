@@ -134,10 +134,15 @@
                 renderer,
             })
 
-            MathJax.Hub.Queue(['Typeset', MathJax.Hub])
-
             Array.prototype.forEach.call(document.querySelectorAll('pre'), (element: any) => {
                 hljs.highlightBlock(element)
+            })
+
+            return new Promise((resolve, reject) => {
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub])
+                MathJax.Hub.Queue(() => {
+                    resolve()
+                })
             })
         }
 
@@ -152,12 +157,13 @@
 
         private save() {
             this.isSaving = true
-            this.renderPreview()
-            this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
-            this.page.markdown = this.editor.getValue()
+            this.renderPreview().then(() => {
+                this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
+                this.page.markdown = this.editor.getValue()
 
-            pageStore.dispatch('updatePage', this.page).then(() => {
-                this.isSaving = false
+                pageStore.dispatch('updatePage', this.page).then(() => {
+                    this.isSaving = false
+                })
             })
         }
     }
