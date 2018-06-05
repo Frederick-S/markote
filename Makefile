@@ -2,10 +2,10 @@ run:
 	python manage.py runserver
 
 test:
-	python manage.py test
+	python setup.py test
 
 coverage:
-	coverage run --source=markote manage.py test
+	coverage run --source=markote setup.py test
 
 lint:
 	pycodestyle . --exclude=venv && npm run lint
