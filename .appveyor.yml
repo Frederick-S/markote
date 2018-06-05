@@ -22,4 +22,4 @@ before_test:
   - npm run debug
 test_script:
   - cmd: "%PYTHON%\\python.exe manage.py test"
-  - echo LastExitCode
+  - echo %@LastExitCode%
