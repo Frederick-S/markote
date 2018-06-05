@@ -9,7 +9,6 @@ environment:
     - PYTHON: "C:\\Python36-x64"
 build: off
 install:
-  - ps: $env:Path += ";" + (Join-Path $PSScriptROOT "cairo-windows-1.15.10/lib/x64")
   - "%PYTHON%\\python.exe -m pip install pycodestyle"
   - "%PYTHON%\\python.exe -m pip install cryptography lxml"
   - "%PYTHON%\\python.exe setup.py install"
