@@ -163,5 +163,3 @@ typings/
 
 # next.js build output
 .next
-
-!cairo-windows-1.15.10/lib
