@@ -10,6 +10,7 @@ environment:
 build: off
 install:
   - choco install msys2
+  - refreshenv
   - pacman -S mingw-w64-x86_64-gtk3
   - "%PYTHON%\\python.exe -m pip install pycodestyle"
   - "%PYTHON%\\python.exe -m pip install cryptography lxml"
