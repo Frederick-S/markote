@@ -22,4 +22,4 @@ before_test:
   - npm run debug
 test_script:
   - "%PYTHON%\\python.exe manage.py test"
-  - if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
+  - $host.SetShouldExit($LastExitCode)
