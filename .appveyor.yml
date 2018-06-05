@@ -19,4 +19,4 @@ before_test:
   - npm run lint
   - npm run debug
 test_script:
-  - "%PYTHON%\\python.exe manage.py test"
+  - "%PYTHON%\\python.exe setup.py test"
