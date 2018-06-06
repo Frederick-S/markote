@@ -19,5 +19,8 @@
 * Background color of highlight.js is removed
 * Images are displayed as block level elements
 
+## Development
+Markote depends on [CairoSVG](https://cairosvg.org/), which also depends on [Cairo](https://cairographics.org/), so please install [Cairo](https://cairographics.org/download/) first. For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable.
+
 ## License
 [MIT](LICENSE)
