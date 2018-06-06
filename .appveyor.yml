@@ -2,8 +2,11 @@ environment:
   nodejs_version: "LTS"
   matrix:
     - PYTHON: "C:\\Python34"
+      platform: x86
     - PYTHON: "C:\\Python35"
+      platform: x86
     - PYTHON: "C:\\Python36"
+      platform: x86
     - PYTHON: "C:\\Python34-x64"
     - PYTHON: "C:\\Python35-x64"
     - PYTHON: "C:\\Python36-x64"
