@@ -58,7 +58,6 @@
                 if (child.nodeType === 1) {
                     const tagName = child.tagName.toLowerCase()
                     const style = this.getComputedStyle(child)
-                    const childHtml = this.getInnerHtmlWithComputedStyle(child)
                     const attributes = [`style="${style}"`]
 
                     switch (tagName) {
@@ -76,10 +75,23 @@
 
                             break
                         case 'div':
+                            if (child.classList.contains('MathJax_SVG_Display')) {
+                                const svg = child.querySelector('svg')
+
+                                svg.setAttribute('width', svg.width.animVal.value.toString())
+                                svg.setAttribute('height', svg.height.animVal.value.toString())
+
+                                return svg.outerHTML
+                            }
+
                             break
+                        case 'script':
+                            return ''
                         default:
                             break
                     }
+
+                    const childHtml = this.getInnerHtmlWithComputedStyle(child)
 
                     return `<${tagName} ${attributes.join(' ')}>${childHtml}</${tagName}>`
                 } else if (child.nodeType === 3) {
@@ -131,8 +143,9 @@
 
         private renderPreview() {
             const content = this.editor.getValue()
+            const previewElement = document.getElementById('preview')
 
-            document.getElementById('preview')!.innerHTML = marked(content, {
+            previewElement.innerHTML = marked(content, {
                 renderer,
             })
 
@@ -141,7 +154,7 @@
             })
 
             return new Promise((resolve, reject) => {
-                MathJax.Hub.Queue(['Typeset', MathJax.Hub])
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub, previewElement])
                 MathJax.Hub.Queue(() => {
                     resolve()
                 })
