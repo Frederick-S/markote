@@ -65,18 +65,20 @@
                         case 'table':
                             attributes.push('border="1"')
 
-                            break;
+                            break
                         case 'img':
                             attributes.push(`src="${child.getAttribute('src')}"`)
                             attributes.push(`alt="${child.getAttribute('alt')}"`)
 
-                            break;
+                            break
                         case 'a':
                             attributes.push(`href="${child.getAttribute('href')}"`)
 
-                            break;
+                            break
+                        case 'div':
+                            break
                         default:
-                            break;
+                            break
                     }
 
                     return `<${tagName} ${attributes.join(' ')}>${childHtml}</${tagName}>`
