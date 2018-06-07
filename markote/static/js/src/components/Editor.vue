@@ -76,12 +76,7 @@
                             break
                         case 'div':
                             if (child.classList.contains('MathJax_SVG_Display')) {
-                                const svg = child.querySelector('svg')
-
-                                svg.setAttribute('width', svg.width.animVal.value.toString())
-                                svg.setAttribute('height', svg.height.animVal.value.toString())
-
-                                return svg.outerHTML
+                                return child.querySelector('svg').outerHTML
                             }
 
                             break

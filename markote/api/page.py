@@ -4,6 +4,7 @@ from flask import jsonify, request
 from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
+from markote.util import convert_svg_to_png
 
 MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
                             'data-attachment="markdown.md" ' \
@@ -67,9 +68,18 @@ def get_page_markdown(id):
 @api_blueprint.route('/pages/<id>/content', methods=['PATCH'])
 def update_page(id):
     original_content = _get_page_content(id)
-    document = PyQuery(original_content)
-    content_div = document('div[data-id="content"]')
+    original_document = PyQuery(original_content)
+    content_div = original_document('div[data-id="content"]')
     page = request.json
+    new_document = PyQuery(page['content'])
+    images = []
+
+    for i, svg in enumerate(new_document.find('svg')):
+        element = PyQuery(svg)
+        svg_string = element.outer_html().replace('viewbox', 'viewBox')
+
+        element.parent().html(PyQuery('<img src="name:math{0}" />'.format(i)))
+        images.append(convert_svg_to_png(svg_string))
 
     commands = [
         {
@@ -84,7 +94,8 @@ def update_page(id):
         }
     ]
 
-    content = '<div data-id="content">{0}</div>'.format(page['content'])
+    content = '<div data-id="content">{0}</div>'.format(
+        new_document.outer_html())
 
     if content_div:
         commands.append({
@@ -105,6 +116,11 @@ def update_page(id):
         'markdown': ('markdown.md', io.StringIO(page['markdown']),
                      'text/markdown')
     }
+
+    for i, image in enumerate(images):
+        key = 'math{0}'.format(i)
+
+        files[key] = (key, image, 'image/jpeg')
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
