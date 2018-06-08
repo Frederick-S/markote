@@ -8,7 +8,7 @@ renderer.heading = (text, level): string => {
 
 renderer.table = (header, body) => {
     return `
-        <table class="table is-bordered is-fullwidth">
+        <table class="table is-bordered is-fullwidth" border="1">
             <thead>${header}</thead>
             <tbody>${body}</tbody>
         </table>`

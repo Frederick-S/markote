@@ -30,6 +30,7 @@
     import renderer from '../marked/renderer'
     import Page from '../models/page'
     import pageStore from '../stores/page'
+    import elements from '../utils/elements'
 
     declare var hljs: any
 
@@ -44,60 +45,6 @@
         private isSaving = false
 
         private page = new Page()
-
-        private getComputedStyle(element: HTMLElement): string {
-            const computedStyle = window.getComputedStyle(element)
-            const supportedStyleRules = ['background-color', 'color', 'font-family', 'font-size', 'font-style',
-                'font-weight', 'strike-through', 'text-align', 'text-decoration']
-
-            return supportedStyleRules.map((rule) => `${rule}:${computedStyle[rule]}`).join(';')
-        }
-
-        private getInnerHtmlWithComputedStyle(element: HTMLElement): string {
-            return Array.prototype.map.call(element.childNodes, (child: HTMLElement) => {
-                if (child.nodeType === 1) {
-                    const tagName = child.tagName.toLowerCase()
-                    const style = this.getComputedStyle(child)
-                    const attributes = [`style="${style}"`]
-
-                    switch (tagName) {
-                        case 'table':
-                            attributes.push('border="1"')
-
-                            break
-                        case 'img':
-                            attributes.push(`src="${child.getAttribute('src')}"`)
-                            attributes.push(`alt="${child.getAttribute('alt')}"`)
-
-                            break
-                        case 'a':
-                            attributes.push(`href="${child.getAttribute('href')}"`)
-
-                            break
-                        case 'div':
-                            if (child.classList.contains('MathJax_SVG_Display')) {
-                                return child.querySelector('svg').outerHTML
-                            }
-                        case 'span':
-                            if (child.classList.contains('MathJax_SVG')) {
-                                return child.querySelector('svg').outerHTML
-                            }
-                        case 'script':
-                            return ''
-                        default:
-                            break
-                    }
-
-                    const childHtml = this.getInnerHtmlWithComputedStyle(child)
-
-                    return `<${tagName} ${attributes.join(' ')}>${childHtml}</${tagName}>`
-                } else if (child.nodeType === 3) {
-                    return child.nodeValue
-                } else {
-                    return ''
-                }
-            }).join('')
-        }
 
         private mounted() {
             MathJax.Hub.Config({
@@ -150,7 +97,7 @@
                 renderer,
             })
 
-            Array.prototype.forEach.call(document.querySelectorAll('pre'), (element: any) => {
+            Array.from(document.querySelectorAll('pre')).forEach((element) => {
                 hljs.highlightBlock(element)
             })
 
@@ -174,7 +121,7 @@
         private save() {
             this.isSaving = true
             this.renderPreview().then(() => {
-                this.page.content = this.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
+                this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
                 this.page.markdown = this.editor.getValue()
 
                 pageStore.dispatch('updatePage', this.page).then(() => {
