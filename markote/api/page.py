@@ -78,7 +78,7 @@ def update_page(id):
         element = PyQuery(svg)
         svg_string = element.outer_html().replace('viewbox', 'viewBox')
 
-        element.parent().html(PyQuery('<img src="name:math{0}" />'.format(i)))
+        element.replace_with(PyQuery('<img src="name:math{0}" />'.format(i)))
         images.append(convert_svg_to_png(svg_string))
 
     commands = [
