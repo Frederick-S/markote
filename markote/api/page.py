@@ -4,6 +4,7 @@ from flask import jsonify, request
 from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
+from markote.onenote_html_mapper import OneNoteHtmlMapper
 from markote.util import convert_svg_to_png
 
 MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
@@ -95,7 +96,7 @@ def update_page(id):
     ]
 
     content = '<div data-id="content">{0}</div>'.format(
-        new_document.outer_html())
+        OneNoteHtmlMapper(new_document).get_html())
 
     if content_div:
         commands.append({
@@ -120,7 +121,7 @@ def update_page(id):
     for i, image in enumerate(images):
         key = 'math{0}'.format(i)
 
-        files[key] = (key, image, 'image/jpeg')
+        files[key] = ('', image, 'image/jpeg')
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
