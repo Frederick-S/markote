@@ -102,6 +102,10 @@
                 SVG: {
                     useGlobalCache: false,
                 },
+                tex2jax: {
+                    displayMath: [['$$', '$$']],
+                    inlineMath: [['$', '$']],
+                },
             })
 
             this.editor = ace.edit('editor')
