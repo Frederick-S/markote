@@ -78,8 +78,10 @@
                             if (child.classList.contains('MathJax_SVG_Display')) {
                                 return child.querySelector('svg').outerHTML
                             }
-
-                            break
+                        case 'span':
+                            if (child.classList.contains('MathJax_SVG')) {
+                                return child.querySelector('svg').outerHTML
+                            }
                         case 'script':
                             return ''
                         default:
