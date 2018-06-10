@@ -56,7 +56,7 @@ export default new Vuex.Store({
         updatePage(context, page: Page) {
             return new Promise((resolve, reject) => {
                 axios.patch(`/api/v1/pages/${page.id}/content`, page).then((response) => {
-                    if (response.status === 200) {
+                    if (response.status === 204) {
                         resolve()
                     } else {
                         reject()

@@ -127,7 +127,7 @@ def update_page(id):
     response = oauth_client.request(
         'PATCH', 'me/onenote/pages/{0}/content'.format(id), files=files)
 
-    return response.content
+    return response.content, response.status_code
 
 
 def _get_page_content(id):
