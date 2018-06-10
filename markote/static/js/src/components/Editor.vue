@@ -155,10 +155,6 @@
         padding: 1rem;
     }
 
-    pre.hljs {
-        background-color: white;
-    }
-
     .spinner-wrap {
         height: 100%;
     }
