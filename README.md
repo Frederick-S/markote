@@ -7,16 +7,15 @@
 * Italic
 * Strikethrough
 * Quoting code
+* Quoting text
 * List
 * Link
 * Image
 * Table
 
-## Unsupported markdown syntax
-* Quoting text
-
 ## Known issues
 * Images are displayed as block level elements
+* The left borders of blockquotes are removed
 
 ## Development
 Markote depends on [CairoSVG](https://cairosvg.org/), which also depends on [Cairo](https://cairographics.org/), so please install [Cairo](https://cairographics.org/download/) first. For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable.
