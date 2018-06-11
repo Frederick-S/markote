@@ -18,11 +18,20 @@ export default {
         return Array.from(element.childNodes).map((child: HTMLElement) => {
             if (child.nodeType === 1) {
                     const tagName = child.tagName.toLowerCase()
+                    const computedStyle = window.getComputedStyle(child)
                     const styles = this.getComputedStyles(child)
                     const attributes = this.getAttributesWithoutStyle(child).concat(`style="${styles.join(';')}"`)
                     const childHtml = this.getInnerHtmlWithComputedStyle(child)
 
                     switch (tagName) {
+                        case 'blockquote':
+                            return `
+                                <table style="width: ${computedStyle.width};
+                                background-color: ${computedStyle.backgroundColor}">
+                                    <tr>
+                                        <td>${childHtml}</td>
+                                    </tr>
+                                </table>`
                         case 'div':
                             if (child.classList.contains('MathJax_SVG_Display')) {
                                 return child.querySelector('svg').outerHTML
@@ -30,11 +39,9 @@ export default {
 
                             break
                         case 'pre':
-                            const width = window.getComputedStyle(child).width
-                            const backgroundColor = window.getComputedStyle(child)['background-color']
-
                             return `
-                                <table style="width: ${width}; background-color: ${backgroundColor}">
+                                <table style="width: ${computedStyle.width};
+                                background-color: ${computedStyle.backgroundColor}">
                                     <tr>
                                         <td>
                                             <pre ${attributes.join(' ')}>${childHtml}</pre>
