@@ -58,7 +58,8 @@ class OneNoteHtmlMapper:
 
                         children_so_far = []
 
-                    row.append('<td>{0}</td>'.format(PyQuery(child).outer_html()))
+                    row.append(
+                        '<td>{0}</td>'.format(PyQuery(child).outer_html()))
                 else:
                     children_so_far.append(child)
 
