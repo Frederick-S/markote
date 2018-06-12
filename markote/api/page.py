@@ -1,14 +1,10 @@
 import io
 import json
-import uuid
 from flask import jsonify, request
-from PIL import Image
 from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
 from markote.onenote_html_mapper import OneNoteHtmlMapper
-from markote.resource import Resource
-from markote.util import convert_svg_to_png
 
 MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
                             'data-attachment="markdown.md" ' \
@@ -76,14 +72,11 @@ def update_page(id):
     original_document = PyQuery(original_content)
     content_div = original_document('div[data-id="content"]')
     new_document = PyQuery('<div>{0}</div>'.format(page['content']))
-    resources = _convert_svg_to_resources(new_document)
-
-    # Hack for https://stackoverflow.com/questions/50789978
-    if _page_content_only_contains_table(new_document):
-        _table_only_content_hack(new_document, resources)
+    one_note_html_mapper = OneNoteHtmlMapper(new_document)
+    one_note_html_mapper.convert()
 
     content = '<div data-id="content">{0}</div>'.format(
-        OneNoteHtmlMapper(new_document).get_html())
+        one_note_html_mapper.get_html())
     update_target, update_action = (content_div.attr('id'), 'replace') \
         if content_div else ('body', 'append')
 
@@ -112,7 +105,7 @@ def update_page(id):
                      'text/markdown')
     }
 
-    for resource in resources:
+    for resource in one_note_html_mapper.resources:
         files[resource.name] = ('', resource.file, resource.content_type)
 
     oauth_client = oauth.microsoft_graph
@@ -128,35 +121,3 @@ def _get_page_content(id):
         'me/onenote/pages/{0}/content?includeIDs=true'.format(id))
 
     return response.content
-
-
-def _convert_svg_to_resources(document):
-    return [_convert_svg_to_resource(svg) for svg in document.find('svg')]
-
-
-def _convert_svg_to_resource(svg):
-    name = uuid.uuid4().hex
-    element = PyQuery(svg)
-    svg_string = element.outer_html().replace('viewbox', 'viewBox')
-
-    element.replace_with(PyQuery('<img src="name:{0}" />'.format(name)))
-
-    return Resource(name, convert_svg_to_png(svg_string), 'image/png')
-
-
-def _page_content_only_contains_table(document):
-    return all(element.tag == 'table' for element in document.children())
-
-
-def _table_only_content_hack(document, resources):
-    file = io.BytesIO()
-    image = Image.new('RGB', (1, 1), color='white')
-    image.save(file, 'png')
-    file.seek(0)
-
-    name = uuid.uuid4().hex
-    element = PyQuery('<img src="name:{0}" />'.format(name))
-
-    document.append(element)
-
-    resources.append(Resource(name, file, 'image/png'))
