@@ -39,40 +39,49 @@ class OneNoteHtmlMapper:
     def _move_inline_images_to_table(self):
         images = self.document.find('img')
         parents = [tuple(PyQuery(image).parent()) for image in images]
+        parents = list(map(lambda x: PyQuery(x[0]), list(set(parents))))
+        parents = list(filter(lambda x: self._has_inline_images(x), parents))
 
-        for parent in list(set(parents)):
-            parent_element = PyQuery(parent[0])
+        for parent in parents:
             table = PyQuery('<table></table>')
-            row = PyQuery('<tr></tr>')
-            children_so_far = []
+            table.append(self._create_table_row_with_inline_images(
+                parent.contents()))
 
-            for child in parent_element.contents():
-                if isinstance(child, HtmlElement) and child.tag == 'img':
-                    if len(children_so_far) != 0:
-                        row.append(self._create_table_cell_with_elements(
-                            children_so_far))
+            parent.replace_with(table)
 
-                        children_so_far = []
+    def _has_inline_images(self, element):
+        return element.contents().length > element.find('img').length
 
-                    row.append(
-                        '<td>{0}</td>'.format(PyQuery(child).outer_html()))
-                else:
-                    children_so_far.append(child)
-
-            if len(children_so_far) != 0:
-                row.append(self._create_table_cell_with_elements(
-                    children_so_far))
-
-            table.append(row)
-            parent_element.replace_with(table)
-
-    def _create_table_cell_with_elements(self, children):
+    def _create_table_cell_with_elements(self, elements):
         cell = PyQuery('<td></td>')
 
-        for child in children:
-            cell.append(child)
+        for element in elements:
+            cell.append(element)
 
         return cell
+
+    def _create_table_row_with_inline_images(self, contents):
+        children_so_far = []
+        row = PyQuery('<tr></tr>')
+
+        for content in contents:
+            if isinstance(content, HtmlElement) and content.tag == 'img':
+                if len(children_so_far) != 0:
+                    row.append(self._create_table_cell_with_elements(
+                        children_so_far))
+
+                    children_so_far = []
+
+                row.append(
+                    '<td>{0}</td>'.format(PyQuery(content).outer_html()))
+            else:
+                children_so_far.append(content)
+
+        if len(children_so_far) != 0:
+            row.append(self._create_table_cell_with_elements(
+                children_so_far))
+
+        return row
 
     def _only_contains_table(self):
         return all(element.tag == 'table'
