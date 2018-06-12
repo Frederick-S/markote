@@ -120,6 +120,8 @@
 
         private save() {
             this.isSaving = true
+            this.isPreview = true
+
             this.renderPreview().then(() => {
                 this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
                 this.page.markdown = this.editor.getValue()
