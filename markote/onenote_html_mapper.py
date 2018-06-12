@@ -1,5 +1,6 @@
 import io
 import uuid
+from lxml.html import HtmlElement
 from PIL import Image
 from pyquery import PyQuery
 from markote.resource import Resource
@@ -13,6 +14,7 @@ class OneNoteHtmlMapper:
 
     def convert(self):
         self._convert_svg_to_resources()
+        self._move_inline_images_to_table()
 
         # Hack for https://stackoverflow.com/questions/50789978
         if self._only_contains_table():
@@ -33,6 +35,43 @@ class OneNoteHtmlMapper:
         element.replace_with(PyQuery('<img src="name:{0}" />'.format(name)))
 
         return Resource(name, convert_svg_to_png(svg_string), 'image/png')
+
+    def _move_inline_images_to_table(self):
+        images = self.document.find('img')
+        parents = [tuple(PyQuery(image).parent()) for image in images]
+
+        for parent in list(set(parents)):
+            parent_element = PyQuery(parent[0])
+            table = PyQuery('<table></table>')
+            row = PyQuery('<tr></tr>')
+            children_so_far = []
+
+            for child in parent_element.contents():
+                if isinstance(child, HtmlElement) and child.tag == 'img':
+                    if len(children_so_far) != 0:
+                        cell = PyQuery('<td></td>')
+
+                        for x in children_so_far:
+                            cell.append(x)
+
+                        row.append(cell)
+
+                        children_so_far = []
+
+                    row.append('<td>{0}</td>'.format(PyQuery(child).outer_html()))
+                else:
+                    children_so_far.append(child)
+
+            if len(children_so_far) != 0:
+                cell = PyQuery('<td></td>')
+
+                for x in children_so_far:
+                    cell.append(x)
+
+                row.append(cell)
+
+            table.append(row)
+            parent_element.replace_with(table)
 
     def _only_contains_table(self):
         return all(element.tag == 'table'
