@@ -2,6 +2,7 @@ import io
 import json
 import uuid
 from flask import jsonify, request
+from PIL import Image
 from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
@@ -74,8 +75,12 @@ def update_page(id):
     original_content = _get_page_content(id)
     original_document = PyQuery(original_content)
     content_div = original_document('div[data-id="content"]')
-    new_document = PyQuery(page['content'])
+    new_document = PyQuery('<div>{0}</div>'.format(page['content']))
     resources = _convert_svg_to_resources(new_document)
+
+    # Hack for https://stackoverflow.com/questions/50789978
+    if _page_content_only_contains_table(new_document):
+        _table_only_content_hack(new_document, resources)
 
     content = '<div data-id="content">{0}</div>'.format(
         OneNoteHtmlMapper(new_document).get_html())
@@ -137,3 +142,21 @@ def _convert_svg_to_resource(svg):
     element.replace_with(PyQuery('<img src="name:{0}" />'.format(name)))
 
     return Resource(name, convert_svg_to_png(svg_string), 'image/png')
+
+
+def _page_content_only_contains_table(document):
+    return all(element.tag == 'table' for element in document.children())
+
+
+def _table_only_content_hack(document, resources):
+    file = io.BytesIO()
+    image = Image.new('RGB', (1, 1), color='white')
+    image.save(file, 'png')
+    file.seek(0)
+
+    name = uuid.uuid4().hex
+    element = PyQuery('<img src="name:{0}" />'.format(name))
+
+    document.append(element)
+
+    resources.append(Resource(name, file, 'image/png'))
