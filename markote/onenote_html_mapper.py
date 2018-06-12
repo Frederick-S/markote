@@ -49,12 +49,8 @@ class OneNoteHtmlMapper:
             for child in parent_element.contents():
                 if isinstance(child, HtmlElement) and child.tag == 'img':
                     if len(children_so_far) != 0:
-                        cell = PyQuery('<td></td>')
-
-                        for x in children_so_far:
-                            cell.append(x)
-
-                        row.append(cell)
+                        row.append(self._create_table_cell_with_elements(
+                            children_so_far))
 
                         children_so_far = []
 
@@ -64,15 +60,19 @@ class OneNoteHtmlMapper:
                     children_so_far.append(child)
 
             if len(children_so_far) != 0:
-                cell = PyQuery('<td></td>')
-
-                for x in children_so_far:
-                    cell.append(x)
-
-                row.append(cell)
+                row.append(self._create_table_cell_with_elements(
+                    children_so_far))
 
             table.append(row)
             parent_element.replace_with(table)
+
+    def _create_table_cell_with_elements(self, children):
+        cell = PyQuery('<td></td>')
+
+        for child in children:
+            cell.append(child)
+
+        return cell
 
     def _only_contains_table(self):
         return all(element.tag == 'table'
