@@ -1,10 +1,12 @@
 import io
 import json
+import uuid
 from flask import jsonify, request
 from pyquery import PyQuery
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
 from markote.onenote_html_mapper import OneNoteHtmlMapper
+from markote.resource import Resource
 from markote.util import convert_svg_to_png
 
 MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
@@ -73,7 +75,7 @@ def update_page(id):
     original_document = PyQuery(original_content)
     content_div = original_document('div[data-id="content"]')
     new_document = PyQuery(page['content'])
-    images = _convert_svg_to_images(new_document)
+    resources = _convert_svg_to_resources(new_document)
 
     content = '<div data-id="content">{0}</div>'.format(
         OneNoteHtmlMapper(new_document).get_html())
@@ -105,10 +107,8 @@ def update_page(id):
                      'text/markdown')
     }
 
-    for i, image in enumerate(images):
-        key = 'math{0}'.format(i)
-
-        files[key] = ('', image, 'image/jpeg')
+    for resource in resources:
+        files[resource.name] = ('', resource.file, resource.content_type)
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
@@ -125,15 +125,15 @@ def _get_page_content(id):
     return response.content
 
 
-def _convert_svg_to_images(document):
-    return [_convert_svg_to_image(i, svg) for i, svg in
-            enumerate(document.find('svg'))]
+def _convert_svg_to_resources(document):
+    return [_convert_svg_to_resource(svg) for svg in document.find('svg')]
 
 
-def _convert_svg_to_image(i, svg):
+def _convert_svg_to_resource(svg):
+    name = uuid.uuid4().hex
     element = PyQuery(svg)
     svg_string = element.outer_html().replace('viewbox', 'viewBox')
 
-    element.replace_with(PyQuery('<img src="name:math{0}" />'.format(i)))
+    element.replace_with(PyQuery('<img src="name:{0}" />'.format(name)))
 
-    return convert_svg_to_png(svg_string)
+    return Resource(name, convert_svg_to_png(svg_string), 'image/png')
