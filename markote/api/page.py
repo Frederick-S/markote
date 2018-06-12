@@ -68,19 +68,17 @@ def get_page_markdown(id):
 
 @api_blueprint.route('/pages/<id>/content', methods=['PATCH'])
 def update_page(id):
+    page = request.json
     original_content = _get_page_content(id)
     original_document = PyQuery(original_content)
     content_div = original_document('div[data-id="content"]')
-    page = request.json
     new_document = PyQuery(page['content'])
-    images = []
+    images = _convert_svg_to_images(new_document)
 
-    for i, svg in enumerate(new_document.find('svg')):
-        element = PyQuery(svg)
-        svg_string = element.outer_html().replace('viewbox', 'viewBox')
-
-        element.replace_with(PyQuery('<img src="name:math{0}" />'.format(i)))
-        images.append(convert_svg_to_png(svg_string))
+    content = '<div data-id="content">{0}</div>'.format(
+        OneNoteHtmlMapper(new_document).get_html())
+    update_target, update_action = (content_div.attr('id'), 'replace') \
+        if content_div else ('body', 'append')
 
     commands = [
         {
@@ -92,24 +90,13 @@ def update_page(id):
             'target': '#markdown-file',
             'action': 'replace',
             'content': MARKDOWN_FILE_OBJECT_HTML
+        },
+        {
+            'target': update_target,
+            'action': update_action,
+            'content': content
         }
     ]
-
-    content = '<div data-id="content">{0}</div>'.format(
-        OneNoteHtmlMapper(new_document).get_html())
-
-    if content_div:
-        commands.append({
-            'target': content_div.attr('id'),
-            'action': 'replace',
-            'content': content
-        })
-    else:
-        commands.append({
-            'target': 'body',
-            'action': 'append',
-            'content': content
-        })
 
     files = {
         'Commands': ('', io.StringIO(json.dumps(commands)),
@@ -136,3 +123,17 @@ def _get_page_content(id):
         'me/onenote/pages/{0}/content?includeIDs=true'.format(id))
 
     return response.content
+
+
+def _convert_svg_to_images(document):
+    return [_convert_svg_to_image(i, svg) for i, svg in
+            enumerate(document.find('svg'))]
+
+
+def _convert_svg_to_image(i, svg):
+    element = PyQuery(svg)
+    svg_string = element.outer_html().replace('viewbox', 'viewBox')
+
+    element.replace_with(PyQuery('<img src="name:math{0}" />'.format(i)))
+
+    return convert_svg_to_png(svg_string)
