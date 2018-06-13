@@ -33,18 +33,18 @@ def create_page(section_id):
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.post(
-        'me/onenote/sections/{0}/pages'.format(section_id), files=files).json()
+        'me/onenote/sections/{0}/pages'.format(section_id), files=files)
 
-    return jsonify(response)
+    return jsonify(response.json()), response.status_code
 
 
 @api_blueprint.route('/pages/<id>', methods=['GET'])
 def get_page(id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
-        'me/onenote/pages/{0}'.format(id)).json()
+        'me/onenote/pages/{0}'.format(id))
 
-    return jsonify(response)
+    return jsonify(response.json()), response.status_code
 
 
 @api_blueprint.route('/pages/<id>/content', methods=['GET'])
@@ -62,7 +62,7 @@ def get_page_markdown(id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(markdown_file_url)
 
-    return response.content
+    return response.content, response.status_code
 
 
 @api_blueprint.route('/pages/<id>/content', methods=['PATCH'])

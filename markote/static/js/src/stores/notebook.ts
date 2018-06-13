@@ -10,9 +10,13 @@ export default new Vuex.Store({
         getNotebooks(context) {
             return new Promise((resolve, reject) => {
                 axios.get('/api/v1/notebooks').then((response) => {
-                    context.commit('setNotebooks', response.data.value)
+                    if (response.status === 200) {
+                        context.commit('setNotebooks', response.data.value)
 
-                    resolve()
+                        resolve()
+                    } else {
+                        reject()
+                    }
                 }).catch((error) => {
                     reject(error)
                 })

@@ -9,7 +9,10 @@
                 </li>
             </ul>
         </aside>
-        <span class="note-command">Add Section</span>
+        <span v-if="isCreatingSection" class="note-command">
+            <a class="button is-loading is-creating-section">Loading</a>
+        </span>
+        <span v-else class="note-command" @click="createSection">Add Section</span>
     </div>
 </template>
 
@@ -23,12 +26,32 @@
 
     @Component
     export default class Sections extends Vue {
+        private isCreatingSection = false
+
         private isLoading = false
+
+        private notebook = new Notebook()
 
         private selectedSection = new Section()
 
         get sections(): Section[] {
             return sectionStore.state.sections
+        }
+
+        private createSection() {
+            this.isCreatingSection = true
+
+            sectionStore.dispatch('createSection', {
+                notebook: this.notebook,
+                section: {
+                    displayName: 'Untitled Section',
+                },
+            }).then((section: Section) => {
+                this.selectedSection = section
+                this.isCreatingSection = false
+
+                event.fire(events.NEW_SECTION, null)
+            })
         }
 
         private getPages(section: Section) {
@@ -40,6 +63,7 @@
 
         private getSections(notebook: Notebook) {
             this.isLoading = true
+            this.notebook = notebook
             this.selectedSection = new Section()
 
             sectionStore.dispatch('getSections', notebook).then(() => {
@@ -52,3 +76,12 @@
         }
     }
 </script>
+
+<style>
+    .is-creating-section {
+        background-color: initial;
+        padding: 0;
+        border: none;
+        height: 1.5rem;
+    }
+</style>
