@@ -41,10 +41,9 @@
 
         private errorMessage = ''
 
-        private notebook = new Notebook()
+        private name = ''
 
-        @Model('name')
-        private name
+        private notebook = new Notebook()
 
         private close() {
             if (this.isSaving) {
@@ -77,7 +76,8 @@
                     event.fire(events.NEW_SECTION, data)
 
                     this.isSaving = false
-                    this.isActive = false
+
+                    this.close()
                 }).catch((error) => {
                     this.isSaving = false
                     this.isError = true
