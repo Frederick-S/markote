@@ -40,7 +40,7 @@
         }
 
         private createSection() {
-            event.fire(events.ADD_SECTION, null)
+            event.fire(events.ADD_SECTION, this.notebook)
         }
 
         private getPages(section: Section) {

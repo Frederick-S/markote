@@ -92,9 +92,9 @@ export default class GraphClient {
         })
     }
 
-    public static getSections(notebook: Notebook) {
+    public static getSections(notebook: Notebook, name: string = '') {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/v1/notebooks/${notebook.id}/sections`).then((response) => {
+            axios.get(`/api/v1/notebooks/${notebook.id}/sections?name=${name}`).then((response) => {
                 if (response.status === 200) {
                     resolve(response.data.value)
                 } else {

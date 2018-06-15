@@ -27,6 +27,9 @@
     import { Component, Model, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
+    import GraphClient from '../graph-client'
+    import Notebook from '../models/notebook'
+    import Section from '../models/section'
 
     @Component
     export default class AddSection extends Vue {
@@ -37,6 +40,8 @@
         private isSaving = false
 
         private errorMessage = ''
+
+        private notebook = new Notebook()
 
         @Model('name')
         private name
@@ -53,8 +58,9 @@
             event.listen(events.ADD_SECTION, this.open)
         }
 
-        private open() {
+        private open(notebook: Notebook) {
             this.isActive = true
+            this.notebook = notebook
         }
 
         private save() {
@@ -62,18 +68,26 @@
 
             this.validateName().then(() => {
                 this.isInvalidName = false
+            }).catch((errorMessage) => {
+                this.isInvalidName = true
+                this.errorMessage = errorMessage
             })
         }
 
         private validateName() {
             return new Promise((resolve, reject) => {
                 if (!this.name || !this.name.trim()) {
-                    this.isInvalidName = true
-                    this.errorMessage = 'Section names can\'t be blank'
-
-                    reject()
+                    reject('Section names can\'t be blank')
                 } else {
-                    resolve()
+                    GraphClient.getSections(this.notebook, this.name).then((data: Section[]) => {
+                        if (data.length > 0) {
+                            reject('This notebook already has a section with that name')
+                        } else {
+                            resolve()
+                        }
+                    }).catch((error) => {
+                        reject('Something is wrong')
+                    })
                 }
             })
         }
