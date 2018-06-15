@@ -11,7 +11,7 @@ export default new Vuex.Store({
         createPage(context, { section, page }) {
             return new Promise((resolve, reject) => {
                 axios.post(`/api/v1/sections/${section.id}/pages`, page).then((response) => {
-                    if (response.status === 200) {
+                    if (response.status === 201) {
                         page.id = response.data.id
 
                         context.commit('addPage', page)

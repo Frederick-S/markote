@@ -9,25 +9,26 @@
                 </li>
             </ul>
         </aside>
-        <span v-if="isCreatingSection" class="note-command">
-            <a class="button is-loading is-creating-section">Loading</a>
-        </span>
-        <span v-else class="note-command" @click="createSection">Add Section</span>
+        <span class="note-command" @click="createSection">Add Section</span>
+        <add-section-component></add-section-component>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    import AddSectionComponent from './AddSection.vue'
     import event from '../event'
     import events from '../events'
     import Notebook from '../models/notebook'
     import Section from '../models/section'
     import sectionStore from '../stores/section'
 
-    @Component
+    @Component({
+        components: {
+            AddSectionComponent
+        }
+    })
     export default class Sections extends Vue {
-        private isCreatingSection = false
-
         private isLoading = false
 
         private notebook = new Notebook()
@@ -39,19 +40,7 @@
         }
 
         private createSection() {
-            this.isCreatingSection = true
-
-            sectionStore.dispatch('createSection', {
-                notebook: this.notebook,
-                section: {
-                    displayName: 'Untitled Section',
-                },
-            }).then((section: Section) => {
-                this.selectedSection = section
-                this.isCreatingSection = false
-
-                event.fire(events.NEW_SECTION, null)
-            })
+            event.fire(events.ADD_SECTION, null)
         }
 
         private getPages(section: Section) {

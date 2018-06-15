@@ -7,28 +7,7 @@
                 <button class="delete" aria-label="close" @click="close"></button>
             </header>
             <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Editor Theme</label>
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <select>
-                                <option>Chrome</option>
-                                <option>Clouds</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Code Theme</label>
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            <select>
-                                <option>Default</option>
-                                <option>Agate</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <p>Hello</p>
             </section>
             <footer class="modal-card-foot">
                 <button class="button is-success">Save</button>
@@ -44,7 +23,7 @@
     import events from '../events'
 
     @Component
-    export default class Settings extends Vue {
+    export default class AddSection extends Vue {
         private isActive = false
 
         private close() {
@@ -52,7 +31,7 @@
         }
 
         private mounted() {
-            event.listen(events.OPEN_SETTINGS, this.open)
+            event.listen(events.ADD_SECTION, this.open)
         }
 
         private open() {
