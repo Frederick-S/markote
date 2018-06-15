@@ -62,6 +62,16 @@
 
         private mounted() {
             event.listen(events.GET_SECTIONS, this.getSections)
+            event.listen(events.NEW_SECTION, this.newSection)
+        }
+
+        private newSection(section: Section) {
+            this.selectedSection = section
+
+            sectionStore.commit('addSection', section)
+
+            event.fire(events.RESET_PAGES, null)
+            event.fire(events.RESET_EDITOR, null)
         }
     }
 </script>

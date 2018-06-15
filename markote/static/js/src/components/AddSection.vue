@@ -52,6 +52,9 @@
             }
 
             this.isActive = false
+            this.isError = false
+            this.errorMessage = ''
+            this.name = ''
         }
 
         private mounted() {
@@ -65,12 +68,16 @@
 
         private save() {
             this.isSaving = true
+            this.isError = false
 
             this.validateName().then(() => {
                 this.isError = false
 
                 GraphClient.createSection(this.notebook, new Section(this.name)).then((data) => {
+                    event.fire(events.NEW_SECTION, data)
+
                     this.isSaving = false
+                    this.isActive = false
                 }).catch((error) => {
                     this.isSaving = false
                     this.isError = true
