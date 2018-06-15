@@ -4,7 +4,7 @@
             <p class="menu-label">Sections</p>
             <div v-if="isLoading" class="spinner button is-loading"></div>
             <ul v-else class="menu-list">
-                <li v-for="section in sections">
+                <li v-for="section in sections" :key="section.id">
                     <a :class="[section.id === selectedSection.id ? 'selected' : '', 'note-title']" @click="getPages(section)">{{ section.displayName }}</a>
                 </li>
             </ul>

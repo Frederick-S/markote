@@ -4,7 +4,7 @@
             <p class="menu-label">Notebooks</p>
             <div v-if="isLoading" class="spinner button is-loading"></div>
             <ul v-else class="menu-list">
-                <li v-for="notebook in notebooks">
+                <li v-for="notebook in notebooks" :key="notebook.id">
                     <a :class="[notebook.id === selectedNotebook.id ? 'selected' : '', 'note-title']" @click="getSections(notebook)">{{ notebook.displayName }}</a>
                 </li>
             </ul>
