@@ -1,6 +1,6 @@
-import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import GraphClient from '../graph-client'
 import Notebook from '../models/notebook'
 
 Vue.use(Vuex)
@@ -9,14 +9,10 @@ export default new Vuex.Store({
     actions: {
         getNotebooks(context) {
             return new Promise((resolve, reject) => {
-                axios.get('/api/v1/notebooks').then((response) => {
-                    if (response.status === 200) {
-                        context.commit('setNotebooks', response.data.value)
+                GraphClient.getNotebooks().then((data) => {
+                    context.commit('setNotebooks', data)
 
-                        resolve()
-                    } else {
-                        reject()
-                    }
+                    resolve()
                 }).catch((error) => {
                     reject(error)
                 })

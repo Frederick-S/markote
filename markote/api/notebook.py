@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
 
@@ -14,9 +14,13 @@ def get_notebooks():
 
 @api_blueprint.route('/notebooks/<notebook_id>/sections', methods=['GET'])
 def get_sections(notebook_id):
+    name = request.args.get('name')
+    query_filter = '$filter=displayName eq \'{0}\''.format(name) \
+        if name else ''
+
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
-        'me/onenote/notebooks/{0}/sections?$select=id,displayName'.format(
-            notebook_id))
+        'me/onenote/notebooks/{0}/sections?$select=id,displayName&{1}'.format(
+            notebook_id, query_filter))
 
     return jsonify(response.json()), response.status_code

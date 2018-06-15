@@ -12,7 +12,7 @@
                     <div class="control">
                         <input class="input" type="text" v-model="name" />
                     </div>
-                    <p class="help is-danger">{{ errorMessage }}</p>
+                    <p v-if="isInvalidName" class="help is-danger">{{ errorMessage }}</p>
                 </div>
             </section>
             <footer class="modal-card-foot">
@@ -61,6 +61,7 @@
             this.isSaving = true
 
             this.validateName().then(() => {
+                this.isInvalidName = false
             })
         }
 

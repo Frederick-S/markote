@@ -1,6 +1,6 @@
-import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import GraphClient from '../graph-client'
 import Notebook from '../models/notebook'
 import Section from '../models/section'
 
@@ -10,33 +10,23 @@ export default new Vuex.Store({
     actions: {
         createSection(context, { notebook, section }) {
             return new Promise((resolve, reject) => {
-                axios.post(`/api/v1/notebooks/${notebook.id}/sections`, section).then((response) => {
-                    if (response.status === 201) {
-                        section.id = response.data.id
+                GraphClient.createSection(notebook, section).then((data) => {
+                    context.commit('addSection', data)
 
-                        context.commit('addSection', section)
-
-                        resolve(section)
-                    } else {
-                        reject()
-                    }
+                    resolve(data)
                 }).catch((error) => {
-                    reject()
+                    reject(error)
                 })
             })
         },
         getSections(context, notebook: Notebook) {
             return new Promise((resolve, reject) => {
-                axios.get(`/api/v1/notebooks/${notebook.id}/sections`).then((response) => {
-                    if (response.status === 200) {
-                        context.commit('setSections', response.data.value)
+                GraphClient.getSections(notebook).then((data) => {
+                    context.commit('setSections', data)
 
-                        resolve()
-                    } else {
-                        reject()
-                    }
+                    resolve()
                 }).catch((error) => {
-                    reject()
+                    reject(error)
                 })
             })
         },

@@ -1,6 +1,6 @@
-import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import GraphClient from '../graph-client'
 import User from '../models/user'
 
 Vue.use(Vuex)
@@ -9,14 +9,10 @@ export default new Vuex.Store({
     actions: {
         getMe(context) {
             return new Promise((resolve, reject) => {
-                axios.get('/api/v1/me').then((response) => {
-                    if (response.status === 200) {
-                        context.commit('setMe', response.data)
+                GraphClient.getMe().then((data) => {
+                    context.commit('setMe', data)
 
-                        resolve()
-                    } else {
-                        reject()
-                    }
+                    resolve()
                 }).catch((error) => {
                     reject(error)
                 })

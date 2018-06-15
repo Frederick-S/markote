@@ -27,6 +27,7 @@
     import { Component, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
+    import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
     import Page from '../models/page'
     import pageStore from '../stores/page'
@@ -82,7 +83,7 @@
             this.isLoading = true
             this.page = page
 
-            pageStore.dispatch('getPageMarkdown', page).then((markdown: string) => {
+            GraphClient.getPageMarkdown(page).then((markdown: string) => {
                 page.markdown = markdown
 
                 this.reset(page)
@@ -126,7 +127,7 @@
                 this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
                 this.page.markdown = this.editor.getValue()
 
-                pageStore.dispatch('updatePage', this.page).then(() => {
+                GraphClient.updatePageContent(this.page).then(() => {
                     this.isSaving = false
                 })
             })
