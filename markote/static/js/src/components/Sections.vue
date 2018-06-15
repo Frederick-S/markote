@@ -70,7 +70,7 @@
 
             sectionStore.commit('addSection', section)
 
-            event.fire(events.RESET_PAGES, null)
+            event.fire(events.RESET_PAGES, section)
             event.fire(events.RESET_EDITOR, null)
         }
     }

@@ -76,8 +76,9 @@
             event.listen(events.RESET_PAGES, this.reset)
         }
 
-        private reset() {
+        private reset(section: Section) {
             this.selectedPage = new Page()
+            this.section = section
 
             pageStore.commit('setPages', [])
         }
