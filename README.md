@@ -14,7 +14,6 @@
 * Table
 
 ## Known issues
-* Images are displayed as block level elements
 * The left borders of blockquotes are removed
 
 ## Development
