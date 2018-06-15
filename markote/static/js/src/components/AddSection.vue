@@ -12,11 +12,11 @@
                     <div class="control">
                         <input class="input" type="text" v-model="name" />
                     </div>
-                    <p v-if="isInvalidName" class="help is-danger">{{ errorMessage }}</p>
+                    <p v-if="isError" class="help is-danger">{{ errorMessage }}</p>
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-success" @click="save">OK</button>
+                <button :class="[{ 'is-loading': isSaving }, 'button', 'is-success']" @click="save">OK</button>
                 <button class="button" @click="close">Cancel</button>
             </footer>
         </div>
@@ -35,7 +35,7 @@
     export default class AddSection extends Vue {
         private isActive = false
 
-        private isInvalidName = false
+        private isError = false
 
         private isSaving = false
 
@@ -67,9 +67,18 @@
             this.isSaving = true
 
             this.validateName().then(() => {
-                this.isInvalidName = false
+                this.isError = false
+
+                GraphClient.createSection(this.notebook, new Section(this.name)).then((data) => {
+                    this.isSaving = false
+                }).catch((error) => {
+                    this.isSaving = false
+                    this.isError = true
+                    this.errorMessage = 'Failed to create section'
+                })
             }).catch((errorMessage) => {
-                this.isInvalidName = true
+                this.isSaving = false
+                this.isError = true
                 this.errorMessage = errorMessage
             })
         }
