@@ -16,17 +16,17 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import AddSectionComponent from './AddSection.vue'
     import event from '../event'
     import events from '../events'
     import Notebook from '../models/notebook'
     import Section from '../models/section'
     import sectionStore from '../stores/section'
+    import AddSectionComponent from './AddSection.vue'
 
     @Component({
         components: {
-            AddSectionComponent
-        }
+            AddSectionComponent,
+        },
     })
     export default class Sections extends Vue {
         private isLoading = false
