@@ -1,6 +1,5 @@
 from flask import Flask
 from config import configs
-from markote.views.home import home_blueprint
 from markote.views.auth import auth_blueprint
 from markote.views.notes import notes_blueprint
 from markote.views.error import error_blueprint
@@ -20,7 +19,6 @@ def create_app(config_name):
 
     register_graph_client(config.GRAPH_CLIENT_ID, config.GRAPH_CLIENT_SECRET)
 
-    app.register_blueprint(home_blueprint)
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(notes_blueprint)
     app.register_blueprint(error_blueprint)

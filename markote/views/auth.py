@@ -20,4 +20,4 @@ def authorized():
 
     session['token'] = token
 
-    return redirect('notes')
+    return redirect('/')
