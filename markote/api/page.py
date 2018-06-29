@@ -54,7 +54,11 @@ def get_page_content(id):
 
 @api_blueprint.route('/pages/<id>/markdown', methods=['GET'])
 def get_page_markdown(id):
-    content = _get_page_content(id)
+    content, status_code = _get_page_content(id)
+
+    if status_code != 200:
+        return '', status_code
+
     document = PyQuery(content)
     markdown_file_url = \
         document('object[data-id="markdown-file"]').attr('data')
@@ -68,7 +72,11 @@ def get_page_markdown(id):
 @api_blueprint.route('/pages/<id>/content', methods=['PATCH'])
 def update_page(id):
     page = request.json
-    original_content = _get_page_content(id)
+    original_content, status_code = _get_page_content(id)
+
+    if status_code != 200:
+        return '', status_code
+
     original_document = PyQuery(original_content)
     content_div = original_document('div[data-id="content"]')
     new_document = PyQuery('<div>{0}</div>'.format(page['content']))
@@ -120,4 +128,4 @@ def _get_page_content(id):
     response = oauth_client.get(
         'me/onenote/pages/{0}/content?includeIDs=true'.format(id))
 
-    return response.content
+    return response.content, response.status_code
