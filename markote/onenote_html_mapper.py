@@ -6,7 +6,7 @@ from markote.resource import Resource
 from markote.util import convert_svg_to_png
 
 
-class OneNoteHtmlMapper:
+class OneNoteHtmlMapper(object):
     def __init__(self, document):
         self.document = document
         self.resources = []
@@ -39,7 +39,7 @@ class OneNoteHtmlMapper:
         images = self.document.find('img')
         parents = [tuple(PyQuery(image).parent()) for image in images]
         parents = list(map(lambda x: PyQuery(x[0]), list(set(parents))))
-        parents = list(filter(lambda x: self._has_inline_images(x), parents))
+        parents = list(filter(self._has_inline_images, parents))
 
         for parent in parents:
             table = PyQuery('<table></table>')
