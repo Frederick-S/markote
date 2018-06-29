@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './axios'
 import Notebook from './models/notebook'
 import Page from './models/page'
 import Section from './models/section'
@@ -7,13 +7,9 @@ export default class GraphClient {
     public static createPage(section: Section, page: Page) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/v1/sections/${section.id}/pages`, page).then((response) => {
-                if (response.status === 201) {
-                    page.id = response.data.id
+                page.id = response.data.id
 
-                    resolve(page)
-                } else {
-                    reject()
-                }
+                resolve(page)
             }).catch((error) => {
                 reject(error)
             })
@@ -23,13 +19,9 @@ export default class GraphClient {
     public static createSection(notebook: Notebook, section: Section) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/v1/notebooks/${notebook.id}/sections`, section).then((response) => {
-                if (response.status === 201) {
-                    section.id = response.data.id
+                section.id = response.data.id
 
-                    resolve(section)
-                } else {
-                    reject()
-                }
+                resolve(section)
             }).catch((error) => {
                 reject(error)
             })
@@ -39,11 +31,7 @@ export default class GraphClient {
     public static getPageMarkdown(page: Page) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/v1/pages/${page.id}/markdown`).then((response) => {
-                if (response.status === 200) {
-                    resolve(response.data)
-                } else {
-                    reject()
-                }
+                resolve(response.data)
             }).catch((error) => {
                 reject(error)
             })
@@ -53,11 +41,7 @@ export default class GraphClient {
     public static getPages(section: Section) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/v1/sections/${section.id}/pages`).then((response) => {
-                if (response.status === 200) {
-                    resolve(response.data.value)
-                } else {
-                    reject()
-                }
+                resolve(response.data.value)
             }).catch((error) => {
                 reject(error)
             })
@@ -67,11 +51,7 @@ export default class GraphClient {
     public static getNotebooks() {
         return new Promise((resolve, reject) => {
             axios.get('/api/v1/notebooks').then((response) => {
-                if (response.status === 200) {
-                    resolve(response.data.value)
-                } else {
-                    reject()
-                }
+                resolve(response.data.value)
             }).catch((error) => {
                 reject(error)
             })
@@ -81,11 +61,7 @@ export default class GraphClient {
     public static getMe() {
         return new Promise((resolve, reject) => {
             axios.get('/api/v1/me').then((response) => {
-                if (response.status === 200) {
-                    resolve(response.data)
-                } else {
-                    reject()
-                }
+                resolve(response.data)
             }).catch((error) => {
                 reject(error)
             })
@@ -95,11 +71,7 @@ export default class GraphClient {
     public static getSections(notebook: Notebook, name: string = '') {
         return new Promise((resolve, reject) => {
             axios.get(`/api/v1/notebooks/${notebook.id}/sections?name=${name}`).then((response) => {
-                if (response.status === 200) {
-                    resolve(response.data.value)
-                } else {
-                    reject()
-                }
+                resolve(response.data.value)
             }).catch((error) => {
                 reject(error)
             })
@@ -109,11 +81,7 @@ export default class GraphClient {
     public static updatePageContent(page: Page) {
         return new Promise((resolve, reject) => {
             axios.patch(`/api/v1/pages/${page.id}/content`, page).then((response) => {
-                if (response.status === 204) {
-                    resolve()
-                } else {
-                    reject()
-                }
+                resolve()
             }).catch((error) => {
                 reject(error)
             })
