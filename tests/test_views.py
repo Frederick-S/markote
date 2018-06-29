@@ -1,12 +1,7 @@
-import unittest
-from markote.bootstrap import create_app
+from .base_test import BaseTestCase
 
 
-class ViewsTestCase(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app('testing')
-        self.client = self.app.test_client()
-
+class ViewsTestCase(BaseTestCase):
     def test_get_notes_page(self):
         with self.client.session_transaction() as session:
             session['token'] = {

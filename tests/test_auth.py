@@ -1,12 +1,7 @@
-import unittest
-from markote.bootstrap import create_app
+from .base_test import BaseTestCase
 
 
-class AuthTestCase(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app('testing')
-        self.client = self.app.test_client()
-
+class AuthTestCase(BaseTestCase):
     def test_auth_redirect(self):
         response = self.client.get('/')
 
