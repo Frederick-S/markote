@@ -24,17 +24,17 @@ class OneNoteHtmlMapper:
         return self.document.outer_html()
 
     def _convert_svg_to_resources(self):
-        self.resources = [self._convert_svg_to_resource(svg)
-                          for svg in self.document.find('svg')]
+        self.resources = [self._convert_svg_to_resource(svg_element)
+                          for svg_element in self.document.find('svg')]
 
-    def _convert_svg_to_resource(self, svg):
+    def _convert_svg_to_resource(self, svg_element):
         name = uuid.uuid4().hex
-        element = PyQuery(svg)
-        svg_string = element.outer_html().replace('viewbox', 'viewBox')
+        element = PyQuery(svg_element)
+        svg = element.outer_html().replace('viewbox', 'viewBox')
 
         element.replace_with(PyQuery('<img src="name:{0}" />'.format(name)))
 
-        return Resource(name, convert_svg_to_png(svg_string), 'image/png')
+        return Resource(name, convert_svg_to_png(svg), 'image/png')
 
     def _move_inline_images_to_table(self):
         images = self.document.find('img')
