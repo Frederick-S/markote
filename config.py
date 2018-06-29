@@ -1,7 +1,7 @@
 import os
 
 
-class Config:
+class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
 
     GRAPH_CLIENT_ID = os.environ.get('GRAPH_CLIENT_ID') or 'client id'

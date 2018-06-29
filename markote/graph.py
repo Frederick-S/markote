@@ -1,4 +1,4 @@
-class Graph:
+class Graph(object):
     NAME = 'microsoft_graph'
 
     API_BASE_URL = 'https://graph.microsoft.com/v1.0/'

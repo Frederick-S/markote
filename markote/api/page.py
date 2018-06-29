@@ -38,23 +38,23 @@ def create_page(section_id):
     return jsonify(response.json()), response.status_code
 
 
-@api_blueprint.route('/pages/<id>', methods=['GET'])
-def get_page(id):
+@api_blueprint.route('/pages/<page_id>', methods=['GET'])
+def get_page(page_id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
-        'me/onenote/pages/{0}'.format(id))
+        'me/onenote/pages/{0}'.format(page_id))
 
     return jsonify(response.json()), response.status_code
 
 
-@api_blueprint.route('/pages/<id>/content', methods=['GET'])
-def get_page_content(id):
-    return _get_page_content(id)
+@api_blueprint.route('/pages/<page_id>/content', methods=['GET'])
+def get_page_content(page_id):
+    return _get_page_content(page_id)
 
 
-@api_blueprint.route('/pages/<id>/markdown', methods=['GET'])
-def get_page_markdown(id):
-    content, status_code = _get_page_content(id)
+@api_blueprint.route('/pages/<page_id>/markdown', methods=['GET'])
+def get_page_markdown(page_id):
+    content, status_code = _get_page_content(page_id)
 
     if status_code != 200:
         return '', status_code
@@ -69,10 +69,10 @@ def get_page_markdown(id):
     return response.content, response.status_code
 
 
-@api_blueprint.route('/pages/<id>/content', methods=['PATCH'])
-def update_page(id):
+@api_blueprint.route('/pages/<page_id>/content', methods=['PATCH'])
+def update_page(page_id):
     page = request.json
-    original_content, status_code = _get_page_content(id)
+    original_content, status_code = _get_page_content(page_id)
 
     if status_code != 200:
         return '', status_code
@@ -118,14 +118,14 @@ def update_page(id):
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.request(
-        'PATCH', 'me/onenote/pages/{0}/content'.format(id), files=files)
+        'PATCH', 'me/onenote/pages/{0}/content'.format(page_id), files=files)
 
     return response.content, response.status_code
 
 
-def _get_page_content(id):
+def _get_page_content(page_id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
-        'me/onenote/pages/{0}/content?includeIDs=true'.format(id))
+        'me/onenote/pages/{0}/content?includeIDs=true'.format(page_id))
 
     return response.content, response.status_code
