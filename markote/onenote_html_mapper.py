@@ -1,6 +1,5 @@
 import io
 import uuid
-from lxml.html import HtmlElement
 from PIL import Image
 from pyquery import PyQuery
 from markote.resource import Resource
@@ -65,7 +64,7 @@ class OneNoteHtmlMapper:
         row = PyQuery('<tr></tr>')
 
         for content in contents:
-            if isinstance(content, HtmlElement) and content.tag == 'img':
+            if hasattr(content, 'tag') and content.tag == 'img':
                 if len(children_so_far) != 0:
                     row.append(self._create_table_cell_with_elements(
                         children_so_far))
