@@ -27,7 +27,7 @@ class OneNoteHtmlMapperTestCase(unittest.TestCase):
         html = '''
             <div>
                 <p>
-                    Hello <img src="abc.jpg" />
+                    Hello <img src="abc.jpg" /> Hello
                 </p>
             </div>
         '''
