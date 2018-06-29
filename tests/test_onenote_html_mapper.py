@@ -22,3 +22,18 @@ class OneNoteHtmlMapperTestCase(unittest.TestCase):
 
         self.assertTrue('img' in onenote_html_mapper.get_html())
         self.assertFalse('svg' in onenote_html_mapper.get_html())
+    
+    def test_convert_inline_image_to_table(self):
+        html = '''
+            <div>
+                <p>
+                    Hello <img src="abc.jpg" />
+                </p>
+            </div>
+        '''
+        document = PyQuery(html)
+        onenote_html_mapper = OneNoteHtmlMapper(document)
+
+        onenote_html_mapper.convert()
+
+        self.assertTrue('table' in onenote_html_mapper.get_html())
