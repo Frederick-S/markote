@@ -18,8 +18,6 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
-    import event from '../event'
-    import events from '../events'
     import Page from '../models/page'
     import pageStore from '../stores/page'
 
@@ -61,26 +59,29 @@
             })
         }
 
-        private mounted() {
-            event.listen(events.RESET_PAGES, this.reset)
-        }
-
         @Watch('$route')
         private onRouteChanged(to, from) {
             if (to.name === 'pages') {
-                this.isLoading = true
                 this.sectionId = to.params.sectionId
                 this.selectedPage = new Page()
 
-                pageStore.dispatch('getPages', this.sectionId).then(() => {
-                    this.isLoading = false
-                })
+                if (!to.params.isNewSection) {
+                    this.isLoading = true
+
+                    pageStore.dispatch('getPages', this.sectionId).then(() => {
+                        this.isLoading = false
+                    })
+                } else {
+                    pageStore.commit('setPages', [])
+                }
+            } else if (to.name === 'sections') {
+                this.reset()
             }
         }
 
-        private reset(sectionId: string) {
+        private reset() {
             this.selectedPage = new Page()
-            this.sectionId = sectionId
+            this.sectionId = ''
 
             pageStore.commit('setPages', [])
         }

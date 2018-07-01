@@ -21,8 +21,6 @@
 <script lang="ts">
     import * as marked from 'marked'
     import { Component, Vue, Watch } from 'vue-property-decorator'
-    import event from '../event'
-    import events from '../events'
     import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
     import Page from '../models/page'
@@ -56,13 +54,6 @@
             this.editor = ace.edit('editor')
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
-
-            event.listen(events.NEW_PAGE, this.newPage)
-            event.listen(events.RESET_EDITOR, this.reset)
-        }
-
-        private newPage(page: Page) {
-            this.reset(page)
         }
 
         @Watch('$route')
@@ -85,6 +76,8 @@
                         this.reset(page)
                     })
                 }
+            } else {
+                this.reset()
             }
         }
 
@@ -116,7 +109,7 @@
             })
         }
 
-        private reset(page: Page) {
+        private reset(page: Page = null) {
             this.isPreview = false
             this.isLoading = false
             this.page = page || new Page()

@@ -18,8 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
-    import event from '../event'
-    import events from '../events'
+    import bus from '../bus'
     import Section from '../models/section'
     import sectionStore from '../stores/section'
     import AddSectionComponent from './AddSection.vue'
@@ -47,7 +46,7 @@
         }
 
         private mounted() {
-            event.listen(events.NEW_SECTION, this.newSection)
+            bus.$on('newSection', this.newSection)
         }
 
         private newSection(section: Section) {
@@ -55,8 +54,13 @@
 
             sectionStore.commit('addSection', section)
 
-            event.fire(events.RESET_PAGES, section)
-            event.fire(events.RESET_EDITOR, null)
+            this.$router.push({
+                name: 'pages',
+                params: {
+                    isNewSection: 'true',
+                    sectionId: section.id,
+                },
+            })
         }
 
         @Watch('$route')

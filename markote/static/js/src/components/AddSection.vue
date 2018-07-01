@@ -21,8 +21,7 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator'
-    import event from '../event'
-    import events from '../events'
+    import bus from '../bus'
     import GraphClient from '../graph-client'
     import Section from '../models/section'
 
@@ -61,7 +60,7 @@
                 this.isError = false
 
                 GraphClient.createSection(this.notebookId, new Section(this.name)).then((data) => {
-                    event.fire(events.NEW_SECTION, data)
+                    bus.$emit('newSection', data)
 
                     this.isSaving = false
 
