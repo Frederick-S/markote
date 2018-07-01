@@ -9,6 +9,9 @@
                 <b-dropdown-item @click="openSettings">Settings</b-dropdown-item>
             </b-dropdown>
         </div>
+        <b-modal :active.sync="isSettingsModalActive" has-modal-card>
+            <settings-component></settings-component>
+        </b-modal>
     </nav>
 </template>
 
@@ -18,8 +21,14 @@
     import userStore from '../stores/user'
     import SettingsComponent from './Settings.vue'
 
-    @Component
+    @Component({
+        components: {
+            SettingsComponent,
+        },
+    })
     export default class Navigation extends Vue {
+        private isSettingsModalActive = false
+
         get me(): User {
             return userStore.state.me
         }
@@ -29,11 +38,7 @@
         }
 
         private openSettings() {
-            this.$modal.open({
-                component: SettingsComponent,
-                hasModalCard: true,
-                parent: this,
-            })
+            this.isSettingsModalActive = true
         }
     }
 </script>
