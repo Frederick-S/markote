@@ -50,7 +50,14 @@
                 this.selectedPage = page
                 this.isCreatingPage = false
 
-                event.fire(events.NEW_PAGE, page)
+                this.$router.push({
+                    name: 'page',
+                    params: {
+                        isNewPage: 'true',
+                        pageId: page.id,
+                        pageTitle: page.title,
+                    },
+                })
             })
         }
 
@@ -61,8 +68,8 @@
         @Watch('$route')
         private onRouteChanged(to, from) {
             if (to.name === 'pages') {
-                this.sectionId = to.params.sectionId
                 this.isLoading = true
+                this.sectionId = to.params.sectionId
                 this.selectedPage = new Page()
 
                 pageStore.dispatch('getPages', this.sectionId).then(() => {

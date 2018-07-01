@@ -30,7 +30,7 @@ export default class GraphClient {
     public static getPageMarkdown(pageId: string) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/v1/pages/${pageId}/markdown`).then((response) => {
-                resolve(response.data)
+                resolve(response.data ? response.data.toString() : '')
             }).catch((error) => {
                 reject(error)
             })
