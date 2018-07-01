@@ -28,7 +28,7 @@
     @Component({
         components: {
             AddSectionComponent,
-        }
+        },
     })
     export default class Sections extends Vue {
         private isAddSectionModalActive = false
