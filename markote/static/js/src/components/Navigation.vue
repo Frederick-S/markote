@@ -1,19 +1,13 @@
 <template>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar">
         <div class="navbar-end">
-            <div class="navbar-item dropdown is-hoverable">
-                <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="settings">
-                        <span>{{ me.displayName }}</span>
-                        <b-icon icon="chevron-down" size="is-small"></b-icon>
-                    </button>
-                </div>
-                <div class="dropdown-menu" id="settings" role="menu">
-                    <div class="dropdown-content">
-                        <a class="dropdown-item" @click="openSettings">Settings</a>
-                    </div>
-                </div>
-            </div>
+            <b-dropdown hoverable position="is-bottom-left">
+                <a class="navbar-item" slot="trigger">
+                    <span>{{ me.displayName }}</span>
+                    <b-icon icon="chevron-down" size="is-small"></b-icon>
+                </a>
+                <b-dropdown-item @click="openSettings">Settings</b-dropdown-item>
+            </b-dropdown>
         </div>
     </nav>
 </template>
