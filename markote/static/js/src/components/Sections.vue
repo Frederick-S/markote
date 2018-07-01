@@ -10,7 +10,6 @@
             </ul>
         </aside>
         <span class="note-command" @click="createSection">Add Section</span>
-        <add-section-component></add-section-component>
     </div>
 </template>
 
@@ -23,11 +22,7 @@
     import sectionStore from '../stores/section'
     import AddSectionComponent from './AddSection.vue'
 
-    @Component({
-        components: {
-            AddSectionComponent,
-        },
-    })
+    @Component
     export default class Sections extends Vue {
         private isLoading = false
 
@@ -40,7 +35,14 @@
         }
 
         private createSection() {
-            event.fire(events.ADD_SECTION, this.notebook)
+            this.$modal.open({
+                component: AddSectionComponent,
+                hasModalCard: true,
+                parent: this,
+                props: {
+                    notebook: this.notebook,
+                },
+            })
         }
 
         private getPages(section: Section) {

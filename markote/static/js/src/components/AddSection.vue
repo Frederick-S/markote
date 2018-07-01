@@ -1,30 +1,26 @@
 <template>
-    <div :class="[{ 'is-active': isActive }, 'modal']">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Section Name</p>
-                <button class="delete" aria-label="close" @click="close"></button>
-            </header>
-            <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Enter a section name:</label>
-                    <div class="control">
-                        <input class="input" type="text" v-model="name" />
-                    </div>
-                    <p v-if="isError" class="help is-danger">{{ errorMessage }}</p>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Section Name</p>
+        </header>
+        <section class="modal-card-body">
+            <div class="field">
+                <label class="label">Enter a section name:</label>
+                <div class="control">
+                    <input class="input" type="text" v-model="name" />
                 </div>
-            </section>
-            <footer class="modal-card-foot">
-                <button :class="[{ 'is-loading': isSaving }, 'button', 'is-success']" @click="save">OK</button>
-                <button class="button" @click="close">Cancel</button>
-            </footer>
-        </div>
+                <p v-if="isError" class="help is-danger">{{ errorMessage }}</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button :class="[{ 'is-loading': isSaving }, 'button', 'is-success']" @click="save">OK</button>
+            <button class="button" @click="close">Cancel</button>
+        </footer>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Model, Vue } from 'vue-property-decorator'
+    import { Component, Prop, Vue } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
     import GraphClient from '../graph-client'
@@ -33,8 +29,6 @@
 
     @Component
     export default class AddSection extends Vue {
-        private isActive = false
-
         private isError = false
 
         private isSaving = false
@@ -43,26 +37,21 @@
 
         private name = ''
 
-        private notebook = new Notebook()
+        @Prop()
+        private notebook: Notebook
 
         private close() {
             if (this.isSaving) {
                 return
             }
 
-            this.isActive = false
             this.isError = false
             this.errorMessage = ''
             this.name = ''
-        }
 
-        private mounted() {
-            event.listen(events.ADD_SECTION, this.open)
-        }
+            const $parent: any = this.$parent
 
-        private open(notebook: Notebook) {
-            this.isActive = true
-            this.notebook = notebook
+            $parent.close()
         }
 
         private save() {
