@@ -23,7 +23,12 @@ class TestingConfig(Config):
     WTF_CSRF_ENABLED = False
 
 
+class ProductionConfig(Config):
+    pass
+
+
 configs = {
     'development': DevelopmentConfig,
-    'testing': TestingConfig
+    'testing': TestingConfig,
+    'production': ProductionConfig
 }
