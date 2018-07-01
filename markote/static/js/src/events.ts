@@ -1,5 +1,4 @@
 export default {
-    ADD_SECTION: 'addSection',
     GET_PAGES: 'getPages',
     GET_SECTIONS: 'getSections',
     NEW_PAGE: 'newPage',

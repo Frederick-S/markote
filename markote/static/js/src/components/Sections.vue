@@ -10,6 +10,9 @@
             </ul>
         </aside>
         <span class="note-command" @click="createSection">Add Section</span>
+        <b-modal :active.sync="isAddSectionModalActive" has-modal-card>
+            <add-section-component v-bind:notebook="notebook"></add-section-component>
+        </b-modal>
     </div>
 </template>
 
@@ -22,8 +25,14 @@
     import sectionStore from '../stores/section'
     import AddSectionComponent from './AddSection.vue'
 
-    @Component
+    @Component({
+        components: {
+            AddSectionComponent,
+        }
+    })
     export default class Sections extends Vue {
+        private isAddSectionModalActive = false
+
         private isLoading = false
 
         private notebook = new Notebook()
@@ -35,14 +44,7 @@
         }
 
         private createSection() {
-            this.$modal.open({
-                component: AddSectionComponent,
-                hasModalCard: true,
-                parent: this,
-                props: {
-                    notebook: this.notebook,
-                },
-            })
+            this.isAddSectionModalActive = true
         }
 
         private getPages(section: Section) {
