@@ -5,7 +5,7 @@
             <div v-if="isLoading" class="spinner button is-loading"></div>
             <ul v-else class="menu-list">
                 <li v-for="page in pages" :key="page.id">
-                    <router-link :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" :to="{ name: 'page', params: { pageId: page.id } }" @click.native="select(page)">{{ page.title }}</router-link>
+                    <router-link :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" :to="{ name: 'page', params: { pageId: page.id, pageTitle: page.title } }" @click.native="select(page)">{{ page.title }}</router-link>
                 </li>
             </ul>
         </aside>

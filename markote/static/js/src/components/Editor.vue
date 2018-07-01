@@ -70,6 +70,7 @@
             if (to.name === 'page') {
                 this.isLoading = true
                 this.page.id = to.params.pageId
+                this.page.title = to.params.pageTitle
 
                 GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
                     this.page.markdown = markdown
