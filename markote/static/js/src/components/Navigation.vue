@@ -5,9 +5,7 @@
                 <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="settings">
                         <span>{{ me.displayName }}</span>
-                        <span class="icon is-small">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
+                        <b-icon icon="chevron-down" size="is-small"></b-icon>
                     </button>
                 </div>
                 <div class="dropdown-menu" id="settings" role="menu">

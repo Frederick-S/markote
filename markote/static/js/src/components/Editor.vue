@@ -3,15 +3,11 @@
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title">
         <p class="buttons">
             <a class="button" @click="preview">
-                <span class="icon is-small">
-                    <i class="fas fa-eye"></i>
-                </span>
+                <b-icon icon="eye" size="is-small"></b-icon>
             </a>
             <a class="button" @click="save">
-                <span class="icon is-small">
-                    <i v-if="isSaving" class="fas fa-spinner"></i>
-                    <i v-else class="fas fa-save"></i>
-                </span>
+                <b-icon v-if="isSaving" icon="loading" size="is-small"></b-icon>
+                <b-icon v-else icon="content-save" size="is-small"></b-icon>
             </a>
         </p>
         <div v-show="isLoading" class="spinner-wrap">
