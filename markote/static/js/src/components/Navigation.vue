@@ -14,10 +14,9 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import event from '../event'
-    import events from '../events'
     import User from '../models/user'
     import userStore from '../stores/user'
+    import SettingsComponent from './Settings.vue'
 
     @Component
     export default class Navigation extends Vue {
@@ -30,7 +29,11 @@
         }
 
         private openSettings() {
-            event.fire(events.OPEN_SETTINGS, null)
+            this.$modal.open({
+                component: SettingsComponent,
+                hasModalCard: true,
+                parent: this,
+            })
         }
     }
 </script>
