@@ -19,9 +19,9 @@ export default new Vuex.Store({
                 })
             })
         },
-        getSections(context, notebook: Notebook) {
+        getSections(context, notebookId: string) {
             return new Promise((resolve, reject) => {
-                GraphClient.getSections(notebook).then((data) => {
+                GraphClient.getSections(notebookId).then((data) => {
                     context.commit('setSections', data)
 
                     resolve()

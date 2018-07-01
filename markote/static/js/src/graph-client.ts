@@ -1,12 +1,11 @@
 import axios from './axios'
-import Notebook from './models/notebook'
 import Page from './models/page'
 import Section from './models/section'
 
 export default class GraphClient {
-    public static createPage(section: Section, page: Page) {
+    public static createPage(sectionId: string, page: Page) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/v1/sections/${section.id}/pages`, page).then((response) => {
+            axios.post(`/api/v1/sections/${sectionId}/pages`, page).then((response) => {
                 page.id = response.data.id
 
                 resolve(page)
@@ -16,9 +15,9 @@ export default class GraphClient {
         })
     }
 
-    public static createSection(notebook: Notebook, section: Section) {
+    public static createSection(notebookId: string, section: Section) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/v1/notebooks/${notebook.id}/sections`, section).then((response) => {
+            axios.post(`/api/v1/notebooks/${notebookId}/sections`, section).then((response) => {
                 section.id = response.data.id
 
                 resolve(section)
@@ -28,9 +27,9 @@ export default class GraphClient {
         })
     }
 
-    public static getPageMarkdown(page: Page) {
+    public static getPageMarkdown(pageId: string) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/v1/pages/${page.id}/markdown`).then((response) => {
+            axios.get(`/api/v1/pages/${pageId}/markdown`).then((response) => {
                 resolve(response.data)
             }).catch((error) => {
                 reject(error)
@@ -38,9 +37,9 @@ export default class GraphClient {
         })
     }
 
-    public static getPages(section: Section) {
+    public static getPages(sectionId: string) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/v1/sections/${section.id}/pages`).then((response) => {
+            axios.get(`/api/v1/sections/${sectionId}/pages`).then((response) => {
                 resolve(response.data.value)
             }).catch((error) => {
                 reject(error)
@@ -68,9 +67,9 @@ export default class GraphClient {
         })
     }
 
-    public static getSections(notebook: Notebook, name: string = '') {
+    public static getSections(notebookId: string, name: string = '') {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/v1/notebooks/${notebook.id}/sections?name=${name}`).then((response) => {
+            axios.get(`/api/v1/notebooks/${notebookId}/sections?name=${name}`).then((response) => {
                 resolve(response.data.value)
             }).catch((error) => {
                 reject(error)

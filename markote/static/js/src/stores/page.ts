@@ -8,9 +8,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     actions: {
-        createPage(context, { section, page }) {
+        createPage(context, { sectionId, page }) {
             return new Promise((resolve, reject) => {
-                GraphClient.createPage(section, page).then((data) => {
+                GraphClient.createPage(sectionId, page).then((data) => {
                     context.commit('addPage', data)
 
                     resolve(data)
@@ -19,9 +19,9 @@ export default new Vuex.Store({
                 })
             })
         },
-        getPages(context, section: Section) {
+        getPages(context, sectionId: string) {
             return new Promise((resolve, reject) => {
-                GraphClient.getPages(section).then((data) => {
+                GraphClient.getPages(sectionId).then((data) => {
                     context.commit('setPages', data)
 
                     resolve()

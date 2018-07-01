@@ -20,13 +20,12 @@
 
 <script lang="ts">
     import * as marked from 'marked'
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Watch } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
     import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
     import Page from '../models/page'
-    import pageStore from '../stores/page'
     import elements from '../utils/elements'
 
     declare var hljs: any
@@ -59,12 +58,25 @@
             this.editor.session.setMode('ace/mode/markdown')
 
             event.listen(events.NEW_PAGE, this.newPage)
-            event.listen(events.RENDER_PAGE, this.renderPage)
             event.listen(events.RESET_EDITOR, this.reset)
         }
 
         private newPage(page: Page) {
             this.reset(page)
+        }
+
+        @Watch('$route')
+        private onRouteChanged(to, from) {
+            if (to.name === 'page') {
+                this.isLoading = true
+                this.page.id = to.params.pageId
+
+                GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
+                    this.page.markdown = markdown
+
+                    this.reset(this.page)
+                })
+            }
         }
 
         private preview() {
@@ -73,17 +85,6 @@
             if (this.isPreview) {
                 this.renderPreview()
             }
-        }
-
-        private renderPage(page: Page) {
-            this.isLoading = true
-            this.page = page
-
-            GraphClient.getPageMarkdown(page).then((markdown: string) => {
-                page.markdown = markdown
-
-                this.reset(page)
-            })
         }
 
         private renderPreview() {

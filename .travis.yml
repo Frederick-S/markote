@@ -10,7 +10,7 @@ install:
   - npm install
 script:
   - make lint
-  - npm run debug
+  - npm run build
   - make coverage
 after_success:
   - codecov

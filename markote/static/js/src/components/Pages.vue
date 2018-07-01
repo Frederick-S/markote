@@ -5,7 +5,7 @@
             <div v-if="isLoading" class="spinner button is-loading"></div>
             <ul v-else class="menu-list">
                 <li v-for="page in pages" :key="page.id">
-                    <a :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" @click="getPageMarkdown(page)">{{ page.title }}</a>
+                    <router-link :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" :to="{ name: 'page', params: { pageId: page.id } }" @click.native="select(page)">{{ page.title }}</router-link>
                 </li>
             </ul>
         </aside>
@@ -17,11 +17,10 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Watch } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
     import Page from '../models/page'
-    import Section from '../models/section'
     import pageStore from '../stores/page'
 
     @Component
@@ -32,7 +31,7 @@
 
         private selectedPage = new Page()
 
-        private section = new Section()
+        private sectionId = ''
 
         get pages(): Page[] {
             return pageStore.state.pages
@@ -46,7 +45,7 @@
                     markdown: '',
                     title: 'Untitled Page',
                 },
-                section: this.section,
+                sectionId: this.sectionId,
             }).then((page: Page) => {
                 this.selectedPage = page
                 this.isCreatingPage = false
@@ -55,32 +54,32 @@
             })
         }
 
-        private getPageMarkdown(page: Page) {
-            this.selectedPage = page
-
-            event.fire(events.RENDER_PAGE, page)
-        }
-
-        private getPages(section: Section) {
-            this.section = section
-            this.isLoading = true
-            this.selectedPage = new Page()
-
-            pageStore.dispatch('getPages', section).then(() => {
-                this.isLoading = false
-            })
-        }
-
         private mounted() {
-            event.listen(events.GET_PAGES, this.getPages)
             event.listen(events.RESET_PAGES, this.reset)
         }
 
-        private reset(section: Section) {
+        @Watch('$route')
+        private onRouteChanged(to, from) {
+            if (to.name === 'pages') {
+                this.sectionId = to.params.sectionId
+                this.isLoading = true
+                this.selectedPage = new Page()
+
+                pageStore.dispatch('getPages', this.sectionId).then(() => {
+                    this.isLoading = false
+                })
+            }
+        }
+
+        private reset(sectionId: string) {
             this.selectedPage = new Page()
-            this.section = section
+            this.sectionId = sectionId
 
             pageStore.commit('setPages', [])
+        }
+
+        private select(page: Page) {
+            this.selectedPage = page
         }
     }
 </script>

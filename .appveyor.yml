@@ -21,6 +21,6 @@ install:
 before_test:
   - "%PYTHON%\\Scripts\\pycodestyle.exe ."
   - npm run lint
-  - npm run debug
+  - npm run build
 test_script:
   - "%PYTHON%\\python.exe setup.py test"

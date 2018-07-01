@@ -24,7 +24,6 @@
     import event from '../event'
     import events from '../events'
     import GraphClient from '../graph-client'
-    import Notebook from '../models/notebook'
     import Section from '../models/section'
 
     @Component
@@ -38,7 +37,7 @@
         private name = ''
 
         @Prop()
-        private notebook: Notebook
+        private notebookId: string
 
         private close() {
             if (this.isSaving) {
@@ -61,7 +60,7 @@
             this.validateName().then(() => {
                 this.isError = false
 
-                GraphClient.createSection(this.notebook, new Section(this.name)).then((data) => {
+                GraphClient.createSection(this.notebookId, new Section(this.name)).then((data) => {
                     event.fire(events.NEW_SECTION, data)
 
                     this.isSaving = false
@@ -84,7 +83,7 @@
                 if (!this.name || !this.name.trim()) {
                     reject('Section names can\'t be blank')
                 } else {
-                    GraphClient.getSections(this.notebook, this.name).then((data: Section[]) => {
+                    GraphClient.getSections(this.notebookId, this.name).then((data: Section[]) => {
                         if (data.length > 0) {
                             reject('This notebook already has a section with that name')
                         } else {

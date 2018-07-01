@@ -5,22 +5,21 @@
             <div v-if="isLoading" class="spinner button is-loading"></div>
             <ul v-else class="menu-list">
                 <li v-for="section in sections" :key="section.id">
-                    <a :class="[section.id === selectedSection.id ? 'selected' : '', 'note-title']" @click="getPages(section)">{{ section.displayName }}</a>
+                    <router-link :class="[section.id === selectedSection.id ? 'selected' : '', 'note-title']" :to="{ name: 'pages', params: { sectionId: section.id } }" @click.native="select(section)">{{ section.displayName }}</router-link>
                 </li>
             </ul>
         </aside>
         <span class="note-command" @click="createSection">Add Section</span>
         <b-modal :active.sync="isAddSectionModalActive" has-modal-card>
-            <add-section-component v-bind:notebook="notebook"></add-section-component>
+            <add-section-component v-bind:notebookId="notebookId"></add-section-component>
         </b-modal>
     </div>
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
+    import { Component, Vue, Watch } from 'vue-property-decorator'
     import event from '../event'
     import events from '../events'
-    import Notebook from '../models/notebook'
     import Section from '../models/section'
     import sectionStore from '../stores/section'
     import AddSectionComponent from './AddSection.vue'
@@ -35,7 +34,7 @@
 
         private isLoading = false
 
-        private notebook = new Notebook()
+        private notebookId = ''
 
         private selectedSection = new Section()
 
@@ -47,25 +46,7 @@
             this.isAddSectionModalActive = true
         }
 
-        private getPages(section: Section) {
-            this.selectedSection = section
-
-            event.fire(events.GET_PAGES, section)
-            event.fire(events.RESET_EDITOR, null)
-        }
-
-        private getSections(notebook: Notebook) {
-            this.isLoading = true
-            this.notebook = notebook
-            this.selectedSection = new Section()
-
-            sectionStore.dispatch('getSections', notebook).then(() => {
-                this.isLoading = false
-            })
-        }
-
         private mounted() {
-            event.listen(events.GET_SECTIONS, this.getSections)
             event.listen(events.NEW_SECTION, this.newSection)
         }
 
@@ -76,6 +57,23 @@
 
             event.fire(events.RESET_PAGES, section)
             event.fire(events.RESET_EDITOR, null)
+        }
+
+        @Watch('$route')
+        private onRouteChanged(to, from) {
+            if (to.name === 'sections') {
+                this.isLoading = true
+                this.notebookId = to.params.notebookId
+                this.selectedSection = new Section()
+
+                sectionStore.dispatch('getSections', this.notebookId).then(() => {
+                    this.isLoading = false
+                })
+            }
+        }
+
+        private select(section: Section) {
+            this.selectedSection = section
         }
     }
 </script>
