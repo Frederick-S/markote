@@ -31,7 +31,7 @@
 4. Run `npm install && npm run build`
 5. Create an isolated Python environment and run `python setup.py install` in it
 6. Run `python run.py` to start the app
-7. Navigate to `http://localhost:5000/notes`
+7. Navigate to `http://localhost:5000/`
 
 ## Deployment
 ### Ubuntu 18.04 LTS
