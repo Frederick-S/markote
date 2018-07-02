@@ -54,7 +54,7 @@
     
     ```
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-    sudo python
+    sudo apt-get install -y nodejs
     ```
 5. Clone the code
     
