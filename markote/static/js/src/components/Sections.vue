@@ -81,12 +81,3 @@
         }
     }
 </script>
-
-<style>
-    .is-creating-section {
-        background-color: initial;
-        padding: 0;
-        border: none;
-        height: 1.5rem;
-    }
-</style>
