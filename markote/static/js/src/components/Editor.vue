@@ -59,24 +59,24 @@
         @Watch('$route')
         private onRouteChanged(to, from) {
             if (to.name === 'page') {
-                const page = new Page()
-                page.id = to.params.pageId
-                page.title = to.params.pageTitle
+                this.page.id = to.params.pageId
+                this.page.title = to.params.pageTitle
 
                 if (to.params.isNewPage) {
-                    page.markdown = ''
+                    this.page.markdown = ''
 
-                    this.reset(page)
+                    this.reset()
                 } else {
                     this.isLoading = true
 
-                    GraphClient.getPageMarkdown(page.id).then((markdown: string) => {
-                        page.markdown = markdown
+                    GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
+                        this.page.markdown = markdown
 
-                        this.reset(page)
+                        this.reset()
                     })
                 }
             } else {
+                this.page = new Page()
                 this.reset()
             }
         }
@@ -109,10 +109,9 @@
             })
         }
 
-        private reset(page: Page = null) {
+        private reset() {
             this.isPreview = false
             this.isLoading = false
-            this.page = page || new Page()
             this.editor.setValue(this.page.markdown, 1)
 
             document.getElementById('preview').innerHTML = ''
