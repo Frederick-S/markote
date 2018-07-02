@@ -18,20 +18,81 @@
 
 ## Development
 ### Register your app
-1. Navigate to the [Application Registration Portal](https://identity.microsoft.com/Landing) and sign in.
-2. Click `Add an app` and name your app.
-3. Set a platform by clicking `Add Platform`, select `Web`, and add a `Redirect URL` of `http://localhost:5000/login/authorized`.
-4. Click `Generate New Password` and store it securely.
-5. Add `Notes.Create`, `Notes.Read`, `User.Read` to `Delegated Permissions`.
+1. Navigate to the [Application Registration Portal](https://identity.microsoft.com/Landing) and sign in
+2. Click `Add an app` and name your app
+3. Set a platform by clicking `Add Platform`, select `Web`, and add a `Redirect URL` of `http://localhost:5000/login/authorized`
+4. Click `Generate New Password` and store it securely
+5. Add `Notes.Create`, `Notes.Read`, `User.Read` to `Delegated Permissions`
 
 ### Run from source code
-1. Install [Cairo](https://cairographics.org/). For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable.
-2. Clone the code.
-3. Add your own `Application Id` and `Application secret` to `config.py` or add them as environment variables.
-4. Run `npm install && npm run build`.
-5. Create an isolated Python environment and run `python setup.py install` in it.
-6. Run `python run.py` to start the app.
+1. Install [Cairo](https://cairographics.org/). For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable
+2. Clone the code
+3. Add your own `Application Id` and `Application secret` to `config.py` or add them as environment variables
+4. Run `npm install && npm run build`
+5. Create an isolated Python environment and run `python setup.py install` in it
+6. Run `python run.py` to start the app
 7. Navigate to `http://localhost:5000/notes`
+
+## Deployment
+### Ubuntu 18.04 LTS
+1. Install [nginx](https://www.nginx.com/)
+
+    ```
+    apt install nginx
+    ```
+2. Install [gunicorn](http://gunicorn.org/)
+    
+    ```
+    pip3 install gunicorn
+    ```
+3. Install [cairo](https://cairographics.org/)
+
+    ```
+    apt install libcairo2-dev
+    ```
+4. Install [Node.js](https://nodejs.org/en/)
+    
+    ```
+    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+    sudo python
+    ```
+5. Clone the code
+    
+    ```
+    git clone https://github.com/Frederick-S/markote.git
+    ```
+6. Install
+
+    ```
+    python3 setup.py install
+    npm install
+    npm run build
+    ```
+7. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` to environment variables
+8. Run the app
+    
+    ```
+    gunicorn --bind 0.0.0.0:5000 wsgi:app &
+    ```
+9. Install [certbot](https://certbot.eff.org/)
+10. Create `markote.conf` under `/etc/nginx/conf.d` with the following content:
+
+    ```
+    server {
+        listen 443 ssl default_server;
+        server_name yourdomain.com;
+        ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+
+        location / {
+            proxy_pass http://localhost:5000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+    ```
+11. Restart `nginx`
 
 ## License
 [MIT](LICENSE)
