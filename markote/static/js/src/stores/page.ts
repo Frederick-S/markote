@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import GraphClient from '../graph-client'
 import Page from '../models/page'
-import Section from '../models/section'
 
 Vue.use(Vuex)
 
