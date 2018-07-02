@@ -30,7 +30,7 @@
 3. Add your own `Application Id` and `Application secret` to `config.py` or add them as environment variables.
 4. Run `npm install && npm run build`.
 5. Create an isolated Python environment and run `python setup.py install` in it.
-6. Run `python manage.py runserver` to start the app.
+6. Run `python run.py` to start the app.
 7. Navigate to `http://localhost:5000/notes`
 
 ## License
