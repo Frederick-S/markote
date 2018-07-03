@@ -20,6 +20,7 @@
     import { Component, Vue, Watch } from 'vue-property-decorator'
     import Page from '../models/page'
     import pageStore from '../stores/page'
+    import toast from '../toast'
 
     @Component
     export default class Pages extends Vue {
@@ -36,6 +37,12 @@
         }
 
         private createPage() {
+            if (!this.sectionId) {
+                toast.danger('Please select a section first')
+
+                return
+            }
+
             this.isCreatingPage = true
 
             pageStore.dispatch('createPage', {
@@ -46,7 +53,6 @@
                 sectionId: this.sectionId,
             }).then((page: Page) => {
                 this.selectedPage = page
-                this.isCreatingPage = false
 
                 this.$router.push({
                     name: 'page',
@@ -56,26 +62,43 @@
                         pageTitle: page.title,
                     },
                 })
+            }).catch((error) => {
+                toast.danger('Failed to create page')
+            }).finally(() => {
+                this.isCreatingPage = false
             })
         }
 
         @Watch('$route')
         private onRouteChanged(to, from) {
-            if (to.name === 'pages') {
-                this.sectionId = to.params.sectionId
-                this.selectedPage = new Page()
+            switch (to.name) {
+                case 'pages':
+                    this.sectionId = to.params.sectionId
+                    this.selectedPage = new Page()
 
-                if (!to.params.isNewSection) {
-                    this.isLoading = true
+                    if (!to.params.isNewSection) {
+                        this.isLoading = true
 
-                    pageStore.dispatch('getPages', this.sectionId).then(() => {
-                        this.isLoading = false
-                    })
-                } else {
-                    pageStore.commit('setPages', [])
-                }
-            } else if (to.name === 'sections') {
-                this.reset()
+                        pageStore.dispatch('getPages', this.sectionId).catch(() => {
+                            toast.danger('Failed to get pages')
+
+                            pageStore.commit('setPages', [])
+
+                            this.$router.push('/error')
+                        }).finally(() => {
+                            this.isLoading = false
+                        })
+                    } else {
+                        pageStore.commit('setPages', [])
+                    }
+
+                    break
+                case 'sections':
+                    this.reset()
+
+                    break
+                default:
+                    break
             }
         }
 

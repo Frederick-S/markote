@@ -60,7 +60,7 @@
                 this.isError = false
 
                 GraphClient.createSection(this.notebookId, new Section(this.name)).then((data) => {
-                    bus.$emit('newSection', data)
+                    bus.$emit('newSectionCreated', data)
 
                     this.isSaving = false
 
@@ -89,7 +89,7 @@
                             resolve()
                         }
                     }).catch((error) => {
-                        reject('Something is wrong')
+                        reject('Failed to get sections')
                     })
                 }
             })

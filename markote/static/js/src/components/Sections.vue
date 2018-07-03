@@ -43,14 +43,20 @@
         }
 
         private createSection() {
+            if (!this.notebookId) {
+                toast.danger('Please select a notebook first')
+
+                return
+            }
+
             this.isAddSectionModalActive = true
         }
 
         private mounted() {
-            bus.$on('newSection', this.newSection)
+            bus.$on('newSectionCreated', this.newSectionCreated)
         }
 
-        private newSection(section: Section) {
+        private newSectionCreated(section: Section) {
             this.selectedSection = section
 
             sectionStore.commit('addSection', section)
@@ -66,17 +72,23 @@
 
         @Watch('$route')
         private onRouteChanged(to, from) {
-            if (to.name === 'sections') {
-                this.isLoading = true
-                this.notebookId = to.params.notebookId
-                this.selectedSection = new Section()
-
-                sectionStore.dispatch('getSections', this.notebookId).catch((error) => {
-                    toast.danger('Failed to get sections')
-                }).finally(() => {
-                    this.isLoading = false
-                })
+            if (to.name !== 'sections') {
+                return
             }
+
+            this.isLoading = true
+            this.notebookId = to.params.notebookId
+            this.selectedSection = new Section()
+
+            sectionStore.dispatch('getSections', this.notebookId).catch((error) => {
+                toast.danger('Failed to get sections')
+
+                sectionStore.commit('setSections', [])
+
+                this.$router.push('/error')
+            }).finally(() => {
+                this.isLoading = false
+            })
         }
 
         private select(section: Section) {

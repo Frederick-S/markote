@@ -24,6 +24,7 @@
     import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
     import Page from '../models/page'
+    import toast from '../toast'
     import elements from '../utils/elements'
 
     declare var hljs: any
@@ -58,26 +59,41 @@
 
         @Watch('$route')
         private onRouteChanged(to, from) {
-            if (to.name === 'page') {
-                this.page.id = to.params.pageId
-                this.page.title = to.params.pageTitle
+            switch (to.name) {
+                case 'page':
+                    this.page.id = to.params.pageId
+                    this.page.title = to.params.pageTitle
 
-                if (to.params.isNewPage) {
-                    this.page.markdown = ''
-
-                    this.reset()
-                } else {
-                    this.isLoading = true
-
-                    GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
-                        this.page.markdown = markdown
+                    if (to.params.isNewPage) {
+                        this.page.markdown = ''
 
                         this.reset()
-                    })
-                }
-            } else {
-                this.page = new Page()
-                this.reset()
+                    } else {
+                        this.isLoading = true
+
+                        GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
+                            this.page.markdown = markdown
+                        }).catch(() => {
+                            this.page.markdown = ''
+
+                            toast.danger('Failed to get page content')
+
+                            this.$router.push('/error')
+                        }).finally(() => {
+                            this.reset()
+                        })
+                    }
+
+                    break
+                case 'notebooks':
+                case 'sections':
+                case 'pages':
+                    this.page = new Page()
+                    this.reset()
+
+                    break
+                default:
+                    break
             }
         }
 
@@ -125,7 +141,9 @@
                 this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
                 this.page.markdown = this.editor.getValue()
 
-                GraphClient.updatePageContent(this.page).then(() => {
+                GraphClient.updatePageContent(this.page).catch((error) => {
+                    toast.danger('Failed to save page content')
+                }).finally(() => {
                     this.isSaving = false
                 })
             })

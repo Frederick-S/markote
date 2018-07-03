@@ -16,6 +16,7 @@
     import { Component, Vue } from 'vue-property-decorator'
     import Notebook from '../models/notebook'
     import notebookStore from '../stores/notebook'
+    import toast from '../toast'
 
     @Component
     export default class Notebooks extends Vue {
@@ -28,7 +29,9 @@
         }
 
         private mounted() {
-            notebookStore.dispatch('getNotebooks').then(() => {
+            notebookStore.dispatch('getNotebooks').catch((error) => {
+                toast.danger('Failed to get notebooks')
+            }).finally(() => {
                 this.isLoading = false
             })
         }
