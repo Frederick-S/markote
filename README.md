@@ -72,7 +72,7 @@
 8. Run the app
     
     ```
-    gunicorn --bind 0.0.0.0:5000 wsgi:app &
+    gunicorn -c gunicorn.py wsgi:app &
     ```
 9. Install [certbot](https://certbot.eff.org/)
 10. Create `markote.conf` under `/etc/nginx/conf.d` with the following content:
