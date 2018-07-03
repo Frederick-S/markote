@@ -21,6 +21,7 @@
     import bus from '../bus'
     import Section from '../models/section'
     import sectionStore from '../stores/section'
+    import toast from '../toast'
     import AddSectionComponent from './AddSection.vue'
 
     @Component({
@@ -70,7 +71,9 @@
                 this.notebookId = to.params.notebookId
                 this.selectedSection = new Section()
 
-                sectionStore.dispatch('getSections', this.notebookId).then(() => {
+                sectionStore.dispatch('getSections', this.notebookId).catch((error) => {
+                    toast.danger('Failed to get sections')
+                }).finally(() => {
                     this.isLoading = false
                 })
             }

@@ -27,6 +27,7 @@
     "@types/ace": "0.0.39",
     "@types/marked": "^0.3.0",
     "@types/mathjax": "0.0.34",
+    "@types/promise.prototype.finally": "^2.0.2",
     "css-loader": "^0.28.11",
     "ts-loader": "^4.4.2",
     "tslint": "^5.10.0",
