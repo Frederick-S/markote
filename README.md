@@ -13,8 +13,8 @@
     * Link
     * Image
     * Table
-* Code highlight
-* Math equations
+* Code highlighting using highlight.js
+* LaTeX math equations using MathJax
 
 ## Known issues
 * The left borders of blockquotes are removed
