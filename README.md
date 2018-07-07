@@ -38,46 +38,46 @@
 
 ## Deployment
 ### Ubuntu 18.04 LTS
-1. Install [nginx](https://www.nginx.com/)
-
-    ```
-    apt install nginx
-    ```
-2. Install [gunicorn](http://gunicorn.org/)
-    
-    ```
-    pip3 install gunicorn
-    ```
-3. Install [cairo](https://cairographics.org/)
+1. Install [cairo](https://cairographics.org/)
 
     ```
     apt install libcairo2-dev
     ```
-4. Install [Node.js](https://nodejs.org/en/)
+2. Install [Node.js](https://nodejs.org/en/)
     
     ```
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
     sudo apt-get install -y nodejs
     ```
-5. Clone the code
+3. Clone the code
     
     ```
     git clone https://github.com/Frederick-S/markote.git
     ```
-6. Install
+4. Install
 
     ```
     python3 setup.py install
     npm install
     npm run build
     ```
-7. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` to environment variables
-8. Run the app
+5. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` to environment variables
+6. Install [gunicorn](http://gunicorn.org/)
+    
+    ```
+    pip3 install gunicorn
+    ```
+7. Run the app
     
     ```
     gunicorn -c gunicorn.py wsgi:app &
     ```
-9. Install [certbot](https://certbot.eff.org/)
+8. Install [certbot](https://certbot.eff.org/)
+9. Install [nginx](https://www.nginx.com/)
+
+    ```
+    apt install nginx
+    ```
 10. Create `markote.conf` under `/etc/nginx/conf.d` with the following content:
 
     ```
