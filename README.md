@@ -38,47 +38,51 @@
 
 ## Deployment
 ### Ubuntu 18.04 LTS
-1. Install [cairo](https://cairographics.org/)
+1. Run the app
+   1. Run from docker
+      1. `docker run -d -p 5000:5000 -e GRAPH_CLIENT_ID='your client id' -e GRAPH_CLIENT_SECRET='your client secret' xiaodanmao/markote`
+   2. Run from source code
+      1. Install [cairo](https://cairographics.org/)
 
-    ```
-    apt install libcairo2-dev
-    ```
-2. Install [Node.js](https://nodejs.org/en/)
-    
-    ```
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    ```
-3. Clone the code
-    
-    ```
-    git clone https://github.com/Frederick-S/markote.git
-    ```
-4. Install
+          ```
+          apt install libcairo2-dev
+          ```
+      2. Install [Node.js](https://nodejs.org/en/)
 
-    ```
-    python3 setup.py install
-    npm install
-    npm run build
-    ```
-5. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` to environment variables
-6. Install [gunicorn](http://gunicorn.org/)
-    
-    ```
-    pip3 install gunicorn
-    ```
-7. Run the app
-    
-    ```
-    gunicorn -c gunicorn.py wsgi:app &
-    ```
-8. Install [certbot](https://certbot.eff.org/)
-9. Install [nginx](https://www.nginx.com/)
+          ```
+          curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          ```
+      3. Clone the code
+
+          ```
+          git clone https://github.com/Frederick-S/markote.git
+          ```
+      4. Install
+
+          ```
+          python3 setup.py install
+          npm install
+          npm run build
+          ```
+      5. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` to environment variables
+      6. Install [gunicorn](http://gunicorn.org/)
+
+          ```
+          pip3 install gunicorn
+          ```
+      7. Run the app
+
+          ```
+          gunicorn -c gunicorn.py wsgi:app &
+          ```
+2. Install [certbot](https://certbot.eff.org/)
+3. Install [nginx](https://www.nginx.com/)
 
     ```
     apt install nginx
     ```
-10. Create `markote.conf` under `/etc/nginx/conf.d` with the following content:
+4. Create `markote.conf` under `/etc/nginx/conf.d` with the following content:
 
     ```
     server {
