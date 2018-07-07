@@ -134,6 +134,12 @@
         }
 
         private save() {
+            if (!this.page.id) {
+                toast.danger('Please select a page first')
+
+                return
+            }
+
             this.isSaving = true
             this.isPreview = true
 
