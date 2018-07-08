@@ -12,7 +12,7 @@ export default new Vuex.Store({
                 GraphClient.getNotebooks().then((data) => {
                     context.commit('setNotebooks', data)
 
-                    resolve()
+                    resolve(data)
                 }).catch((error) => {
                     reject(error)
                 })

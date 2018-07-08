@@ -23,7 +23,7 @@ export default new Vuex.Store({
                 GraphClient.getSections(notebookId).then((data) => {
                     context.commit('setSections', data)
 
-                    resolve()
+                    resolve(data)
                 }).catch((error) => {
                     reject(error)
                 })

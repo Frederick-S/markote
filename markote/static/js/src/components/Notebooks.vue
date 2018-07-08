@@ -29,7 +29,18 @@
         }
 
         private mounted() {
-            notebookStore.dispatch('getNotebooks').catch((error) => {
+            notebookStore.dispatch('getNotebooks').then((notebooks: Notebook[]) => {
+                if (notebooks.length > 0) {
+                    this.select(notebooks[0])
+
+                    this.$router.push({
+                        name: 'sections',
+                        params: {
+                            notebookId: notebooks[0].id,
+                        },
+                    })
+                }
+            }).catch((error) => {
                 toast.danger('Failed to get notebooks')
             }).finally(() => {
                 this.isLoading = false

@@ -80,7 +80,18 @@
             this.notebookId = to.params.notebookId
             this.selectedSection = new Section()
 
-            sectionStore.dispatch('getSections', this.notebookId).catch((error) => {
+            sectionStore.dispatch('getSections', this.notebookId).then((sections: Section[]) => {
+                if (sections.length > 0) {
+                    this.select(sections[0])
+
+                    this.$router.push({
+                        name: 'pages',
+                        params: {
+                            sectionId: sections[0].id,
+                        },
+                    })
+                }
+            }).catch((error) => {
                 toast.danger('Failed to get sections')
 
                 sectionStore.commit('setSections', [])
