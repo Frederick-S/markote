@@ -63,6 +63,9 @@ def get_page_markdown(page_id):
     markdown_file_url = \
         document('object[data-id="markdown-file"]').attr('data')
 
+    if not markdown_file_url:
+        return '', 404
+
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(markdown_file_url)
 
