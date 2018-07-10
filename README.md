@@ -40,7 +40,12 @@
 ### Ubuntu 18.04 LTS
 1. Run the app
    1. Run from docker
-      1. `docker run -d -p 5000:5000 -e GRAPH_CLIENT_ID='your client id' -e GRAPH_CLIENT_SECRET='your client secret' xiaodanmao/markote:latest`
+      1. Create an env file called `graph.key` with the following content:
+         ```
+         GRAPH_CLIENT_ID=your client id
+         GRAPH_CLIENT_SECRET=your client secret
+         ```
+      2. Run `sudo docker run -d -p 5000:5000 --env-file graph.key xiaodanmao/markote:latest`
    2. Run from source code
       1. Install [cairo](https://cairographics.org/)
 
