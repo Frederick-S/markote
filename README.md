@@ -70,12 +70,12 @@
           npm install
           npm run build
           ```
-      5. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` to environment variables
-      6. Install [gunicorn](http://gunicorn.org/)
+      5. Install [gunicorn](http://gunicorn.org/)
 
           ```
           pip3 install gunicorn
           ```
+      6. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` in `gunicorn.py` 
       7. Run the app
 
           ```
