@@ -2,9 +2,6 @@
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title">
         <p class="buttons">
-            <a class="button" @click="preview">
-                <b-icon icon="eye" size="is-small"></b-icon>
-            </a>
             <a class="button" @click="save">
                 <b-icon v-if="isSaving" icon="loading" size="is-small"></b-icon>
                 <b-icon v-else icon="content-save" size="is-small"></b-icon>
@@ -13,8 +10,10 @@
         <div v-show="isLoading" class="spinner-wrap">
             <div class="spinner button is-loading"></div>
         </div>
-        <div v-show="!isLoading && !isPreview" id="editor" class="editor-body"></div>
-        <div v-show="!isLoading && isPreview" class="preview content" id="preview"></div>
+        <div class="columns note-body">
+            <div id="editor" class="column is-6 editor-body"></div>
+            <div class="column is-6 preview content" id="preview"></div>
+        </div>
     </div>
 </template>
 
@@ -35,8 +34,6 @@
 
         private isLoading = false
 
-        private isPreview = false
-
         private isSaving = false
 
         private page = new Page()
@@ -55,6 +52,7 @@
             this.editor = ace.edit('editor')
             this.editor.setTheme('ace/theme/tomorrow')
             this.editor.session.setMode('ace/mode/markdown')
+            this.editor.session.on('change', this.renderPreview)
         }
 
         @Watch('$route')
@@ -97,14 +95,6 @@
             }
         }
 
-        private preview() {
-            this.isPreview = !this.isPreview
-
-            if (this.isPreview) {
-                this.renderPreview()
-            }
-        }
-
         private renderPreview() {
             const content = this.editor.getValue()
             const previewElement = document.getElementById('preview')
@@ -126,11 +116,14 @@
         }
 
         private reset() {
-            this.isPreview = false
             this.isLoading = false
             this.editor.setValue(this.page.markdown, 1)
 
-            document.getElementById('preview').innerHTML = ''
+            if (this.page.markdown) {
+                this.renderPreview()
+            } else {
+                document.getElementById('preview').innerHTML = ''
+            }
         }
 
         private save() {
@@ -141,17 +134,14 @@
             }
 
             this.isSaving = true
-            this.isPreview = true
 
-            this.renderPreview().then(() => {
-                this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
-                this.page.markdown = this.editor.getValue()
+            this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
+            this.page.markdown = this.editor.getValue()
 
-                GraphClient.updatePageContent(this.page).catch((error) => {
-                    toast.danger('Failed to save page content')
-                }).finally(() => {
-                    this.isSaving = false
-                })
+            GraphClient.updatePageContent(this.page).catch((error) => {
+                toast.danger('Failed to save page content')
+            }).finally(() => {
+                this.isSaving = false
             })
         }
     }
@@ -168,6 +158,15 @@
         margin-bottom: 1rem;
     }
 
+    .note-body {
+        flex: 1;
+        margin: 0;
+    }
+
+    .columns.note-body {
+        margin-bottom: 0;
+    }
+
     .editor-body {
         height: 100%;
         border: 1px solid #cccccc;
@@ -176,6 +175,7 @@
     .preview {
         height: 100%;
         border: 1px solid #cccccc;
+        border-left: none;
         overflow: auto;
         padding: 1rem;
     }
