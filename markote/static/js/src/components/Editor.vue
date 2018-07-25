@@ -10,7 +10,7 @@
         <div v-show="isLoading" class="spinner-wrap">
             <div class="spinner button is-loading"></div>
         </div>
-        <div class="columns note-body">
+        <div v-show="!isLoading" class="columns note-body">
             <div id="editor" class="column is-6 editor-body"></div>
             <div class="column is-6 preview content" id="preview"></div>
         </div>
