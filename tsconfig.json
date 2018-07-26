@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "lib": ["ES5", "ES6", "ES7", "DOM"]
+    "lib": ["ES5", "ES6", "ES7", "DOM"],
+    "allowSyntheticDefaultImports": true
   }
 }
