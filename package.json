@@ -28,6 +28,7 @@
     "@types/marked": "^0.3.0",
     "@types/mathjax": "0.0.34",
     "@types/pouchdb": "^6.3.2",
+    "@types/pouchdb-find": "^6.3.3",
     "@types/promise.prototype.finally": "^2.0.2",
     "css-loader": "^0.28.11",
     "ts-loader": "^4.4.2",
@@ -36,7 +37,7 @@
     "vue-loader": "^15.2.6",
     "vue-property-decorator": "^6.1.0",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.16.1",
+    "webpack": "^4.16.2",
     "webpack-cli": "^2.1.5"
   },
   "dependencies": {
@@ -44,6 +45,7 @@
     "buefy": "^0.6.6",
     "marked": "^0.3.19",
     "pouchdb": "^7.0.0",
+    "pouchdb-find": "^7.0.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
