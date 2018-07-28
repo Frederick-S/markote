@@ -25,10 +25,9 @@
     "@fimbul/ve": "^0.10.0",
     "@fimbul/wotan": "^0.10.0",
     "@types/ace": "0.0.39",
+    "@types/localforage": "0.0.34",
     "@types/marked": "^0.3.0",
     "@types/mathjax": "0.0.34",
-    "@types/pouchdb": "^6.3.2",
-    "@types/pouchdb-find": "^6.3.3",
     "@types/promise.prototype.finally": "^2.0.2",
     "css-loader": "^0.28.11",
     "ts-loader": "^4.4.2",
@@ -43,9 +42,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "buefy": "^0.6.6",
+    "localforage": "^1.7.2",
     "marked": "^0.3.19",
-    "pouchdb": "^7.0.0",
-    "pouchdb-find": "^7.0.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import db from '../db'
 import GraphClient from '../graph-client'
 import Page from '../models/page'
 
@@ -9,10 +10,16 @@ export default new Vuex.Store({
     actions: {
         createPage(context, { sectionId, page }) {
             return new Promise((resolve, reject) => {
-                GraphClient.createPage(sectionId, page).then((data) => {
+                GraphClient.createPage(sectionId, page).then((data: Page) => {
                     context.commit('addPage', data)
 
                     resolve(data)
+
+                    db.getItem(`sections/${sectionId}/pages`).then((value: Page[]) => {
+                        value.push(data)
+
+                        db.setItem(`sections/${sectionId}/pages`, value)
+                    })
                 }).catch((error) => {
                     reject(error)
                 })
@@ -20,12 +27,20 @@ export default new Vuex.Store({
         },
         getPages(context, sectionId: string) {
             return new Promise((resolve, reject) => {
-                GraphClient.getPages(sectionId).then((data) => {
+                db.getItem(`sections/${sectionId}/pages`).then((data) => {
                     context.commit('setPages', data)
 
                     resolve()
-                }).catch((error) => {
-                    reject(error)
+                }).catch(() => {
+                    GraphClient.getPages(sectionId).then((data) => {
+                        context.commit('setPages', data)
+
+                        resolve()
+
+                        db.setItem(`sections/${sectionId}/pages`, data)
+                    }).catch((error) => {
+                        reject(error)
+                    })
                 })
             })
         },

@@ -59,8 +59,6 @@
         private newSectionCreated(section: Section) {
             this.selectedSection = section
 
-            sectionStore.commit('addSection', section)
-
             this.$router.push({
                 name: 'pages',
                 params: {
