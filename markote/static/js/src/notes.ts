@@ -4,7 +4,9 @@ import VueRouter from 'vue-router'
 import NotesComponent from './Notes.vue'
 import routes from './routes'
 
-Vue.use(Buefy)
+Vue.use(Buefy, {
+    defaultIconPack: 'fas',
+})
 Vue.use(VueRouter)
 
 const vue = new Vue({

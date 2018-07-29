@@ -3,8 +3,8 @@
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title">
         <p class="buttons">
             <a class="button" @click="save">
-                <b-icon v-if="isSaving" icon="loading" size="is-small"></b-icon>
-                <b-icon v-else icon="content-save" size="is-small"></b-icon>
+                <b-icon v-if="isSaving" icon="spinner" size="is-small"></b-icon>
+                <b-icon v-else icon="save" size="is-small"></b-icon>
             </a>
         </p>
         <div v-show="isLoading" class="spinner-wrap">

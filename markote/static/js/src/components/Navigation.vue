@@ -4,7 +4,7 @@
             <b-dropdown hoverable position="is-bottom-left">
                 <a class="navbar-item" slot="trigger">
                     <span>{{ me.displayName }}</span>
-                    <b-icon icon="chevron-down" size="is-small"></b-icon>
+                    <b-icon icon="caret-down" size="is-small"></b-icon>
                 </a>
                 <b-dropdown-item @click="openSettings">Settings</b-dropdown-item>
                 <b-dropdown-item @click="invalidateCachesAndReload">Invalidate Caches & Reload</b-dropdown-item>
