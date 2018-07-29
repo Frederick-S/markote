@@ -7,6 +7,7 @@
                     <b-icon icon="chevron-down" size="is-small"></b-icon>
                 </a>
                 <b-dropdown-item @click="openSettings">Settings</b-dropdown-item>
+                <b-dropdown-item @click="invalidateCachesAndReload">Invalidate Caches & Reload</b-dropdown-item>
             </b-dropdown>
         </div>
         <b-modal :active.sync="isSettingsModalActive" has-modal-card>
@@ -17,8 +18,10 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    import db from '../db'
     import User from '../models/user'
     import userStore from '../stores/user'
+    import toast from '../toast'
     import SettingsComponent from './Settings.vue'
 
     @Component({
@@ -31,6 +34,14 @@
 
         get me(): User {
             return userStore.state.me
+        }
+
+        private invalidateCachesAndReload() {
+            db.clear().then(() => {
+                window.location.href = '/'
+            }).catch(() => {
+                toast.danger('Failed to invalidate caches')
+            })
         }
 
         private mounted() {

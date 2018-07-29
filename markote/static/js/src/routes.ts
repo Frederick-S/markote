@@ -7,7 +7,7 @@ export default [
     {
         component: NotebooksComponent,
         name: 'notebooks',
-        path: 'notebooks',
+        path: '/notebooks',
     },
     {
         component: SectionsComponent,

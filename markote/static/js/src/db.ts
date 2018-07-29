@@ -26,6 +26,10 @@ class Db {
     public setItem(key, value) {
         return this.instance.setItem(key, value)
     }
+
+    public clear() {
+        return this.instance.clear()
+    }
 }
 
 const db = new Db()
