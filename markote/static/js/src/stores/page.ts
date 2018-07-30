@@ -19,6 +19,7 @@ export default new Vuex.Store({
                         value.push(data)
 
                         db.setItem(`sections/${sectionId}/pages`, value)
+                        db.setItem(`pages/${data.id}`, data)
                     })
                 }).catch((error) => {
                     reject(error)

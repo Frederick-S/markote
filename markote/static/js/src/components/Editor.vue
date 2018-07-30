@@ -20,6 +20,7 @@
 <script lang="ts">
     import * as marked from 'marked'
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import db from '../db'
     import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
     import Page from '../models/page'
@@ -69,16 +70,24 @@
                     } else {
                         this.isLoading = true
 
-                        GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
-                            this.page.markdown = markdown
-                        }).catch(() => {
-                            this.page.markdown = ''
+                        db.getItem(`pages/${this.page.id}`).then((page: Page) => {
+                            this.page.markdown = page.markdown
 
-                            toast.danger('Failed to get page content')
-
-                            this.$router.push('/error')
-                        }).finally(() => {
                             this.reset()
+                        }).catch(() => {
+                            GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
+                                this.page.markdown = markdown
+
+                                db.setItem(`pages/${this.page.id}`, this.page)
+                            }).catch(() => {
+                                this.page.markdown = ''
+
+                                toast.danger('Failed to get page content')
+
+                                this.$router.push('/error')
+                            }).finally(() => {
+                                this.reset()
+                            })
                         })
                     }
 
@@ -138,7 +147,9 @@
             this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
 
-            GraphClient.updatePageContent(this.page).catch((error) => {
+            GraphClient.updatePageContent(this.page).then(() => {
+                db.setItem(`pages/${this.page.id}`, this.page)
+            }).catch((error) => {
                 toast.danger('Failed to save page content')
             }).finally(() => {
                 this.isSaving = false
