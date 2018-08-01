@@ -20,6 +20,7 @@
 <script lang="ts">
     import * as marked from 'marked'
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import bus from '../bus'
     import db from '../db'
     import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
@@ -149,6 +150,8 @@
 
             GraphClient.updatePageContent(this.page).then(() => {
                 db.setItem(`pages/${this.page.id}`, this.page)
+
+                bus.$emit('updatePage', this.page)
             }).catch((error) => {
                 toast.danger('Failed to save page content')
             }).finally(() => {

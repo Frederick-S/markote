@@ -18,6 +18,8 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import bus from '../bus'
+    import db from '../db'
     import Page from '../models/page'
     import pageStore from '../stores/page'
     import toast from '../toast'
@@ -69,6 +71,10 @@
             })
         }
 
+        private mounted() {
+            bus.$on('updatePage', this.updatePage)
+        }
+
         @Watch('$route')
         private onRouteChanged(to, from) {
             switch (to.name) {
@@ -111,6 +117,20 @@
 
         private select(page: Page) {
             this.selectedPage = page
+        }
+
+        private updatePage(page: Page) {
+            pageStore.commit('updatePage', page)
+
+            db.getItem(`sections/${this.sectionId}/pages`).then((pages: Page[]) => {
+                const index = pages.findIndex((currentPage: Page) => currentPage.id === page.id)
+
+                if (index > -1) {
+                    pages[index].title = page.title
+
+                    db.setItem(`sections/${this.sectionId}/pages`, pages)
+                }
+            })
         }
     }
 </script>

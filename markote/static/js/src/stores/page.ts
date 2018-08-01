@@ -53,6 +53,13 @@ export default new Vuex.Store({
         setPages(state, pages: Page[]) {
             state.pages = pages
         },
+        updatePage(state, page: Page) {
+            const index = state.pages.findIndex((currentPage: Page) => currentPage.id === page.id)
+
+            if (index > -1) {
+                state.pages[index].title = page.title
+            }
+        },
     },
     state: {
         pages: [],
