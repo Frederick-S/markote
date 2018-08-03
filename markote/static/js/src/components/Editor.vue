@@ -24,7 +24,9 @@
     import db from '../db'
     import GraphClient from '../graph-client'
     import renderer from '../marked/renderer'
+    import Config from '../models/config'
     import Page from '../models/page'
+    import configStore from '../stores/config'
     import toast from '../toast'
     import elements from '../utils/elements'
 
@@ -40,6 +42,10 @@
 
         private page = new Page()
 
+        get config(): Config {
+            return configStore.state.config
+        }
+
         private mounted() {
             MathJax.Hub.Config({
                 SVG: {
@@ -52,7 +58,7 @@
             })
 
             this.editor = ace.edit('editor')
-            this.editor.setTheme('ace/theme/tomorrow')
+            this.editor.setTheme(`ace/theme/${this.config.editorTheme}`)
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
         }
