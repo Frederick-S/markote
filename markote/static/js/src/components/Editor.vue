@@ -58,7 +58,7 @@
             })
 
             this.editor = ace.edit('editor')
-            this.editor.setTheme(`ace/theme/${this.config.editorTheme}`)
+            this.editor.setTheme(`${this.config.editorTheme}`)
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
         }
