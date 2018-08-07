@@ -2,6 +2,7 @@
     <div class="modal-card">
         <header class="modal-card-head">
             <p class="modal-card-title">Section Name</p>
+            <button class="delete" aria-label="close" @click="close"></button>
         </header>
         <section class="modal-card-body">
             <div class="field">
