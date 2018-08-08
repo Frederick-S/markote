@@ -23,14 +23,13 @@
     import bus from '../bus'
     import db from '../db'
     import GraphClient from '../graph-client'
+    import highlighter from '../highlighter'
     import renderer from '../marked/renderer'
     import Config from '../models/config'
     import Page from '../models/page'
     import configStore from '../stores/config'
     import toast from '../toast'
     import elements from '../utils/elements'
-
-    declare var hljs: any
 
     @Component
     export default class Editor extends Vue {
@@ -120,7 +119,7 @@
             })
 
             Array.from(document.querySelectorAll('pre')).forEach((element) => {
-                hljs.highlightBlock(element)
+                highlighter.highlightBlock(element)
             })
 
             return new Promise((resolve, reject) => {
