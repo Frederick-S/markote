@@ -6,12 +6,19 @@ class Highlighter {
     }
 
     public setTheme(theme: string) {
+        const id = 'highlightjs-theme'
         const head = document.head
         const link = document.createElement('link')
+        const currentStyle = document.getElementById(id)
 
         link.type = 'text/css'
         link.rel = 'stylesheet'
         link.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/${theme}.min.css`
+        link.id = id
+
+        if (currentStyle) {
+            currentStyle.parentNode.removeChild(currentStyle)
+        }
 
         head.appendChild(link)
     }
