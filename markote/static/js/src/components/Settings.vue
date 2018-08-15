@@ -55,7 +55,6 @@
                 <b-select placeholder="Select a theme" expanded v-model="codeTheme">
                     <option value="default">Default</option>
                     <option value="agate">Agate</option>
-                    <option value="an-old-hope">An Old Hope</option>
                     <option value="androidstudio">Androidstudio</option>
                     <option value="arduino-light">Arduino Light</option>
                     <option value="arta">Arta</option>
@@ -63,13 +62,13 @@
                     <option value="atelier-cave-dark">Atelier Cave Dark</option>
                     <option value="atelier-cave-light">Atelier Cave Light</option>
                     <option value="atelier-dune-dark">Atelier Dune Dark</option>
-                    <option value="atelier-aune-light">Atelier Dune Light</option>
+                    <option value="atelier-dune-light">Atelier Dune Light</option>
                     <option value="atelier-estuary-dark">Atelier Estuary Dark</option>
                     <option value="atelier-estuary-light">Atelier Estuary Light</option>
                     <option value="atelier-forest-dark">Atelier Forest Dark</option>
                     <option value="atelier-forest-light">Atelier Forest Light</option>
                     <option value="atelier-heath-dark">Atelier Heath Dark</option>
-                    <option value="Atelier-heath-light">Atelier Heath Light</option>
+                    <option value="atelier-heath-light">Atelier Heath Light</option>
                     <option value="atelier-lakeside-dark">Atelier Lakeside Dark</option>
                     <option value="atelier-lakeside-light">Atelier Lakeside Light</option>
                     <option value="atelier-plateau-dark">Atelier Plateau Dark</option>
@@ -102,9 +101,8 @@
                     <option value="hybrid">Hybrid</option>
                     <option value="idea">Idea</option>
                     <option value="ir-black">Ir Black</option>
-                    <option value="kimbie-dark">Kimbie Dark</option>
-                    <option value="kimbie-light">Kimbie Light</option>
-                    <option value="lightfair">Lightfair</option>
+                    <option value="kimbie.dark">Kimbie Dark</option>
+                    <option value="kimbie.light">Kimbie Light</option>
                     <option value="magula">Magula</option>
                     <option value="mono-blue">Mono Blue</option>
                     <option value="monokai-sublime">Monokai Sublime</option>
@@ -115,13 +113,12 @@
                     <option value="paraiso-light">Paraiso Light</option>
                     <option value="pojoaque">Pojoaque</option>
                     <option value="purebasic">Purebasic</option>
-                    <option value="qtcreator-dark">Qtcreator Dark</option>
-                    <option value="qtcreator-light">Qtcreator Light</option>
+                    <option value="qtcreator_dark">Qtcreator Dark</option>
+                    <option value="qtcreator_light">Qtcreator Light</option>
                     <option value="railscasts">Railscasts</option>
                     <option value="rainbow">Rainbow</option>
                     <option value="routeros">Routeros</option>
                     <option value="school-book">School Book</option>
-                    <option value="shades-of-purple">Shades of Purple</option>
                     <option value="solarized-dark">Solarized Dark</option>
                     <option value="solarized-light">Solarized Light</option>
                     <option value="sunburst">Sunburst</option>
@@ -131,9 +128,9 @@
                     <option value="tomorrow-night">Tomorrow Night</option>
                     <option value="tomorrow">Tomorrow</option>
                     <option value="vs">Vs</option>
-                    <option value="vs-2015">Vs 2015</option>
+                    <option value="vs2015">Vs 2015</option>
                     <option value="xcode">Xcode</option>
-                    <option value="xt-256">Xt 256</option>
+                    <option value="xt256">Xt 256</option>
                     <option value="zenburn">Zenburn</option>
                 </b-select>
             </b-field>
@@ -198,7 +195,7 @@ export  $initHighlight;
             this.codeTheme = this.config.codeTheme
 
             this.editor = ace.edit('editor-example')
-            this.editor.setTheme(`${this.config.editorTheme}`)
+            this.editor.setTheme(this.editorTheme)
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.setValue(`# H1
 ## H2
@@ -218,6 +215,13 @@ export  $initHighlight;
             Array.from(document.querySelectorAll('pre')).forEach((element) => {
                 highlighter.highlightBlock(element)
             })
+
+            highlighter.setTheme(this.codeTheme)
+        }
+
+        @Watch('codeTheme')
+        private onCodeThemeChanged(value, oldValue) {
+            highlighter.setTheme(value)
         }
 
         @Watch('editorTheme')

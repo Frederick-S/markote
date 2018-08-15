@@ -6,7 +6,14 @@ class Highlighter {
     }
 
     public setTheme(theme: string) {
-        // Todo
+        const head = document.head
+        const link = document.createElement('link')
+
+        link.type = 'text/css'
+        link.rel = 'stylesheet'
+        link.href = `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/${theme}.min.css`
+
+        head.appendChild(link)
     }
 }
 

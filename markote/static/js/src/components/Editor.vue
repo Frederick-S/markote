@@ -57,9 +57,11 @@
             })
 
             this.editor = ace.edit('editor')
-            this.editor.setTheme(`${this.config.editorTheme}`)
+            this.editor.setTheme(this.config.editorTheme)
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
+
+            highlighter.setTheme(this.config.codeTheme)
         }
 
         @Watch('$route')
