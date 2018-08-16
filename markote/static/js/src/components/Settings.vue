@@ -157,7 +157,7 @@ export  $initHighlight;
             </div>
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-success">OK</button>
+            <button class="button is-success" @click="save">OK</button>
             <button class="button" @click="close">Cancel</button>
         </footer>
     </div>
@@ -165,6 +165,7 @@ export  $initHighlight;
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import db from '../db'
     import highlighter from '../highlighter'
     import Config from '../models/config'
     import configStore from '../stores/config'
@@ -227,6 +228,17 @@ export  $initHighlight;
         @Watch('editorTheme')
         private onEditorThemeChanged(value, oldValue) {
             this.editor.setTheme(value)
+        }
+
+        private save() {
+            this.config.editorTheme = this.editorTheme
+            this.config.codeTheme = this.codeTheme
+
+            db.setItem('config', this.config).finally(() => {
+                configStore.commit('setConfig', this.config)
+
+                this.close()
+            })
         }
     }
 </script>
