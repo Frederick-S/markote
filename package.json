@@ -33,17 +33,17 @@
     "ts-loader": "^4.4.2",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1",
-    "vue-loader": "^15.2.6",
+    "vue-loader": "^15.3.0",
     "vue-property-decorator": "^7.0.0",
     "vue-template-compiler": "^2.5.17",
-    "webpack": "^4.16.4",
+    "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "buefy": "^0.6.6",
     "localforage": "^1.7.2",
-    "marked": "^0.4.0",
+    "marked": "^0.5.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

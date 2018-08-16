@@ -6,7 +6,7 @@
         </header>
         <section class="modal-card-body">
             <b-field label="Editor Theme">
-                <b-select placeholder="Select a theme" expanded v-model="editorTheme">
+                <b-select placeholder="Select a theme" expanded v-model="config.editorTheme">
                     <optgroup label="Bright">
                         <option value="ace/theme/chrome">Chrome</option>
                         <option value="ace/theme/clouds">Clouds</option>
@@ -52,7 +52,7 @@
             </b-field>
             <div id="editor-example" class="editor-example"></div>
             <b-field label="Code Theme">
-                <b-select placeholder="Select a theme" expanded v-model="codeTheme">
+                <b-select placeholder="Select a theme" expanded v-model="config.codeTheme">
                     <option value="default">Default</option>
                     <option value="agate">Agate</option>
                     <option value="androidstudio">Androidstudio</option>
@@ -174,29 +174,25 @@ export  $initHighlight;
     export default class Settings extends Vue {
         private editor!: AceAjax.Editor
 
-        private editorTheme: string = ''
-
-        private codeTheme: string = ''
-
         get config(): Config {
             return configStore.state.config
         }
 
         private close() {
-            this.editorTheme = ''
-            this.codeTheme = ''
-
             const $parent: any = this.$parent
 
             $parent.close()
         }
 
         private mounted() {
-            this.editorTheme = this.config.editorTheme
-            this.codeTheme = this.config.codeTheme
+            configStore.dispatch('getConfig').then(() => {
+                this.init()
+            })
+        }
 
+        private init() {
             this.editor = ace.edit('editor-example')
-            this.editor.setTheme(this.editorTheme)
+            this.editor.setTheme(this.config.editorTheme)
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.setValue(`# H1
 ## H2
@@ -217,23 +213,20 @@ export  $initHighlight;
                 highlighter.highlightBlock(element)
             })
 
-            highlighter.setTheme(this.codeTheme)
+            highlighter.setTheme(this.config.codeTheme)
         }
 
-        @Watch('codeTheme')
+        @Watch('config.codeTheme')
         private onCodeThemeChanged(value, oldValue) {
             highlighter.setTheme(value)
         }
 
-        @Watch('editorTheme')
+        @Watch('config.editorTheme')
         private onEditorThemeChanged(value, oldValue) {
             this.editor.setTheme(value)
         }
 
         private save() {
-            this.config.editorTheme = this.editorTheme
-            this.config.codeTheme = this.codeTheme
-
             db.setItem('config', this.config).finally(() => {
                 configStore.commit('setConfig', this.config)
 
