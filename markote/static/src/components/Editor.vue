@@ -45,6 +45,12 @@
             return configStore.state.config
         }
 
+        private changeTheme() {
+            this.editor.setTheme(this.config.editorTheme)
+
+            highlighter.setTheme(this.config.codeTheme)
+        }
+
         private mounted() {
             MathJax.Hub.Config({
                 SVG: {
@@ -60,11 +66,9 @@
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
 
-            configStore.dispatch('getConfig').then(() => {
-                this.editor.setTheme(this.config.editorTheme)
+            configStore.dispatch('getConfig').then(this.changeTheme)
 
-                highlighter.setTheme(this.config.codeTheme)
-            })
+            bus.$on('updateConfig', this.changeTheme)
         }
 
         @Watch('$route')

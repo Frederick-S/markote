@@ -231,6 +231,8 @@ export  $initHighlight;
             db.setItem('config', this.config).finally(() => {
                 configStore.commit('setConfig', this.config)
 
+                bus.$emit('updateConfig')
+
                 this.close()
             })
         }
