@@ -165,6 +165,7 @@ export  $initHighlight;
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import bus from '../bus'
     import db from '../db'
     import highlighter from '../highlighter'
     import Config from '../models/config'

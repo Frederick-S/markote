@@ -9,7 +9,8 @@ from markote.oauth import oauth, register_graph_client
 
 def create_app(config_name):
     config = configs[config_name]
-    app = Flask(__name__, template_folder='static/dist', static_folder='static/dist', static_url_path='')
+    app = Flask(__name__, template_folder='static/dist',
+                static_folder='static/dist', static_url_path='')
     app.config.from_object(config)
 
     config.init_app(app)
