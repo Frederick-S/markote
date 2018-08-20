@@ -1,8 +1,10 @@
 const path = require('path')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const entries = require('./webpack-entries')
-const entryPath = './markote/static/js/src'
-const distPath = './markote/static/js/dist'
+const entryPath = './markote/static/src'
+const distPath = './markote/static/dist'
 
 const entry = entries.reduce((accumulator, current) => {
     accumulator[current] = `${entryPath}/${current}`
@@ -13,7 +15,7 @@ const entry = entries.reduce((accumulator, current) => {
 module.exports = {
     entry,
     output: {
-        filename: '[name].js',
+        filename: '[name].[contenthash].js',
         path: path.join(__dirname, distPath)
     },
     resolve: {
@@ -42,10 +44,19 @@ module.exports = {
                     'vue-style-loader',
                     'css-loader'
                 ]
+            },
+            {
+                test: /\.pug$/,
+                loader: 'pug-loader'
             }
         ]
     },
     plugins: [
+        new CleanWebpackPlugin([distPath]),
+        new HtmlWebpackPlugin({
+            filename: 'notes.html',
+            template: './markote/static/public/notes.pug'
+        }),
         new VueLoaderPlugin()
     ],
     devtool: 'source-map',
