@@ -10,7 +10,7 @@
             </ul>
         </aside>
         <span class="note-command" @click="createSection">Add Section</span>
-        <b-modal :active.sync="isAddSectionModalActive" has-modal-card>
+        <b-modal :active.sync="isAddSectionModalActive" has-modal-card :can-cancel="false">
             <add-section-component v-bind:notebookId="notebookId"></add-section-component>
         </b-modal>
     </div>
