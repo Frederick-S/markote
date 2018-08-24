@@ -80,12 +80,15 @@
 
             sectionStore.dispatch('getSections', this.notebookId).then((sections: Section[]) => {
                 if (sections.length > 0) {
-                    this.select(sections[0])
+                    const sectionId = this.$route.params.sectionId
+                    const index = sections.findIndex((section) => section.id === sectionId)
+
+                    this.select(index >= 0 ? sections[index] : sections[0])
 
                     this.$router.push({
                         name: 'pages',
                         params: {
-                            sectionId: sections[0].id,
+                            sectionId: this.selectedSection.id,
                         },
                     })
                 }
