@@ -31,12 +31,15 @@
         private mounted() {
             notebookStore.dispatch('getNotebooks').then((notebooks: Notebook[]) => {
                 if (notebooks.length > 0) {
-                    this.select(notebooks[0])
+                    const notebookId = this.$route.params.notebookId
+                    const index = notebooks.findIndex((notebook) => notebook.id === notebookId)
+
+                    this.select(index >= 0 ? notebooks[index] : notebooks[0])
 
                     this.$router.push({
                         name: 'sections',
                         params: {
-                            notebookId: notebooks[0].id,
+                            notebookId: this.selectedNotebook.id,
                         },
                     })
                 }
