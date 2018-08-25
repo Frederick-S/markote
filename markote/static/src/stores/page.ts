@@ -31,12 +31,12 @@ export default new Vuex.Store({
                 db.getItem(`sections/${sectionId}/pages`).then((data) => {
                     context.commit('setPages', data)
 
-                    resolve()
+                    resolve(data)
                 }).catch(() => {
                     GraphClient.getPages(sectionId).then((data) => {
                         context.commit('setPages', data)
 
-                        resolve()
+                        resolve(data)
 
                         db.setItem(`sections/${sectionId}/pages`, data)
                     }).catch((error) => {

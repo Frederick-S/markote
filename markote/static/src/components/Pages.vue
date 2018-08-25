@@ -85,7 +85,22 @@
                     if (!to.params.isNewSection) {
                         this.isLoading = true
 
-                        pageStore.dispatch('getPages', this.sectionId).catch(() => {
+                        pageStore.dispatch('getPages', this.sectionId).then((pages: Page[]) => {
+                            if (pages.length > 0) {
+                                const pageId = this.$route.params.pageId
+                                const page = pages.find((page: Page) => page.id === pageId)
+
+                                this.select(page || pages[0])
+
+                                this.$router.push({
+                                    name: 'page',
+                                    params: {
+                                        pageId: this.selectedPage.id,
+                                        pageTitle: this.selectedPage.title,
+                                    },
+                                })
+                            }
+                        }).catch(() => {
                             toast.danger('Failed to get pages')
 
                             pageStore.commit('setPages', [])

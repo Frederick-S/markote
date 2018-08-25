@@ -33,14 +33,16 @@
                 if (notebooks.length > 0) {
                     const notebookId = this.$route.params.notebookId
                     const sectionId = this.$route.params.sectionId
-                    const index = notebooks.findIndex((notebook) => notebook.id === notebookId)
+                    const pageId = this.$route.params.pageId
+                    const notebook = notebooks.find((notebook: Notebook) => notebook.id === notebookId)
 
-                    this.select(index >= 0 ? notebooks[index] : notebooks[0])
+                    this.select(notebook || notebooks[0])
 
                     this.$router.push({
                         name: 'sections',
                         params: {
                             notebookId: this.selectedNotebook.id,
+                            pageId,
                             sectionId,
                         },
                     })

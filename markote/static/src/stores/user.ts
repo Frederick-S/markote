@@ -13,12 +13,12 @@ export default new Vuex.Store({
                 db.getItem('me').then((data) => {
                     context.commit('setMe', data)
 
-                    resolve()
+                    resolve(data)
                 }).catch(() => {
                     GraphClient.getMe().then((data) => {
                         context.commit('setMe', data)
 
-                        resolve()
+                        resolve(data)
 
                         db.setItem('me', data)
                     }).catch((error) => {
