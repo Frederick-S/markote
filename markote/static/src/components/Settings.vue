@@ -168,13 +168,14 @@ export  $initHighlight;
     import { Action, State } from 'vuex-class'
     import bus from '../bus'
     import highlighter from '../highlighter'
+    import Config from '../models/config'
     import toast from '../toast'
 
     @Component
     export default class Settings extends Vue {
         private editor!: AceAjax.Editor
 
-        @State(state => state.config.config) config
+        @State(state => state.config.config) config: Config
 
         @Action('config/getConfig') getConfig
 

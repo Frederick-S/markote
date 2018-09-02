@@ -19,6 +19,7 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import { Action, State } from 'vuex-class'
+    import User from '../models/user'
     import toast from '../toast'
     import SettingsComponent from './Settings.vue'
 
@@ -30,7 +31,7 @@
     export default class Navigation extends Vue {
         private isSettingsModalActive = false
 
-        @State(state => state.user.me) me
+        @State(state => state.user.me) me: User
 
         @Action('user/getMe') getMe
 

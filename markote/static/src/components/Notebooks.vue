@@ -14,6 +14,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
+    import { Action, State } from 'vuex-class'
     import Notebook from '../models/notebook'
     import toast from '../toast'
 
@@ -23,12 +24,12 @@
 
         private selectedNotebook = new Notebook()
 
-        get notebooks(): Notebook[] {
-            return this.$store.state.notebook.notebooks
-        }
+        @State(state => state.notebook.notebooks) notebooks: Notebook[]
+
+        @Action('notebook/getNotebooks') getNotebooks
 
         private mounted() {
-            this.$store.dispatch('notebook/getNotebooks').then((notebooks: Notebook[]) => {
+            this.getNotebooks().then((notebooks: Notebook[]) => {
                 if (notebooks.length > 0) {
                     const notebookId = this.$route.params.notebookId
                     const sectionId = this.$route.params.sectionId
