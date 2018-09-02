@@ -18,8 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
-    import db from '../db'
-    import User from '../models/user'
+    import { Action, State } from 'vuex-class'
     import toast from '../toast'
     import SettingsComponent from './Settings.vue'
 
@@ -31,12 +30,14 @@
     export default class Navigation extends Vue {
         private isSettingsModalActive = false
 
-        get me(): User {
-            return this.$store.state.user.me
-        }
+        @State(state => state.user.me) me
+
+        @Action('user/getMe') getMe
+
+        @Action('config/invalidateCaches') invalidateCaches
 
         private invalidateCachesAndReload() {
-            db.clear().then(() => {
+            this.invalidateCaches().then(() => {
                 window.location.href = '/'
             }).catch(() => {
                 toast.danger('Failed to invalidate caches')
@@ -44,7 +45,7 @@
         }
 
         private mounted() {
-            this.$store.dispatch('user/getMe')
+            this.getMe()
         }
 
         private openSettings() {

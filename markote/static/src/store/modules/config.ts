@@ -18,6 +18,9 @@ export default {
                 })
             })
         },
+        invalidateCaches(context) {
+            return db.clear()
+        },
         updateConfig(context, config) {
             return new Promise((resolve, reject) => {
                 db.setItem('config', config).then(() => {
