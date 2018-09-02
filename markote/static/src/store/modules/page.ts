@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import db from '../../db'
 import GraphClient from '../../graph-client'
 import Page from '../../models/page'
@@ -38,6 +39,17 @@ export default {
                     }).catch((error) => {
                         reject(error)
                     })
+                })
+            })
+        },
+        updatePage(context, { sectionId, page }) {
+            return new Promise((resolve, reject) => {
+                context.commit('updatePage', page)
+
+                db.setItem(`sections/${sectionId}/pages`, context.state.pages).then(() => {
+                    resolve()
+                }).catch(() => {
+                    reject()
                 })
             })
         },

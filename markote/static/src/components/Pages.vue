@@ -12,14 +12,14 @@
         <span v-if="isCreatingPage" class="note-command">
             <a class="button is-loading is-creating-page">Loading</a>
         </span>
-        <span v-else class="note-command" @click="createPage">Add Page</span>
+        <span v-else class="note-command" @click="addPage">Add Page</span>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import { Action, Mutation, State } from 'vuex-class'
     import bus from '../bus'
-    import db from '../db'
     import Page from '../models/page'
     import toast from '../toast'
 
@@ -33,11 +33,17 @@
 
         private sectionId = ''
 
-        get pages(): Page[] {
-            return this.$store.state.page.pages
-        }
+        @State(state => state.page.pages) pages: Page[]
 
-        private createPage() {
+        @Action('page/createPage') createPage
+
+        @Action('page/getPages') getPages
+
+        @Action('page/updatePage') updatePage
+
+        @Mutation('page/setPages') setPages
+
+        private addPage() {
             if (!this.sectionId) {
                 toast.danger('Please select a section first')
 
@@ -46,7 +52,7 @@
 
             this.isCreatingPage = true
 
-            this.$store.dispatch('page/createPage', {
+            this.createPage({
                 page: {
                     markdown: '',
                     title: 'Untitled Page',
@@ -71,7 +77,7 @@
         }
 
         private mounted() {
-            bus.$on('updatePage', this.updatePage)
+            bus.$on('updatePage', this.onUpdatePage)
         }
 
         @Watch('$route')
@@ -84,7 +90,7 @@
                     if (!to.params.isNewSection) {
                         this.isLoading = true
 
-                        this.$store.dispatch('page/getPages', this.sectionId).then((pages: Page[]) => {
+                        this.getPages(this.sectionId).then((pages: Page[]) => {
                             if (pages.length > 0) {
                                 const pageId = this.$route.params.pageId
                                 const page = pages.find((page: Page) => page.id === pageId)
@@ -102,14 +108,14 @@
                         }).catch(() => {
                             toast.danger('Failed to get pages')
 
-                            this.$store.commit('page/setPages', [])
+                            this.setPages([])
 
                             this.$router.push('/error')
                         }).finally(() => {
                             this.isLoading = false
                         })
                     } else {
-                        this.$store.commit('page/setPages', [])
+                        this.setPages([])
                     }
 
                     break
@@ -126,24 +132,17 @@
             this.selectedPage = new Page()
             this.sectionId = ''
 
-            this.$store.commit('page/setPages', [])
+            this.setPages([])
         }
 
         private select(page: Page) {
             this.selectedPage = page
         }
 
-        private updatePage(page: Page) {
-            this.$store.commit('page/updatePage', page)
-
-            db.getItem(`sections/${this.sectionId}/pages`).then((pages: Page[]) => {
-                const index = pages.findIndex((currentPage: Page) => currentPage.id === page.id)
-
-                if (index > -1) {
-                    pages[index].title = page.title
-
-                    db.setItem(`sections/${this.sectionId}/pages`, pages)
-                }
+        private onUpdatePage(page: Page) {
+            this.updatePage({
+                sectionId: this.sectionId,
+                page,
             })
         }
     }
