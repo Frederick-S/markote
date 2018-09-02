@@ -22,6 +22,7 @@
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator'
+    import { Action } from 'vuex-class'
     import bus from '../bus'
     import GraphClient from '../graph-client'
     import Section from '../models/section'
@@ -33,6 +34,8 @@
         private errorMessage = ''
 
         private name = ''
+
+        @Action('section/createSection') createSection
 
         @Prop()
         private notebookId: string
@@ -51,7 +54,7 @@
             this.errorMessage = ''
 
             this.validateName().then(() => {
-                this.$store.dispatch('section/createSection', {
+                this.createSection({
                     notebookId: this.notebookId,
                     section: new Section(this.name),
                 }).then((data) => {
