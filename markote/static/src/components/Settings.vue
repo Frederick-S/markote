@@ -165,18 +165,20 @@ export  $initHighlight;
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import { Action, State } from 'vuex-class'
     import bus from '../bus'
-    import db from '../db'
     import highlighter from '../highlighter'
-    import Config from '../models/config'
+    import toast from '../toast'
 
     @Component
     export default class Settings extends Vue {
         private editor!: AceAjax.Editor
 
-        get config(): Config {
-            return this.$store.state.config.config
-        }
+        @State(state => state.config.config) config
+
+        @Action('config/getConfig') getConfig
+
+        @Action('config/updateConfig') updateConfig
 
         private close() {
             const $parent: any = this.$parent
@@ -185,7 +187,7 @@ export  $initHighlight;
         }
 
         private mounted() {
-            this.$store.dispatch('config/getConfig').then(() => {
+            this.getConfig().then(() => {
                 this.init()
             })
         }
@@ -223,16 +225,16 @@ export  $initHighlight;
 
         @Watch('config.editorTheme')
         private onEditorThemeChanged(value, oldValue) {
-            this.editor.setTheme(value)
+            !this.editor || this.editor.setTheme(value)
         }
 
         private save() {
-            db.setItem('config', this.config).finally(() => {
-                this.$store.commit('config/setConfig', this.config)
-
+            this.updateConfig(this.config).then(() => {
                 bus.$emit('updateConfig')
 
                 this.close()
+            }).catch((error) => {
+                toast.danger('Failed to update config')
             })
         }
     }

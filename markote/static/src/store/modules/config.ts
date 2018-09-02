@@ -18,6 +18,17 @@ export default {
                 })
             })
         },
+        updateConfig(context, config) {
+            return new Promise((resolve, reject) => {
+                db.setItem('config', config).then(() => {
+                    context.commit('setConfig', config)
+
+                    resolve(config)
+                }).catch((error) => {
+                    reject()
+                })
+            })
+        },
     },
     mutations: {
         setConfig(state, config: Config) {
