@@ -10,7 +10,7 @@
                 <div class="control">
                     <input class="input" type="text" v-model="name" />
                 </div>
-                <p v-if="isError" class="help is-danger">{{ errorMessage }}</p>
+                <p v-if="errorMessage" class="help is-danger">{{ errorMessage }}</p>
             </div>
         </section>
         <footer class="modal-card-foot">
@@ -28,8 +28,6 @@
 
     @Component
     export default class AddSection extends Vue {
-        private isError = false
-
         private isSaving = false
 
         private errorMessage = ''
@@ -40,11 +38,6 @@
         private notebookId: string
 
         private close() {
-            if (this.isSaving) {
-                return
-            }
-
-            this.isError = false
             this.errorMessage = ''
             this.name = ''
 
@@ -55,28 +48,23 @@
 
         private save() {
             this.isSaving = true
-            this.isError = false
+            this.errorMessage = ''
 
             this.validateName().then(() => {
-                this.isError = false
-
                 this.$store.dispatch('section/createSection', {
                     notebookId: this.notebookId,
                     section: new Section(this.name),
                 }).then((data) => {
                     bus.$emit('newSectionCreated', data)
 
-                    this.isSaving = false
-
                     this.close()
                 }).catch((error) => {
-                    this.isSaving = false
-                    this.isError = true
                     this.errorMessage = 'Failed to create section'
+                }).finally(() => {
+                    this.isSaving = false
                 })
             }).catch((errorMessage) => {
                 this.isSaving = false
-                this.isError = true
                 this.errorMessage = errorMessage
             })
         }
