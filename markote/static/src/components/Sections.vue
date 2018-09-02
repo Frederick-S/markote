@@ -18,6 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import { Action, Mutation, State } from 'vuex-class'
     import bus from '../bus'
     import Section from '../models/section'
     import toast from '../toast'
@@ -37,9 +38,11 @@
 
         private selectedSection = new Section()
 
-        get sections(): Section[] {
-            return this.$store.state.section.sections
-        }
+        @State(state => state.section.sections) sections: Section[]
+
+        @Action('section/getSections') getSections
+
+        @Mutation('section/setSections') setSections
 
         private createSection() {
             if (!this.notebookId) {
@@ -77,7 +80,7 @@
             this.notebookId = to.params.notebookId
             this.selectedSection = new Section()
 
-            this.$store.dispatch('section/getSections', this.notebookId).then((sections: Section[]) => {
+            this.getSections(this.notebookId).then((sections: Section[]) => {
                 if (sections.length > 0) {
                     const sectionId = this.$route.params.sectionId
                     const pageId = this.$route.params.pageId
@@ -96,7 +99,7 @@
             }).catch((error) => {
                 toast.danger('Failed to get sections')
 
-                this.$store.commit('section/setSections', [])
+                this.setSections([])
 
                 this.$router.push('/error')
             }).finally(() => {
