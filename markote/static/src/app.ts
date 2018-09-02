@@ -1,19 +1,10 @@
-import Buefy from 'buefy'
 import Vue from 'vue'
-import NotesComponent from './components/Notes.vue'
+import App from './components/App.vue'
 import router from './router'
 import store from './store'
 
-Vue.use(Buefy, {
-    defaultIconPack: 'fas',
-})
-
-const vue = new Vue({
-    components: {
-        NotesComponent,
-    },
-    el: '#notes',
+new Vue({
+    render: (h) => h(App),
     router,
     store,
-    template: '<NotesComponent />',
-})
+}).$mount('#app')

@@ -15,11 +15,17 @@
 </template>
 
 <script lang="ts">
+    import Vue from 'vue'
+    import Buefy from 'buefy'
     import EditorComponent from './Editor.vue'
     import NavigationComponent from './Navigation.vue'
     import NotebooksComponent from './Notebooks.vue'
     import PagesComponent from './Pages.vue'
     import SectionsComponent from './Sections.vue'
+
+    Vue.use(Buefy, {
+        defaultIconPack: 'fas',
+    })
 
     export default {
         components: {
