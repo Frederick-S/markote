@@ -1,5 +1,5 @@
-export default class User {
-    public id: string = ''
+import BaseModel from './base-model'
 
+export default class User extends BaseModel<string> {
     public displayName: string = ''
 }
