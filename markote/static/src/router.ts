@@ -1,9 +1,13 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 import EditorComponent from './components/Editor.vue'
 import NotebooksComponent from './components/Notebooks.vue'
 import PagesComponent from './components/Pages.vue'
 import SectionsComponent from './components/Sections.vue'
 
-export default [
+Vue.use(VueRouter)
+
+const router = [
     {
         component: NotebooksComponent,
         name: 'notebooks',
@@ -25,3 +29,7 @@ export default [
         path: '/notebooks/:notebookId/sections/:sectionId/pages/:pageId',
     },
 ]
+
+export default new VueRouter({
+    routes: router,
+})
