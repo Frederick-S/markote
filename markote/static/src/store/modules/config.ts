@@ -1,11 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import db from '../db'
-import Config from '../models/config'
+import db from '../../db'
+import Config from '../../models/config'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
     actions: {
         getConfig(context) {
             return new Promise((resolve, reject) => {
@@ -28,7 +24,8 @@ export default new Vuex.Store({
             state.config = config
         },
     },
+    namespaced: true,
     state: {
         config: new Config(),
     },
-})
+}

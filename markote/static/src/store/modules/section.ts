@@ -1,13 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import db from '../db'
-import GraphClient from '../graph-client'
-import Notebook from '../models/notebook'
-import Section from '../models/section'
+import db from '../../db'
+import GraphClient from '../../graph-client'
+import Notebook from '../../models/notebook'
+import Section from '../../models/section'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
     actions: {
         createSection(context, { notebookId, section }) {
             return new Promise((resolve, reject) => {
@@ -54,7 +50,8 @@ export default new Vuex.Store({
             state.sections = sections
         },
     },
+    namespaced: true,
     state: {
         sections: [],
     },
-})
+}

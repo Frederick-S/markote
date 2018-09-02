@@ -1,12 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import db from '../db'
-import GraphClient from '../graph-client'
-import Notebook from '../models/notebook'
+import db from '../../db'
+import GraphClient from '../../graph-client'
+import Notebook from '../../models/notebook'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
     actions: {
         getNotebooks(context) {
             return new Promise((resolve, reject) => {
@@ -33,7 +29,8 @@ export default new Vuex.Store({
             state.notebooks = notebooks
         },
     },
+    namespaced: true,
     state: {
         notebooks: [],
     },
-})
+}

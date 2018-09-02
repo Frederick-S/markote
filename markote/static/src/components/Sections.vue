@@ -20,7 +20,6 @@
     import { Component, Vue, Watch } from 'vue-property-decorator'
     import bus from '../bus'
     import Section from '../models/section'
-    import sectionStore from '../stores/section'
     import toast from '../toast'
     import AddSectionComponent from './AddSection.vue'
 
@@ -39,7 +38,7 @@
         private selectedSection = new Section()
 
         get sections(): Section[] {
-            return sectionStore.state.sections
+            return this.$store.state.section.sections
         }
 
         private createSection() {
@@ -78,7 +77,7 @@
             this.notebookId = to.params.notebookId
             this.selectedSection = new Section()
 
-            sectionStore.dispatch('getSections', this.notebookId).then((sections: Section[]) => {
+            this.$store.dispatch('section/getSections', this.notebookId).then((sections: Section[]) => {
                 if (sections.length > 0) {
                     const sectionId = this.$route.params.sectionId
                     const pageId = this.$route.params.pageId
@@ -97,7 +96,7 @@
             }).catch((error) => {
                 toast.danger('Failed to get sections')
 
-                sectionStore.commit('setSections', [])
+                this.$store.commit('section/setSections', [])
 
                 this.$router.push('/error')
             }).finally(() => {

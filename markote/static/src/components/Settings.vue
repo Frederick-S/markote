@@ -169,14 +169,13 @@ export  $initHighlight;
     import db from '../db'
     import highlighter from '../highlighter'
     import Config from '../models/config'
-    import configStore from '../stores/config'
 
     @Component
     export default class Settings extends Vue {
         private editor!: AceAjax.Editor
 
         get config(): Config {
-            return configStore.state.config
+            return this.$store.state.config.config
         }
 
         private close() {
@@ -186,7 +185,7 @@ export  $initHighlight;
         }
 
         private mounted() {
-            configStore.dispatch('getConfig').then(() => {
+            this.$store.dispatch('config/getConfig').then(() => {
                 this.init()
             })
         }
@@ -229,7 +228,7 @@ export  $initHighlight;
 
         private save() {
             db.setItem('config', this.config).finally(() => {
-                configStore.commit('setConfig', this.config)
+                this.$store.commit('config/setConfig', this.config)
 
                 bus.$emit('updateConfig')
 

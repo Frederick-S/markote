@@ -27,7 +27,6 @@
     import renderer from '../marked/renderer'
     import Config from '../models/config'
     import Page from '../models/page'
-    import configStore from '../stores/config'
     import toast from '../toast'
     import elements from '../utils/elements'
 
@@ -42,7 +41,7 @@
         private page = new Page()
 
         get config(): Config {
-            return configStore.state.config
+            return this.$store.state.config.config
         }
 
         private changeTheme() {
@@ -66,7 +65,7 @@
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
 
-            configStore.dispatch('getConfig').then(this.changeTheme)
+            this.$store.dispatch('config/getConfig').then(this.changeTheme)
 
             bus.$on('updateConfig', this.changeTheme)
         }

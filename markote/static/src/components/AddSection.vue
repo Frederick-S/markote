@@ -25,7 +25,6 @@
     import bus from '../bus'
     import GraphClient from '../graph-client'
     import Section from '../models/section'
-    import sectionStore from '../stores/section'
 
     @Component
     export default class AddSection extends Vue {
@@ -61,7 +60,7 @@
             this.validateName().then(() => {
                 this.isError = false
 
-                sectionStore.dispatch('createSection', {
+                this.$store.dispatch('section/createSection', {
                     notebookId: this.notebookId,
                     section: new Section(this.name),
                 }).then((data) => {

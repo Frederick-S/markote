@@ -21,7 +21,6 @@
     import bus from '../bus'
     import db from '../db'
     import Page from '../models/page'
-    import pageStore from '../stores/page'
     import toast from '../toast'
 
     @Component
@@ -35,7 +34,7 @@
         private sectionId = ''
 
         get pages(): Page[] {
-            return pageStore.state.pages
+            return this.$store.state.page.pages
         }
 
         private createPage() {
@@ -47,7 +46,7 @@
 
             this.isCreatingPage = true
 
-            pageStore.dispatch('createPage', {
+            this.$store.dispatch('page/createPage', {
                 page: {
                     markdown: '',
                     title: 'Untitled Page',
@@ -85,7 +84,7 @@
                     if (!to.params.isNewSection) {
                         this.isLoading = true
 
-                        pageStore.dispatch('getPages', this.sectionId).then((pages: Page[]) => {
+                        this.$store.dispatch('page/getPages', this.sectionId).then((pages: Page[]) => {
                             if (pages.length > 0) {
                                 const pageId = this.$route.params.pageId
                                 const page = pages.find((page: Page) => page.id === pageId)
@@ -103,14 +102,14 @@
                         }).catch(() => {
                             toast.danger('Failed to get pages')
 
-                            pageStore.commit('setPages', [])
+                            this.$store.commit('page/setPages', [])
 
                             this.$router.push('/error')
                         }).finally(() => {
                             this.isLoading = false
                         })
                     } else {
-                        pageStore.commit('setPages', [])
+                        this.$store.commit('page/setPages', [])
                     }
 
                     break
@@ -127,7 +126,7 @@
             this.selectedPage = new Page()
             this.sectionId = ''
 
-            pageStore.commit('setPages', [])
+            this.$store.commit('page/setPages', [])
         }
 
         private select(page: Page) {
@@ -135,7 +134,7 @@
         }
 
         private updatePage(page: Page) {
-            pageStore.commit('updatePage', page)
+            this.$store.commit('page/updatePage', page)
 
             db.getItem(`sections/${this.sectionId}/pages`).then((pages: Page[]) => {
                 const index = pages.findIndex((currentPage: Page) => currentPage.id === page.id)

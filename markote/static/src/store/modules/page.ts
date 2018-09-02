@@ -1,12 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import db from '../db'
-import GraphClient from '../graph-client'
-import Page from '../models/page'
+import db from '../../db'
+import GraphClient from '../../graph-client'
+import Page from '../../models/page'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
     actions: {
         createPage(context, { sectionId, page }) {
             return new Promise((resolve, reject) => {
@@ -61,7 +57,8 @@ export default new Vuex.Store({
             }
         },
     },
+    namespaced: true,
     state: {
         pages: [],
     },
-})
+}

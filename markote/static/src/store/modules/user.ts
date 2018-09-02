@@ -1,12 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import db from '../db'
-import GraphClient from '../graph-client'
-import User from '../models/user'
+import db from '../../db'
+import GraphClient from '../../graph-client'
+import User from '../../models/user'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
     actions: {
         getMe(context) {
             return new Promise((resolve, reject) => {
@@ -33,7 +29,8 @@ export default new Vuex.Store({
             state.me = me
         },
     },
+    namespaced: true,
     state: {
         me: new User(),
     },
-})
+}

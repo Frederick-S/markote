@@ -15,7 +15,6 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator'
     import Notebook from '../models/notebook'
-    import notebookStore from '../stores/notebook'
     import toast from '../toast'
 
     @Component
@@ -25,11 +24,11 @@
         private selectedNotebook = new Notebook()
 
         get notebooks(): Notebook[] {
-            return notebookStore.state.notebooks
+            return this.$store.state.notebook.notebooks
         }
 
         private mounted() {
-            notebookStore.dispatch('getNotebooks').then((notebooks: Notebook[]) => {
+            this.$store.dispatch('notebook/getNotebooks').then((notebooks: Notebook[]) => {
                 if (notebooks.length > 0) {
                     const notebookId = this.$route.params.notebookId
                     const sectionId = this.$route.params.sectionId

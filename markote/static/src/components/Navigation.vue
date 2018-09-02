@@ -20,7 +20,6 @@
     import { Component, Vue } from 'vue-property-decorator'
     import db from '../db'
     import User from '../models/user'
-    import userStore from '../stores/user'
     import toast from '../toast'
     import SettingsComponent from './Settings.vue'
 
@@ -33,7 +32,7 @@
         private isSettingsModalActive = false
 
         get me(): User {
-            return userStore.state.me
+            return this.$store.state.user.me
         }
 
         private invalidateCachesAndReload() {
@@ -45,7 +44,7 @@
         }
 
         private mounted() {
-            userStore.dispatch('getMe')
+            this.$store.dispatch('user/getMe')
         }
 
         private openSettings() {
