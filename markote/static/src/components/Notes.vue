@@ -15,11 +15,11 @@
 </template>
 
 <script lang="ts">
-    import EditorComponent from './components/Editor.vue'
-    import NavigationComponent from './components/Navigation.vue'
-    import NotebooksComponent from './components/Notebooks.vue'
-    import PagesComponent from './components/Pages.vue'
-    import SectionsComponent from './components/Sections.vue'
+    import EditorComponent from './Editor.vue'
+    import NavigationComponent from './Navigation.vue'
+    import NotebooksComponent from './Notebooks.vue'
+    import PagesComponent from './Pages.vue'
+    import SectionsComponent from './Sections.vue'
 
     export default {
         components: {

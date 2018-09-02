@@ -2,18 +2,11 @@ const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const entries = require('./webpack-entries')
 const entryPath = './markote/static/src'
 const distPath = './markote/static/dist'
 
-const entry = entries.reduce((accumulator, current) => {
-    accumulator[current] = `${entryPath}/${current}`
-
-    return accumulator
-}, {})
-
 module.exports = {
-    entry,
+    entry: `${entryPath}/app`,
     output: {
         filename: '[name].[contenthash].js',
         path: path.join(__dirname, distPath)
