@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import db from '../../db'
 import GraphClient from '../../graph-client'
 import Page from '../../models/page'

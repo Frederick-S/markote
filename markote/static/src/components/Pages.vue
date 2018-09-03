@@ -92,7 +92,7 @@
 
                         this.getPages(this.sectionId).then((pages: Page[]) => {
                             if (pages.length > 0) {
-                                const pageId = this.$route.params.pageId
+                                const { pageId } = this.$route.params
                                 const page = pages.find((page: Page) => page.id === pageId)
 
                                 this.select(page || pages[0])

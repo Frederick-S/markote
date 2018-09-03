@@ -20,6 +20,7 @@
 <script lang="ts">
     import * as marked from 'marked'
     import { Component, Vue, Watch } from 'vue-property-decorator'
+    import { Action, State } from 'vuex-class'
     import bus from '../bus'
     import db from '../db'
     import GraphClient from '../graph-client'
@@ -40,9 +41,9 @@
 
         private page = new Page()
 
-        get config(): Config {
-            return this.$store.state.config.config
-        }
+        @State(state => state.config.config) config: Config
+
+        @Action('config/getConfig') getConfig
 
         private changeTheme() {
             this.editor.setTheme(this.config.editorTheme)
@@ -65,7 +66,7 @@
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
 
-            this.$store.dispatch('config/getConfig').then(this.changeTheme)
+            this.getConfig().then(this.changeTheme)
 
             bus.$on('updateConfig', this.changeTheme)
         }

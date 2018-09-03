@@ -31,9 +31,7 @@
         private mounted() {
             this.getNotebooks().then((notebooks: Notebook[]) => {
                 if (notebooks.length > 0) {
-                    const notebookId = this.$route.params.notebookId
-                    const sectionId = this.$route.params.sectionId
-                    const pageId = this.$route.params.pageId
+                    const { notebookId, sectionId, pageId } = this.$route.params
                     const notebook = notebooks.find((notebook: Notebook) => notebook.id === notebookId)
 
                     this.select(notebook || notebooks[0])
