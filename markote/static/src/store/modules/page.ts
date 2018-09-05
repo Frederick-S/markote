@@ -16,25 +16,25 @@ export default {
 
                         db.setItem(`sections/${sectionId}/pages`, value)
                         db.setItem(`pages/${data.id}`, data)
+                    }).catch(() => {
+                        console.error('No pages found')
                     })
                 }).catch((error) => {
                     reject(error)
                 })
             })
         },
-        getPageMarkdown(context, pageId: string) {
+        getPageMarkdown(context, page: Page) {
             return new Promise((resolve, reject) => {
-                db.getItem(`pages/${pageId}`).then((page: Page) => {
-                    resolve(page.markdown)
+                db.getItem(`pages/${page.id}`).then((data: Page) => {
+                    resolve(data.markdown)
                 }).catch(() => {
-                    GraphClient.getPageMarkdown(pageId).then((markdown: string) => {
+                    GraphClient.getPageMarkdown(page.id).then((markdown: string) => {
                         resolve(markdown)
 
-                        db.getItem(`pages/${pageId}`).then((page: Page) => {
-                            page.markdown = markdown
+                        page.markdown = markdown
 
-                            db.setItem(`pages/${pageId}`, page)
-                        })
+                        db.setItem(`pages/${page.id}`, page)
                     }).catch(() => {
                         reject()
                     })

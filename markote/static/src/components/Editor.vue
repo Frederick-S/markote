@@ -87,7 +87,7 @@
                     } else {
                         this.isLoading = true
 
-                        this.getPageMarkdown(this.page.id).then((markdown) => {
+                        this.getPageMarkdown(this.page).then((markdown) => {
                             this.page.markdown = markdown
                         }).catch(() => {
                             this.page.markdown = ''
