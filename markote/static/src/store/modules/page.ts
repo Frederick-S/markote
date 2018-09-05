@@ -22,6 +22,25 @@ export default {
                 })
             })
         },
+        getPageMarkdown(context, pageId: string) {
+            return new Promise((resolve, reject) => {
+                db.getItem(`pages/${pageId}`).then((page: Page) => {
+                    resolve(page.markdown)
+                }).catch(() => {
+                    GraphClient.getPageMarkdown(pageId).then((markdown: string) => {
+                        resolve(markdown)
+
+                        db.getItem(`pages/${pageId}`).then((page: Page) => {
+                            page.markdown = markdown
+
+                            db.setItem(`pages/${pageId}`, page)
+                        })
+                    }).catch(() => {
+                        reject()
+                    })
+                })
+            })
+        },
         getPages(context, sectionId: string) {
             return new Promise((resolve, reject) => {
                 db.getItem(`sections/${sectionId}/pages`).then((data) => {
@@ -48,6 +67,17 @@ export default {
                 db.setItem(`sections/${sectionId}/pages`, context.state.pages).then(() => {
                     resolve()
                 }).catch(() => {
+                    reject()
+                })
+            })
+        },
+        updatePageContent(context, page: Page) {
+            return new Promise((resolve, reject) => {
+                GraphClient.updatePageContent(page).then(() => {
+                    db.setItem(`pages/${page.id}`, page)
+
+                    resolve()
+                }).catch((error) => {
                     reject()
                 })
             })

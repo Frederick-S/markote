@@ -22,8 +22,6 @@
     import { Component, Vue, Watch } from 'vue-property-decorator'
     import { Action, State } from 'vuex-class'
     import bus from '../bus'
-    import db from '../db'
-    import GraphClient from '../graph-client'
     import highlighter from '../highlighter'
     import renderer from '../marked/renderer'
     import Config from '../models/config'
@@ -44,6 +42,10 @@
         @State(state => state.config.config) config: Config
 
         @Action('config/getConfig') getConfig
+
+        @Action('page/getPageMarkdown') getPageMarkdown
+
+        @Action('page/updatePageContent') updatePageContent
 
         private changeTheme() {
             this.editor.setTheme(this.config.editorTheme)
@@ -85,24 +87,16 @@
                     } else {
                         this.isLoading = true
 
-                        db.getItem(`pages/${this.page.id}`).then((page: Page) => {
-                            this.page.markdown = page.markdown
-
-                            this.reset()
+                        this.getPageMarkdown(this.page.id).then((markdown) => {
+                            this.page.markdown = markdown
                         }).catch(() => {
-                            GraphClient.getPageMarkdown(this.page.id).then((markdown: string) => {
-                                this.page.markdown = markdown
+                            this.page.markdown = ''
 
-                                db.setItem(`pages/${this.page.id}`, this.page)
-                            }).catch(() => {
-                                this.page.markdown = ''
+                            toast.danger('Failed to get page content')
 
-                                toast.danger('Failed to get page content')
-
-                                this.$router.push('/error')
-                            }).finally(() => {
-                                this.reset()
-                            })
+                            this.$router.push('/error')
+                        }).finally(() => {
+                            this.reset()
                         })
                     }
 
@@ -162,11 +156,9 @@
             this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
             this.page.markdown = this.editor.getValue()
 
-            GraphClient.updatePageContent(this.page).then(() => {
-                db.setItem(`pages/${this.page.id}`, this.page)
-
+            this.updatePageContent(this.page).then(() => {
                 bus.$emit('updatePage', this.page)
-            }).catch((error) => {
+            }).catch(() => {
                 toast.danger('Failed to save page content')
             }).finally(() => {
                 this.isSaving = false
