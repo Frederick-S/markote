@@ -41,6 +41,23 @@ export default {
                 })
             })
         },
+        getPageContent(context, page: Page) {
+            return new Promise((resolve, reject) => {
+                db.getItem(`pages/${page.id}`).then((data: Page) => {
+                    resolve(data.content)
+                }).catch(() => {
+                    GraphClient.getPageContent(page.id).then((content: string) => {
+                        resolve(content)
+
+                        page.content = content
+
+                        db.setItem(`pages/${page.id}`, page)
+                    }).catch(() => {
+                        reject()
+                    })
+                })
+            })
+        },
         getPages(context, sectionId: string) {
             return new Promise((resolve, reject) => {
                 db.getItem(`sections/${sectionId}/pages`).then((data) => {

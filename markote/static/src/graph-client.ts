@@ -37,6 +37,16 @@ export default class GraphClient {
         })
     }
 
+    public static getPageContent(pageId: string) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/v1/pages/${pageId}/content`).then((response) => {
+                resolve(response.data ? response.data.toString() : '')
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+    }
+
     public static getPages(sectionId: string) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/v1/sections/${sectionId}/pages`).then((response) => {
