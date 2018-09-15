@@ -24,6 +24,35 @@ export default {
                 })
             })
         },
+        getPage(context, pageId: string) {
+            return new Promise((resolve, reject) => {
+                db.getItem(`pages/${pageId}`).then((page: Page) => {
+                    resolve(page)
+                }).catch(() => {
+                    const page = new Page()
+                    page.id = pageId
+
+                    GraphClient.getPageMarkdown(pageId).then((markdown: string) => {
+                        page.markdown = markdown
+
+                        db.setItem(`pages/${pageId}`, page)
+
+                        resolve(page)
+                    }).catch(() => {
+                        GraphClient.getPageContent(pageId).then((content: string) => {
+                            page.content = content
+                            page.isReadOnly = true
+
+                            db.setItem(`pages/${pageId}`, page)
+
+                            resolve(page)
+                        }).catch(() => {
+                            reject()
+                        })
+                    })
+                })
+            })
+        },
         getPageMarkdown(context, page: Page) {
             return new Promise((resolve, reject) => {
                 db.getItem(`pages/${page.id}`).then((data: Page) => {
