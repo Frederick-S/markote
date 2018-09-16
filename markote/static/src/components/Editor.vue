@@ -1,6 +1,6 @@
 <template>
     <div class="column editor">
-        <input class="input page-title" type="text" placeholder="Title" v-model="page.title">
+        <input class="input page-title" type="text" placeholder="Title" v-model="page.title" :disabled="page.isReadOnly">
         <p class="buttons">
             <a class="button" v-if="!page.isReadOnly" @click="save">
                 <b-icon v-if="isSaving" icon="spinner" size="is-small"></b-icon>
@@ -95,6 +95,9 @@
                         this.getPage(this.page.id).then((page: Page) => {
                             this.page = page
                         }).catch(() => {
+                            this.page.markdown = ''
+                            this.page.content = ''
+
                             toast.danger('Failed to get page content')
 
                             this.$router.push('/error')
