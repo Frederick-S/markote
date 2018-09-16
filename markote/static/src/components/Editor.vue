@@ -2,7 +2,7 @@
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title">
         <p class="buttons">
-            <a class="button" @click="save">
+            <a class="button" v-if="!page.isReadOnly" @click="save">
                 <b-icon v-if="isSaving" icon="spinner" size="is-small"></b-icon>
                 <b-icon v-else icon="save" size="is-small"></b-icon>
             </a>
@@ -11,8 +11,8 @@
             <div class="spinner button is-loading"></div>
         </div>
         <div v-show="!isLoading" class="columns note-body">
-            <div id="editor" class="column is-6 editor-body"></div>
-            <div class="column is-6 preview content" id="preview"></div>
+            <div v-show="!page.isReadOnly" id="editor" class="column is-6 editor-body"></div>
+            <div :class="[page.isReadOnly ? 'preview-only': 'is-6', 'column', 'preview', 'content']" id="preview"></div>
         </div>
     </div>
 </template>
@@ -26,6 +26,7 @@
     import renderer from '../marked/renderer'
     import Config from '../models/config'
     import Page from '../models/page'
+    import OneNoteHtmlMapper from '../onenote-html-mapper'
     import toast from '../toast'
     import elements from '../utils/elements'
 
@@ -43,7 +44,11 @@
 
         @Action('config/getConfig') getConfig
 
+        @Action('page/getPage') getPage
+
         @Action('page/getPageMarkdown') getPageMarkdown
+
+        @Action('page/getPageContent') getPageContent
 
         @Action('page/updatePageContent') updatePageContent
 
@@ -87,11 +92,9 @@
                     } else {
                         this.isLoading = true
 
-                        this.getPageMarkdown(this.page).then((markdown) => {
-                            this.page.markdown = markdown
+                        this.getPage(this.page.id).then((page: Page) => {
+                            this.page = page
                         }).catch(() => {
-                            this.page.markdown = ''
-
                             toast.danger('Failed to get page content')
 
                             this.$router.push('/error')
@@ -137,10 +140,10 @@
             this.isLoading = false
             this.editor.setValue(this.page.markdown, 1)
 
-            if (this.page.markdown) {
-                this.renderPreview()
+            if (this.page.isReadOnly) {
+                document.getElementById('preview').innerHTML = OneNoteHtmlMapper.convert(this.page.content)
             } else {
-                document.getElementById('preview').innerHTML = ''
+                this.renderPreview()
             }
         }
 
@@ -198,6 +201,10 @@
         border-left: none;
         overflow: auto;
         padding: 1rem;
+    }
+
+    .preview-only {
+        border-left: 1px solid #cccccc;
     }
 
     .spinner-wrap {
