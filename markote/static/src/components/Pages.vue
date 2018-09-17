@@ -64,7 +64,6 @@
                 this.$router.push({
                     name: 'page',
                     params: {
-                        isNewPage: 'true',
                         pageId: page.id,
                         pageTitle: page.title,
                     },

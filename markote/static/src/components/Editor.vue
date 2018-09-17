@@ -82,29 +82,24 @@
         private onRouteChanged(to, from) {
             switch (to.name) {
                 case 'page':
-                    this.page.id = to.params.pageId
-                    this.page.title = to.params.pageTitle
+                    const pageId = to.params.pageId
 
-                    if (to.params.isNewPage) {
+                    this.isLoading = true
+
+                    this.getPage(pageId).then((page: Page) => {
+                        this.page = page
+                    }).catch(() => {
+                        this.page = new Page()
+                        this.page.id = pageId
                         this.page.markdown = ''
+                        this.page.content = ''
 
+                        toast.danger('Failed to get page content')
+
+                        this.$router.push('/error')
+                    }).finally(() => {
                         this.reset()
-                    } else {
-                        this.isLoading = true
-
-                        this.getPage(this.page.id).then((page: Page) => {
-                            this.page = page
-                        }).catch(() => {
-                            this.page.markdown = ''
-                            this.page.content = ''
-
-                            toast.danger('Failed to get page content')
-
-                            this.$router.push('/error')
-                        }).finally(() => {
-                            this.reset()
-                        })
-                    }
+                    })
 
                     break
                 case 'notebooks':
