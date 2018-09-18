@@ -9,16 +9,14 @@ export default {
                 GraphClient.createPage(sectionId, page).then((data: Page) => {
                     context.commit('addPage', data)
 
-                    db.getItem(`sections/${sectionId}/pages`).then((value: Page[]) => {
-                        value.push(data)
-
+                    db.getItem(`sections/${sectionId}/pages`).then((pages: Page[]) => {
                         Promise.all([
-                            db.setItem(`sections/${sectionId}/pages`, value),
+                            db.setItem(`sections/${sectionId}/pages`, [data, ...pages]),
                             db.setItem(`pages/${data.id}`, data)]).then(() => {
                             resolve(data)
                         })
                     }).catch(() => {
-                        console.error('No pages found')
+                        resolve(data)
                     })
                 }).catch((error) => {
                     reject(error)
