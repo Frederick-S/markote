@@ -42,6 +42,8 @@
 
         @Action('section/getSections') getSections
 
+        @Action('page/setPages') setPages
+
         @Mutation('section/setSections') setSections
 
         private createSection() {
@@ -61,12 +63,16 @@
         private newSectionCreated(section: Section) {
             this.selectedSection = section
 
-            this.$router.push({
-                name: 'pages',
-                params: {
-                    isNewSection: 'true',
-                    sectionId: section.id,
-                },
+            this.setPages({
+                sectionId: section.id,
+                pages: [],
+            }).finally(() => {
+                this.$router.push({
+                    name: 'pages',
+                    params: {
+                        sectionId: section.id,
+                    },
+                })
             })
         }
 

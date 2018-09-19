@@ -5,7 +5,7 @@
             <div v-if="isLoading" class="spinner button is-loading"></div>
             <ul v-else class="menu-list">
                 <li v-for="page in pages" :key="page.id">
-                    <router-link :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" :to="{ name: 'page', params: { pageId: page.id, pageTitle: page.title } }" @click.native="select(page)">{{ page.title }}</router-link>
+                    <router-link :class="[page.id === selectedPage.id ? 'selected' : '', 'note-title']" :to="{ name: 'page', params: { pageId: page.id } }" @click.native="select(page)">{{ page.title }}</router-link>
                 </li>
             </ul>
         </aside>
@@ -65,7 +65,6 @@
                     name: 'page',
                     params: {
                         pageId: page.id,
-                        pageTitle: page.title,
                     },
                 })
             }).catch((error) => {
@@ -86,36 +85,31 @@
                     this.sectionId = to.params.sectionId
                     this.selectedPage = new Page()
 
-                    if (!to.params.isNewSection) {
-                        this.isLoading = true
+                    this.isLoading = true
 
-                        this.getPages(this.sectionId).then((pages: Page[]) => {
-                            if (pages.length > 0) {
-                                const { pageId } = this.$route.params
-                                const page = pages.find((page: Page) => page.id === pageId)
+                    this.getPages(this.sectionId).then((pages: Page[]) => {
+                        if (pages.length > 0) {
+                            const { pageId } = this.$route.params
+                            const page = pages.find((page: Page) => page.id === pageId)
 
-                                this.select(page || pages[0])
+                            this.select(page || pages[0])
 
-                                this.$router.push({
-                                    name: 'page',
-                                    params: {
-                                        pageId: this.selectedPage.id,
-                                        pageTitle: this.selectedPage.title,
-                                    },
-                                })
-                            }
-                        }).catch(() => {
-                            toast.danger('Failed to get pages')
+                            this.$router.push({
+                                name: 'page',
+                                params: {
+                                    pageId: this.selectedPage.id,
+                                },
+                            })
+                        }
+                    }).catch(() => {
+                        toast.danger('Failed to get pages')
 
-                            this.setPages([])
-
-                            this.$router.push('/error')
-                        }).finally(() => {
-                            this.isLoading = false
-                        })
-                    } else {
                         this.setPages([])
-                    }
+
+                        this.$router.push('/error')
+                    }).finally(() => {
+                        this.isLoading = false
+                    })
 
                     break
                 case 'sections':

@@ -106,12 +106,21 @@ export default {
                     GraphClient.getPages(sectionId).then((data) => {
                         context.commit('setPages', data)
 
-                        resolve(data)
-
-                        db.setItem(`sections/${sectionId}/pages`, data)
+                        db.setItem(`sections/${sectionId}/pages`, data).finally(() => {
+                            resolve(data)
+                        })
                     }).catch((error) => {
                         reject(error)
                     })
+                })
+            })
+        },
+        setPages(context, { sectionId, pages }) {
+            return new Promise((resolve, reject) => {
+                db.setItem(`sections/${sectionId}/pages`, pages).finally(() => {
+                    context.commit('setPages', pages)
+
+                    resolve()
                 })
             })
         },
