@@ -14,14 +14,19 @@ export default {
                     GraphClient.getNotebooks().then((data) => {
                         context.commit('setNotebooks', data)
 
-                        resolve(data)
-
-                        db.setItem('notebooks', data)
+                        db.setItem('notebooks', data).finally(() => {
+                            resolve(data)
+                        })
                     }).catch((error) => {
                         reject(error)
                     })
                 })
             })
+        },
+    },
+    getters: {
+        getNotebookById: (state) => (id: string) => {
+            return state.notebooks.find((notebook) => notebook.id === id)
         },
     },
     mutations: {
