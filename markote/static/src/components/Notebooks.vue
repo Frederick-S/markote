@@ -37,7 +37,7 @@
 
                 this.select(notebook)
 
-                if (this.selectedNotebook) {
+                if (this.selectedNotebook.id) {
                     this.$router.push({
                         name: 'sections',
                         params: {

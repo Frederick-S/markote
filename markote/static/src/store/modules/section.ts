@@ -1,21 +1,20 @@
 import db from '../../db'
 import GraphClient from '../../graph-client'
-import Notebook from '../../models/notebook'
 import Section from '../../models/section'
 
 export default {
     actions: {
         createSection(context, { notebookId, section }) {
             return new Promise((resolve, reject) => {
-                GraphClient.createSection(notebookId, section).then((data: Notebook) => {
+                GraphClient.createSection(notebookId, section).then((data: Section) => {
                     context.commit('addSection', data)
 
-                    resolve(data)
-
-                    db.getItem(`notebooks/${notebookId}/sections`).then((value: Section[]) => {
-                        value.push(data)
-
-                        db.setItem(`notebooks/${notebookId}/sections`, value)
+                    db.getItem(`notebooks/${notebookId}/sections`).then((sections: Section[]) => {
+                        db.setItem(`notebooks/${notebookId}/sections`, [data, ...sections]).finally(() => {
+                            resolve(data)
+                        })
+                    }).catch(() => {
+                        resolve(data)
                     })
                 }).catch((error) => {
                     reject(error)
@@ -24,17 +23,17 @@ export default {
         },
         getSections(context, notebookId: string) {
             return new Promise((resolve, reject) => {
-                db.getItem(`notebooks/${notebookId}/sections`).then((data) => {
-                    context.commit('setSections', data)
+                db.getItem(`notebooks/${notebookId}/sections`).then((sections: Section[]) => {
+                    context.commit('setSections', sections)
 
-                    resolve(data)
+                    resolve(sections)
                 }).catch(() => {
-                    GraphClient.getSections(notebookId).then((data) => {
-                        context.commit('setSections', data)
+                    GraphClient.getSections(notebookId).then((sections: Section[]) => {
+                        context.commit('setSections', sections)
 
-                        resolve(data)
-
-                        db.setItem(`notebooks/${notebookId}/sections`, data)
+                        db.setItem(`notebooks/${notebookId}/sections`, sections).finally(() => {
+                            resolve(sections)
+                        })
                     }).catch((error) => {
                         reject(error)
                     })

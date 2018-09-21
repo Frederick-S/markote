@@ -6,16 +6,16 @@ export default {
     actions: {
         getNotebooks(context) {
             return new Promise((resolve, reject) => {
-                db.getItem('notebooks').then((data) => {
-                    context.commit('setNotebooks', data)
+                db.getItem('notebooks').then((notebooks: Notebook[]) => {
+                    context.commit('setNotebooks', notebooks)
 
-                    resolve(data)
+                    resolve(notebooks)
                 }).catch(() => {
-                    GraphClient.getNotebooks().then((data) => {
-                        context.commit('setNotebooks', data)
+                    GraphClient.getNotebooks().then((notebooks: Notebook[]) => {
+                        context.commit('setNotebooks', notebooks)
 
-                        db.setItem('notebooks', data).finally(() => {
-                            resolve(data)
+                        db.setItem('notebooks', notebooks).finally(() => {
+                            resolve(notebooks)
                         })
                     }).catch((error) => {
                         reject(error)
