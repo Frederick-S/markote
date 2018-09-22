@@ -77,8 +77,8 @@
                 if (!this.name || !this.name.trim()) {
                     reject('Section names can\'t be blank')
                 } else {
-                    GraphClient.getSections(this.notebookId, this.name).then((data: Section[]) => {
-                        if (data.length > 0) {
+                    GraphClient.getSections(this.notebookId, this.name).then((sections: Section[]) => {
+                        if (sections.length > 0) {
                             reject('This notebook already has a section with that name')
                         } else {
                             resolve()

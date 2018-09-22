@@ -182,9 +182,7 @@ export  $initHighlight;
         @Action('config/updateConfig') updateConfig
 
         private close() {
-            const $parent: any = this.$parent
-
-            $parent.close()
+            (this.$parent as any).close()
         }
 
         private mounted() {

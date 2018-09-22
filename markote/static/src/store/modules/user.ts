@@ -6,17 +6,17 @@ export default {
     actions: {
         getMe(context) {
             return new Promise((resolve, reject) => {
-                db.getItem('me').then((data) => {
-                    context.commit('setMe', data)
+                db.getItem('me').then((me: User) => {
+                    context.commit('setMe', me)
 
-                    resolve(data)
+                    resolve(me)
                 }).catch(() => {
-                    GraphClient.getMe().then((data) => {
-                        context.commit('setMe', data)
+                    GraphClient.getMe().then((me: User) => {
+                        context.commit('setMe', me)
 
-                        resolve(data)
-
-                        db.setItem('me', data)
+                        db.setItem('me', me).finally(() => {
+                            resolve(me)
+                        })
                     }).catch((error) => {
                         reject(error)
                     })
