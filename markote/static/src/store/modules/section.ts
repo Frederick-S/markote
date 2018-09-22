@@ -41,6 +41,11 @@ export default {
             })
         },
     },
+    getters: {
+        getSectionById: (state) => (id: string) => {
+            return state.sections.find((section) => section.id === id)
+        },
+    },
     mutations: {
         addSection(state, section: Section) {
             state.sections.push(section)

@@ -18,7 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
-    import { Action, Mutation, State } from 'vuex-class'
+    import { Action, Getter, Mutation, State } from 'vuex-class'
     import bus from '../bus'
     import Section from '../models/section'
     import toast from '../toast'
@@ -37,6 +37,8 @@
         private notebookId = ''
 
         private selectedSection = new Section()
+
+        @Getter('section/getSectionById') getSectionById
 
         @State(state => state.section.sections) sections: Section[]
 
@@ -87,12 +89,12 @@
             this.selectedSection = new Section()
 
             this.getSections(this.notebookId).then((sections: Section[]) => {
-                if (sections.length > 0) {
-                    const { sectionId, pageId } = this.$route.params
-                    const section = sections.find((section: Section) => section.id === sectionId)
+                const { sectionId, pageId } = this.$route.params
+                const section = this.getSectionById(sectionId) || sections[0] || new Section()
 
-                    this.select(section || sections[0])
+                this.select(section)
 
+                if (this.selectedSection.id) {
                     this.$router.push({
                         name: 'pages',
                         params: {
