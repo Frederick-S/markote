@@ -18,7 +18,7 @@
 
 <script lang="ts">
     import { Component, Vue, Watch } from 'vue-property-decorator'
-    import { Action, Mutation, State } from 'vuex-class'
+    import { Action, Getter, Mutation, State } from 'vuex-class'
     import bus from '../bus'
     import Page from '../models/page'
     import toast from '../toast'
@@ -32,6 +32,8 @@
         private selectedPage = new Page()
 
         private sectionId = ''
+
+        @Getter('page/getPageById') getPageById
 
         @State(state => state.page.pages) pages: Page[]
 
@@ -90,16 +92,18 @@
                     this.getPages(this.sectionId).then((pages: Page[]) => {
                         if (pages.length > 0) {
                             const { pageId } = this.$route.params
-                            const page = pages.find((page: Page) => page.id === pageId)
+                            const page = this.getPageById(pageId) || pages[0] || new Page()
 
-                            this.select(page || pages[0])
+                            this.select(page)
 
-                            this.$router.push({
-                                name: 'page',
-                                params: {
-                                    pageId: this.selectedPage.id,
-                                },
-                            })
+                            if (this.selectedPage.id) {
+                                this.$router.push({
+                                    name: 'page',
+                                    params: {
+                                        pageId: this.selectedPage.id,
+                                    },
+                                })
+                            }
                         }
                     }).catch(() => {
                         toast.danger('Failed to get pages')

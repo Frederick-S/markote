@@ -147,6 +147,11 @@ export default {
             })
         },
     },
+    getters: {
+        getPageById: (state) => (id: string) => {
+            return state.pages.find((page) => page.id === id)
+        },
+    },
     mutations: {
         addPage(state, page: Page) {
             state.pages.push(page)
