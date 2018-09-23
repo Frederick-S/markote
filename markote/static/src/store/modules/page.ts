@@ -43,18 +43,18 @@ export default {
                     GraphClient.getPageMarkdown(pageId).then((markdown: string) => {
                         page.markdown = markdown
 
-                        db.setItem(`pages/${pageId}`, page)
-
-                        resolve(page)
+                        db.setItem(`pages/${pageId}`, page).finally(() => {
+                            resolve(page)
+                        })
                     }).catch(() => {
                         GraphClient.getPageContent(pageId).then((content: string) => {
                             page.content = content
                             page.markdown = ''
                             page.isReadOnly = true
 
-                            db.setItem(`pages/${pageId}`, page)
-
-                            resolve(page)
+                            db.setItem(`pages/${pageId}`, page).finally(() => {
+                                resolve(page)
+                            })
                         }).catch(() => {
                             reject()
                         })
@@ -68,11 +68,11 @@ export default {
                     resolve(data.markdown)
                 }).catch(() => {
                     GraphClient.getPageMarkdown(page.id).then((markdown: string) => {
-                        resolve(markdown)
-
                         page.markdown = markdown
 
-                        db.setItem(`pages/${page.id}`, page)
+                        db.setItem(`pages/${page.id}`, page).finally(() => {
+                            resolve(markdown)
+                        })
                     }).catch(() => {
                         reject()
                     })
@@ -85,11 +85,11 @@ export default {
                     resolve(data.content)
                 }).catch(() => {
                     GraphClient.getPageContent(page.id).then((content: string) => {
-                        resolve(content)
-
                         page.content = content
 
-                        db.setItem(`pages/${page.id}`, page)
+                        db.setItem(`pages/${page.id}`, page).finally(() => {
+                            resolve(content)
+                        })
                     }).catch(() => {
                         reject()
                     })
@@ -98,16 +98,16 @@ export default {
         },
         getPages(context, sectionId: string) {
             return new Promise((resolve, reject) => {
-                db.getItem(`sections/${sectionId}/pages`).then((data) => {
-                    context.commit('setPages', data)
+                db.getItem(`sections/${sectionId}/pages`).then((pages: Page[]) => {
+                    context.commit('setPages', pages)
 
-                    resolve(data)
+                    resolve(pages)
                 }).catch(() => {
-                    GraphClient.getPages(sectionId).then((data) => {
-                        context.commit('setPages', data)
+                    GraphClient.getPages(sectionId).then((pages: Page[]) => {
+                        context.commit('setPages', pages)
 
-                        db.setItem(`sections/${sectionId}/pages`, data).finally(() => {
-                            resolve(data)
+                        db.setItem(`sections/${sectionId}/pages`, pages).finally(() => {
+                            resolve(pages)
                         })
                     }).catch((error) => {
                         reject(error)
@@ -138,9 +138,9 @@ export default {
         updatePageContent(context, page: Page) {
             return new Promise((resolve, reject) => {
                 GraphClient.updatePageContent(page).then(() => {
-                    db.setItem(`pages/${page.id}`, page)
-
-                    resolve()
+                    db.setItem(`pages/${page.id}`, page).finally(() => {
+                        resolve()
+                    })
                 }).catch((error) => {
                     reject()
                 })
