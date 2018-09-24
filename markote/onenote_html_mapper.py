@@ -7,6 +7,9 @@ from markote.util import convert_svg_to_png
 
 
 class OneNoteHtmlMapper(object):
+    """
+    Converts standard html to OneNote supported html.
+    """
     def __init__(self, document):
         self.document = document
         self.resources = []
@@ -15,7 +18,6 @@ class OneNoteHtmlMapper(object):
         self._convert_svg_to_resources()
         self._move_inline_images_to_table()
 
-        # Hack for https://stackoverflow.com/questions/50789978
         if self._only_contains_table():
             self._table_only_content_hack()
 
@@ -27,6 +29,9 @@ class OneNoteHtmlMapper(object):
                           for svg_element in self.document.find('svg')]
 
     def _convert_svg_to_resource(self, svg_element):
+        """
+        Converts svg element to image.
+        """
         name = uuid.uuid4().hex
         element = PyQuery(svg_element)
         svg = element.outer_html().replace('viewbox', 'viewBox')
@@ -36,6 +41,10 @@ class OneNoteHtmlMapper(object):
         return Resource(name, convert_svg_to_png(svg), 'image/png')
 
     def _move_inline_images_to_table(self):
+        """
+        OneNote doesn't support inline images, so we put inline images to
+        a table row.
+        """
         images = self.document.find('img')
         parents = [tuple(PyQuery(image).parent()) for image in images]
         parents = list(map(lambda x: PyQuery(x[0]), list(set(parents))))
@@ -49,6 +58,13 @@ class OneNoteHtmlMapper(object):
             parent.replace_with(table)
 
     def _has_inline_images(self, element):
+        """
+        Check if the element contains inline images.
+
+        The element is a parent element which already contains images,
+        so we only need to check if the length of all children is greater
+        than the size of all images.
+        """
         return element.contents().length > element.find('img').length
 
     def _create_table_cell_with_elements(self, elements):
@@ -60,6 +76,9 @@ class OneNoteHtmlMapper(object):
         return cell
 
     def _create_table_row_with_inline_images(self, contents):
+        """
+        Move inline images and other elements into a table row.
+        """
         children_so_far = []
         row = PyQuery('<tr></tr>')
 
@@ -83,10 +102,19 @@ class OneNoteHtmlMapper(object):
         return row
 
     def _only_contains_table(self):
+        """
+        Check if the document only contains tables.
+        """
         return all(element.tag == 'table'
                    for element in self.document.children())
 
     def _table_only_content_hack(self):
+        """
+        Hack for https://stackoverflow.com/questions/50789978.
+
+        If the document only contains a table element, then create
+        a 1*1 image element and append it to the document.
+        """
         file = io.BytesIO()
         image = Image.new('RGB', (1, 1), color='white')
         image.save(file, 'png')
