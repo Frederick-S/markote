@@ -3,3 +3,4 @@ def init_api_routes():
     import markote.api.notebook
     import markote.api.section
     import markote.api.page
+    import markote.api.resource

@@ -1,3 +1,6 @@
+/*
+Converts OneNote supported html to standard html.
+ */
 export default class OneNoteHtmlMapper {
     public static convert(html: string): string {
         const div = document.createElement('div')
@@ -9,6 +12,12 @@ export default class OneNoteHtmlMapper {
             if (style.position === 'absolute') {
                 style.removeProperty('position')
             }
+        })
+
+        Array.from(div.querySelectorAll('img')).forEach((image) => {
+            const resourceId = image.src.match(/resources\/(.+)\/\$value/)[1]
+
+            image.src = `/api/v1/resources/${resourceId}`
         })
 
         return div.innerHTML
