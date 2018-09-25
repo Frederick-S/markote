@@ -1,5 +1,6 @@
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const entryPath = './markote/static/src'
@@ -46,6 +47,12 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin([distPath]),
+        new CopyWebpackPlugin([
+            {
+                from: './markote/static/images',
+                to: 'images'
+            }
+        ]),
         new HtmlWebpackPlugin({
             filename: 'notes.html',
             template: './markote/static/public/notes.pug'

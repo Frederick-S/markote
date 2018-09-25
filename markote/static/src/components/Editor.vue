@@ -140,6 +140,14 @@
 
             if (this.page.isReadOnly) {
                 document.getElementById('preview').innerHTML = OneNoteHtmlMapper.convert(this.page.content)
+
+                Array.from(document.getElementById('preview').querySelectorAll('img')).forEach((image: HTMLImageElement) => {
+                    const realImage = new Image()
+                    realImage.onload = () => {
+                        image.parentNode.replaceChild(realImage, image)
+                    }
+                    realImage.src = image.getAttribute('data-src')
+                })
             } else {
                 this.renderPreview()
             }
@@ -207,5 +215,9 @@
 
     .spinner-wrap {
         height: 100%;
+    }
+
+    img.loading {
+        width: 200px;
     }
 </style>

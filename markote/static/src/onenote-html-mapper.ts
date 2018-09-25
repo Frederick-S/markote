@@ -14,10 +14,12 @@ export default class OneNoteHtmlMapper {
             }
         })
 
-        Array.from(div.querySelectorAll('img')).forEach((image) => {
+        Array.from(div.querySelectorAll('img')).forEach((image: HTMLImageElement) => {
             const resourceId = image.src.match(/resources\/(.+)\/\$value/)[1]
 
-            image.src = `/api/v1/resources/${resourceId}`
+            image.classList.add('loading')
+            image.src = 'images/loading.gif'
+            image.setAttribute('data-src', `/api/v1/resources/${resourceId}`)
         })
 
         return div.innerHTML
