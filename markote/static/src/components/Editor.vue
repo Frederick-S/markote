@@ -34,6 +34,8 @@
     export default class Editor extends Vue {
         private editor!: AceAjax.Editor
 
+        private previewer!: HTMLElement
+
         private isLoading = false
 
         private isSaving = false
@@ -72,6 +74,7 @@
             this.editor = ace.edit('editor')
             this.editor.session.setMode('ace/mode/markdown')
             this.editor.session.on('change', this.renderPreview)
+            this.previewer = document.getElementById('preview')
 
             this.getConfig().then(this.changeTheme)
 
@@ -116,9 +119,8 @@
 
         private renderPreview() {
             const content = this.editor.getValue()
-            const previewElement = document.getElementById('preview')
 
-            previewElement.innerHTML = marked(content, {
+            this.previewer.innerHTML = marked(content, {
                 renderer,
             })
 
@@ -127,7 +129,7 @@
             })
 
             return new Promise((resolve, reject) => {
-                MathJax.Hub.Queue(['Typeset', MathJax.Hub, previewElement])
+                MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.previewer])
                 MathJax.Hub.Queue(() => {
                     resolve()
                 })
@@ -139,9 +141,9 @@
             this.editor.setValue(this.page.markdown, 1)
 
             if (this.page.isReadOnly) {
-                document.getElementById('preview').innerHTML = OneNoteHtmlMapper.convert(this.page.content)
+                this.previewer.innerHTML = OneNoteHtmlMapper.convert(this.page.content)
 
-                Array.from(document.getElementById('preview').querySelectorAll('img')).forEach((image: HTMLImageElement) => {
+                Array.from(this.previewer.querySelectorAll('img')).forEach((image: HTMLImageElement) => {
                     const realImage = new Image()
                     realImage.onload = () => {
                         image.parentNode.replaceChild(realImage, image)
@@ -162,7 +164,7 @@
 
             this.isSaving = true
 
-            this.page.content = elements.getInnerHtmlWithComputedStyle(document.getElementById('preview'))
+            this.page.content = elements.getInnerHtmlWithComputedStyle(this.previewer)
             this.page.markdown = this.editor.getValue()
 
             this.updatePageContent(this.page).then(() => {
