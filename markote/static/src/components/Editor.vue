@@ -48,10 +48,6 @@
 
         @Action('page/getPage') getPage
 
-        @Action('page/getPageMarkdown') getPageMarkdown
-
-        @Action('page/getPageContent') getPageContent
-
         @Action('page/updatePageContent') updatePageContent
 
         private changeTheme() {

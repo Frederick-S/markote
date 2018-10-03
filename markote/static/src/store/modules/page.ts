@@ -62,40 +62,6 @@ export default {
                 })
             })
         },
-        getPageMarkdown(context, page: Page) {
-            return new Promise((resolve, reject) => {
-                db.getItem(`pages/${page.id}`).then((data: Page) => {
-                    resolve(data.markdown)
-                }).catch(() => {
-                    GraphClient.getPageMarkdown(page.id).then((markdown: string) => {
-                        page.markdown = markdown
-
-                        db.setItem(`pages/${page.id}`, page).finally(() => {
-                            resolve(markdown)
-                        })
-                    }).catch(() => {
-                        reject()
-                    })
-                })
-            })
-        },
-        getPageContent(context, page: Page) {
-            return new Promise((resolve, reject) => {
-                db.getItem(`pages/${page.id}`).then((data: Page) => {
-                    resolve(data.content)
-                }).catch(() => {
-                    GraphClient.getPageContent(page.id).then((content: string) => {
-                        page.content = content
-
-                        db.setItem(`pages/${page.id}`, page).finally(() => {
-                            resolve(content)
-                        })
-                    }).catch(() => {
-                        reject()
-                    })
-                })
-            })
-        },
         getPages(context, sectionId: string) {
             return new Promise((resolve, reject) => {
                 db.getItem(`sections/${sectionId}/pages`).then((pages: Page[]) => {
