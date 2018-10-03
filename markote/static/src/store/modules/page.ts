@@ -28,33 +28,28 @@ export default {
                 db.getItem(`pages/${pageId}`).then((page: Page) => {
                     resolve(page)
                 }).catch(() => {
-                    const index = context.state.pages.findIndex((value) => value.id === pageId)
+                    const page = context.state.pages.find((value) => value.id === pageId)
 
-                    if (index < 0) {
+                    if (!page) {
                         reject()
 
                         return
                     }
 
-                    const page = new Page()
-                    page.id = pageId
-                    page.title = context.state.pages[index].title
-
                     GraphClient.getPageMarkdown(pageId).then((markdown: string) => {
-                        page.markdown = markdown
+                        const pageWithContent = {...page, ...{ markdown }}
 
-                        db.setItem(`pages/${pageId}`, page).finally(() => {
-                            resolve(page)
+                        db.setItem(`pages/${pageId}`, pageWithContent).finally(() => {
+                            resolve(pageWithContent)
                         })
                     }).catch(() => {
                         GraphClient.getPageContent(pageId).then((content: string) => {
-                            page.content = content
-                            page.markdown = ''
-                            page.isReadOnly = true
+                            const pageWithContent = {...page, ...{ content, markdown: '', isReadOnly: true }}
 
-                            db.setItem(`pages/${pageId}`, page).finally(() => {
-                                resolve(page)
-                            })
+                            db.setItem(`pages/${pageId}`, pageWithContent)
+                                .finally(() => {
+                                    resolve(pageWithContent)
+                                })
                         }).catch(() => {
                             reject()
                         })

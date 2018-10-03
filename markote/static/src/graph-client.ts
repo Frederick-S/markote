@@ -6,9 +6,7 @@ export default class GraphClient {
     public static createPage(sectionId: string, page: Page) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/v1/sections/${sectionId}/pages`, page).then((response) => {
-                page.id = response.data.id
-
-                resolve(page)
+                resolve({...page, ...{ id: response.data.id }})
             }).catch((error) => {
                 reject(error)
             })
@@ -18,9 +16,7 @@ export default class GraphClient {
     public static createSection(notebookId: string, section: Section) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/v1/notebooks/${notebookId}/sections`, section).then((response) => {
-                section.id = response.data.id
-
-                resolve(section)
+                resolve({...section, ...{ id: response.data.id }})
             }).catch((error) => {
                 reject(error)
             })
