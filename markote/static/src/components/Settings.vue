@@ -134,7 +134,7 @@
                     <option value="zenburn">Zenburn</option>
                 </b-select>
             </b-field>
-            <div class="code-example">
+            <div id="code-example">
                 <pre>
                     <code>
 function $initHighlight(block, cls) {
@@ -173,6 +173,8 @@ export  $initHighlight;
 
     @Component
     export default class Settings extends Vue {
+        private codeExample!: HTMLElement
+
         private editor!: AceAjax.Editor
 
         @State(state => state.config.config) config: Config
@@ -192,6 +194,7 @@ export  $initHighlight;
         }
 
         private init() {
+            this.codeExample = document.getElementById('code-example')
             this.editor = ace.edit('editor-example')
             this.editor.setTheme(this.config.editorTheme)
             this.editor.session.setMode('ace/mode/markdown')
@@ -210,7 +213,7 @@ export  $initHighlight;
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |`, 1)
 
-            Array.from(document.querySelectorAll('pre')).forEach((element) => {
+            Array.from(this.codeExample.querySelectorAll('pre')).forEach((element) => {
                 highlighter.highlightBlock(element)
             })
 
