@@ -140,11 +140,15 @@
                 this.previewer.innerHTML = OneNoteHtmlMapper.convert(this.page.content)
 
                 Array.from(this.previewer.querySelectorAll('img')).forEach((image: HTMLImageElement) => {
-                    const realImage = new Image()
-                    realImage.onload = () => {
-                        image.parentNode.replaceChild(realImage, image)
+                    const src = image.getAttribute('data-src')
+
+                    if (src) {
+                        const realImage = new Image()
+                        realImage.onload = () => {
+                            image.parentNode.replaceChild(realImage, image)
+                        }
+                        realImage.src = src
                     }
-                    realImage.src = image.getAttribute('data-src')
                 })
             } else {
                 this.renderPreview()
