@@ -2,6 +2,9 @@
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title" :disabled="page.isReadOnly">
         <p class="buttons">
+            <a class="button">
+                <b-icon icon="image" size="is-small"></b-icon>
+            </a>
             <a class="button" v-if="!page.isReadOnly" @click="save">
                 <b-icon v-if="isSaving" icon="spinner" size="is-small"></b-icon>
                 <b-icon v-else icon="save" size="is-small"></b-icon>
