@@ -1,11 +1,11 @@
 <template>
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title" :disabled="page.isReadOnly">
-        <p class="buttons">
+        <p class="buttons" v-if="!page.isReadOnly">
             <a class="button">
-                <b-icon icon="image" size="is-small"></b-icon>
+                <b-icon icon="image" size="is-small" @click="uploadImage"></b-icon>
             </a>
-            <a class="button" v-if="!page.isReadOnly" @click="save">
+            <a class="button" @click="save">
                 <b-icon v-if="isSaving" icon="spinner" size="is-small"></b-icon>
                 <b-icon v-else icon="save" size="is-small"></b-icon>
             </a>
@@ -177,6 +177,10 @@
             }).finally(() => {
                 this.isSaving = false
             })
+        }
+
+        private uploadImage() {
+
         }
     }
 </script>
