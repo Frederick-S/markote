@@ -1,4 +1,3 @@
-from flask import jsonify
 from markote.api.api_blueprint import api_blueprint
 from markote.oauth import oauth
 
