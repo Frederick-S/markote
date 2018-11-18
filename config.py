@@ -16,6 +16,7 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     ENV = 'development'
+    TEMPLATES_AUTO_RELOAD = True
     DEBUG = True
 
 

@@ -100,7 +100,7 @@
 
                         this.$router.push('/error')
                     }).finally(() => {
-                        this.reset()
+                        this.init()
                     })
 
                     break
@@ -108,7 +108,7 @@
                 case 'sections':
                 case 'pages':
                     this.page = new Page()
-                    this.reset()
+                    this.init()
 
                     break
                 default:
@@ -135,7 +135,7 @@
             })
         }
 
-        private reset() {
+        private init() {
             this.isLoading = false
             this.editor.setValue(this.page.markdown, 1)
 

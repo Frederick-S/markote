@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.debug.js",
+    "watch": "webpack --watch --config webpack.config.debug.js",
     "lint": "tslint -c tslint.json ./markote/static/js/src/**/*.ts && wotan -c tslint.json"
   },
   "repository": {
