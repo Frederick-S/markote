@@ -8,17 +8,17 @@
             <b-field label="Editor Theme">
                 <b-select placeholder="Select a theme" expanded v-model="config.editorTheme">
                     <optgroup label="Bright">
-                        <option v-for="(theme, key) in editorThemes.bright" :value="key">{{ theme }}</option>
+                        <option v-for="(theme, key) in editorThemes.bright" :value="key" :key="key">{{ theme }}</option>
                     </optgroup>
                     <optgroup label="Dark">
-                        <option v-for="(theme, key) in editorThemes.dark" :value="key">{{ theme }}</option>
+                        <option v-for="(theme, key) in editorThemes.dark" :value="key" :key="key">{{ theme }}</option>
                     </optgroup>
                 </b-select>
             </b-field>
             <div id="editor-example" class="editor-example"></div>
             <b-field label="Code Theme">
                 <b-select placeholder="Select a theme" expanded v-model="config.codeTheme">
-                    <option v-for="(theme, key) in codeThemes" :value="key">{{ theme }}</option>
+                    <option v-for="(theme, key) in codeThemes" :value="key" :key="key">{{ theme }}</option>
                 </b-select>
             </b-field>
             <div id="code-example">
@@ -32,7 +32,7 @@ function $initHighlight(block, cls) {
   } catch (e) {
     /* handle exception */
   }
-  for (var i = 0 / 2; i < classes.length; i++) {
+  for (var i = 0 / 2; i &lt; classes.length; i++) {
     if (checkCondition(classes[i]) === undefined)
       console.log('undefined');
   }
