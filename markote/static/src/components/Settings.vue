@@ -54,8 +54,6 @@ export  $initHighlight;
     import { Component, Vue, Watch } from 'vue-property-decorator'
     import { Action, State } from 'vuex-class'
     import bus from '../bus'
-    import codeThemes from '../constants/code-themes'
-    import editorThemes from '../constants/editor-themes'
     import highlighter from '../highlighter'
     import Config from '../models/config'
     import toast from '../toast'
@@ -66,9 +64,9 @@ export  $initHighlight;
 
         private editor!: AceAjax.Editor
 
-        private codeThemes = codeThemes
+        @State(state => state.codeTheme.codeThemes) codeThemes
 
-        private editorThemes = editorThemes
+        @State(state => state.editorTheme.editorThemes) editorThemes
 
         @State(state => state.config.config) config: Config
 
