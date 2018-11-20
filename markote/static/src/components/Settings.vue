@@ -21,24 +21,10 @@
                     <option v-for="(theme, key) in codeThemes" :value="key" :key="key">{{ theme }}</option>
                 </b-select>
             </b-field>
-            <div id="code-example">
+            <div id="code-highlighter">
                 <pre>
                     <code>
-function $initHighlight(block, cls) {
-  try {
-    if (cls.search(/\bno\-highlight\b/) != -1)
-      return process(block, true, 0x0F) +
-             ` class="${cls}"`;
-  } catch (e) {
-    /* handle exception */
-  }
-  for (var i = 0 / 2; i &lt; classes.length; i++) {
-    if (checkCondition(classes[i]) === undefined)
-      console.log('undefined');
-  }
-}
-
-export  $initHighlight;
+                        {{ codeExample }}
                     </code>
                 </pre>
             </div>
@@ -60,13 +46,17 @@ export  $initHighlight;
 
     @Component
     export default class Settings extends Vue {
-        private codeExample!: HTMLElement
+        private codeHighlighter!: HTMLElement
 
         private editor!: AceAjax.Editor
 
-        @State(state => state.codeTheme.codeThemes) codeThemes
+        @State(state => state.settings.codeExample) codeExample
 
-        @State(state => state.editorTheme.editorThemes) editorThemes
+        @State(state => state.settings.codeThemes) codeThemes
+
+        @State(state => state.settings.editorThemes) editorThemes
+
+        @State(state => state.settings.markdownExample) markdownExample
 
         @State(state => state.config.config) config: Config
 
@@ -85,26 +75,13 @@ export  $initHighlight;
         }
 
         private init() {
-            this.codeExample = document.getElementById('code-example')
+            this.codeHighlighter = document.getElementById('code-highlighter')
             this.editor = ace.edit('editor-example')
             this.editor.setTheme(this.config.editorTheme)
             this.editor.session.setMode('ace/mode/markdown')
-            this.editor.setValue(`# H1
-## H2
+            this.editor.setValue(this.markdownExample, 1)
 
-1. First item
-2. Second item
-3. Third item
-
-[Link](https://www.google.com)
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |`, 1)
-
-            Array.from(this.codeExample.querySelectorAll('pre')).forEach((element) => {
+            Array.from(this.codeHighlighter.querySelectorAll('pre')).forEach((element) => {
                 highlighter.highlightBlock(element)
             })
 
