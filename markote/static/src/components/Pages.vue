@@ -117,7 +117,7 @@
 
                     break
                 case 'sections':
-                    this.reset()
+                    this.init()
 
                     break
                 default:
@@ -125,7 +125,7 @@
             }
         }
 
-        private reset() {
+        private init() {
             this.selectedPage = new Page()
             this.sectionId = ''
 
