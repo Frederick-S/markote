@@ -227,6 +227,7 @@
     }
 
     img.loading {
-        width: 200px;
+        width: 25px;
+        margin: 5px;
     }
 </style>
