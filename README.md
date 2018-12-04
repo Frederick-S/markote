@@ -25,7 +25,7 @@
 2. Click `Add an app` and name your app
 3. Set a platform by clicking `Add Platform`, select `Web`, and add a `Redirect URL` of `http://localhost:5000/login/authorized`
 4. Click `Generate New Password` and store it securely
-5. Add `Notes.Create`, `User.Read` to `Delegated Permissions`
+5. Add `Notes.Create`, `User.Read`, `Files.ReadWrite.AppFolder` to `Delegated Permissions`
 
 ### Run from source code
 1. Install [Cairo](https://cairographics.org/). For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable
