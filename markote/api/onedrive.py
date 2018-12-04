@@ -8,7 +8,8 @@ from markote.oauth import oauth
 def upload_file():
     file = request.files['file']
     file_id = uuid.uuid4().hex
-    file_name = '{0}{1}'.format(file_id, file.filename[file.filename.rfind('.'):])
+    file_name = '{0}{1}'.format(
+        file_id, file.filename[file.filename.rfind('.'):])
 
     oauth_client = oauth.microsoft_graph
     response = oauth_client.put(
