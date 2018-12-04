@@ -2,9 +2,13 @@
     <div class="column editor">
         <input class="input page-title" type="text" placeholder="Title" v-model="page.title" :disabled="page.isReadOnly">
         <p class="buttons" v-if="!page.isReadOnly">
-            <a class="button">
-                <b-icon icon="image" size="is-small" @click="uploadImage"></b-icon>
-            </a>
+            <label class="upload">
+                <a class="button">
+                    <b-icon v-if="isUploading" icon="spinner" size="is-small"></b-icon>
+                    <b-icon v-else icon="image" size="is-small"></b-icon>
+                </a>
+                <input type="file" @change="onFileSelected">
+            </label>
             <a class="button" @click="save">
                 <b-icon v-if="isSaving" icon="spinner" size="is-small"></b-icon>
                 <b-icon v-else icon="save" size="is-small"></b-icon>
@@ -28,6 +32,7 @@
     import highlighter from '../highlighter'
     import renderer from '../marked/renderer'
     import Config from '../models/config'
+    import GraphClient from '../graph-client'
     import Page from '../models/page'
     import OneNoteHtmlMapper from '../onenote-html-mapper'
     import toast from '../toast'
@@ -40,6 +45,8 @@
         private previewer!: HTMLElement
 
         private isLoading = false
+
+        private isUploading = false
 
         private isSaving = false
 
@@ -179,8 +186,18 @@
             })
         }
 
-        private uploadImage() {
+        private onFileSelected(event) {
+            const file = event.target.files[0]
 
+            this.isUploading = true
+
+            GraphClient.uploadFile(file).then((data: any) => {
+                this.editor.session.insert(this.editor.getCursorPosition(), `![alt text](/api/v1/onedrive/files/${data.name}/content)`)
+            }).catch((error) => {
+                toast.danger('Failed to upload file')
+            }).finally(() => {
+                this.isUploading = false
+            })
         }
     }
 </script>

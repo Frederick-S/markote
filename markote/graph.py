@@ -12,4 +12,4 @@ class Graph(object):
     AUTHORIZE_URL = \
         'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
 
-    SCOPE = 'Notes.Create Notes.Read User.Read offline_access'
+    SCOPE = 'Notes.Create User.Read Files.ReadWrite.AppFolder offline_access'

@@ -20,7 +20,7 @@ export default class OneNoteHtmlMapper {
             if (resourceId) {
                 image.classList.add('loading')
                 image.src = 'images/loading.gif'
-                image.setAttribute('data-src', `/api/v1/resources/${resourceId}`)
+                image.setAttribute('data-src', `/api/v1/resources/${resourceId}/content`)
             }
         })
 

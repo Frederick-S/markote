@@ -92,4 +92,18 @@ export default class GraphClient {
             })
         })
     }
+
+    public static uploadFile(file) {
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('fileName', new Date().getTime().toString())
+
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/v1/onedrive/files`, formData).then((response) => {
+                resolve(response.data)
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+    }
 }
