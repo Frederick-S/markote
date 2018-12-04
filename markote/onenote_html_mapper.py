@@ -2,6 +2,7 @@ import io
 import uuid
 from PIL import Image
 from pyquery import PyQuery
+from markote.oauth import oauth
 from markote.resource import Resource
 from markote.util import convert_svg_to_png
 
@@ -16,6 +17,7 @@ class OneNoteHtmlMapper(object):
 
     def convert(self):
         self._convert_svg_to_resources()
+        self._convert_local_image_to_resources()
         self._move_inline_images_to_table()
 
         if self._only_contains_table():
@@ -23,6 +25,33 @@ class OneNoteHtmlMapper(object):
 
     def get_html(self):
         return self.document.outer_html()
+
+    def _convert_local_image_to_resources(self):
+        images = [PyQuery(image) for image in self.document.find('img')]
+
+        for image in images:
+            src = image.attr('src')
+
+            if src.lower().startswith('http'):
+                continue
+
+            try:
+                file_name = src.split('/')[-2]
+                oauth_client = oauth.microsoft_graph
+                response = oauth_client.get(
+                    'me/drive/special/approot:/{0}:/content'.format(file_name))
+
+                if response.status_code == 200:
+                    name = uuid.uuid4().hex
+                    image.attr('src', 'name:{0}'.format(name))
+
+                    content_type = response.headers['Content-Type']
+
+                    self.resources.append(
+                        Resource(name, response.content, content_type))
+
+            except Exception as e:
+                print(e)
 
     def _convert_svg_to_resources(self):
         self.resources = [self._convert_svg_to_resource(svg_element)
