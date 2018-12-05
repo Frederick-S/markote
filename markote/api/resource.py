@@ -7,5 +7,6 @@ def get_resource(resource_id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
         'me/onenote/resources/{0}/$value'.format(resource_id))
+    headers = {'Content-Type': response.headers['Content-Type']}
 
-    return response.content, response.status_code
+    return response.content, response.status_code, headers

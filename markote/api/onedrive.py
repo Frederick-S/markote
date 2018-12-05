@@ -23,5 +23,6 @@ def get_file(file_id):
     oauth_client = oauth.microsoft_graph
     response = oauth_client.get(
         'me/drive/special/approot:/{0}:/content'.format(file_id))
+    headers = {'Content-Type': response.headers['Content-Type']}
 
-    return response.content, response.status_code
+    return response.content, response.status_code, headers
