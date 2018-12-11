@@ -14,4 +14,12 @@ renderer.table = (header, body) => {
         </table>`
 }
 
+renderer.image = (href, title, text) => {
+    if (href.startsWith('/api/v1/onedrive/files')) {
+        return `<img class="loading" src="images/loading.gif" alt="${text}" data-src="${href}" />`
+    } else {
+        return `<img src="${href}" alt="${text}" />`
+    }
+}
+
 export default renderer

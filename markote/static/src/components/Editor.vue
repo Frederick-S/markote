@@ -134,6 +134,8 @@
                 highlighter.highlightBlock(element)
             })
 
+            this.lazyLoadImages()
+
             return new Promise((resolve, reject) => {
                 MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.previewer])
                 MathJax.Hub.Queue(() => {
@@ -149,17 +151,7 @@
             if (this.page.isReadOnly) {
                 this.previewer.innerHTML = OneNoteHtmlMapper.convert(this.page.content)
 
-                Array.from(this.previewer.querySelectorAll('img')).forEach((image: HTMLImageElement) => {
-                    const src = image.getAttribute('data-src')
-
-                    if (src) {
-                        const realImage = new Image()
-                        realImage.onload = () => {
-                            image.parentNode.replaceChild(realImage, image)
-                        }
-                        realImage.src = src
-                    }
-                })
+                this.lazyLoadImages()
             } else {
                 this.renderPreview()
             }
@@ -197,6 +189,20 @@
                 toast.danger('Failed to upload file')
             }).finally(() => {
                 this.isUploading = false
+            })
+        }
+
+        private lazyLoadImages() {
+            Array.from(this.previewer.querySelectorAll('img')).forEach((image: HTMLImageElement) => {
+                const src = image.getAttribute('data-src')
+
+                if (src) {
+                    const realImage = new Image()
+                    realImage.onload = () => {
+                        image.parentNode.replaceChild(realImage, image)
+                    }
+                    realImage.src = src
+                }
             })
         }
     }
