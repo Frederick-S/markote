@@ -32,7 +32,7 @@ class OneNoteHtmlMapper(object):
         for image in images:
             src = image.attr('src')
 
-            if src.lower().startswith('http'):
+            if src.lower().startswith('http') or src.startswith('name:'):
                 continue
 
             try:
