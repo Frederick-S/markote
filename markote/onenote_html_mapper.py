@@ -49,7 +49,6 @@ class OneNoteHtmlMapper(object):
 
                     self.resources.append(
                         Resource(name, response.content, content_type))
-
             except Exception as e:
                 print(e)
 
