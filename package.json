@@ -22,28 +22,28 @@
   },
   "homepage": "https://github.com/Frederick-S/markote#readme",
   "devDependencies": {
-    "@fimbul/valtyr": "^0.18.0",
+    "@fimbul/valtyr": "^0.19.0",
     "@fimbul/ve": "^0.18.0",
-    "@fimbul/wotan": "^0.18.0",
+    "@fimbul/wotan": "^0.19.0",
     "@types/ace": "0.0.42",
     "@types/localforage": "0.0.34",
     "@types/marked": "^0.6.0",
     "@types/mathjax": "0.0.35",
     "@types/promise.prototype.finally": "^2.0.2",
-    "clean-webpack-plugin": "^1.0.0",
+    "clean-webpack-plugin": "^1.0.1",
     "copy-webpack-plugin": "^4.6.0",
-    "css-loader": "^2.0.1",
+    "css-loader": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
-    "typescript": "^3.2.2",
-    "vue-loader": "^15.5.1",
+    "typescript": "^3.2.4",
+    "vue-loader": "^15.6.1",
     "vue-property-decorator": "^7.3.0",
     "vue-template-compiler": "^2.5.22",
     "vuex-class": "^0.3.1",
-    "webpack": "^4.28.4",
+    "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
@@ -53,6 +53,6 @@
     "marked": "^0.6.0",
     "vue": "^2.5.22",
     "vue-router": "^3.0.2",
-    "vuex": "^3.0.1"
+    "vuex": "^3.1.0"
   }
 }
