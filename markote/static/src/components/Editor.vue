@@ -60,6 +60,10 @@
 
         @Action('page/updatePageContent') updatePageContent
 
+        get isEditable(): Boolean {
+            return !!this.page.id
+        }
+
         private changeTheme() {
             this.editor.setTheme(this.config.editorTheme)
 
@@ -158,7 +162,7 @@
         }
 
         private save() {
-            if (!this.page.id) {
+            if (!this.isEditable) {
                 toast.danger('Please select a page first')
 
                 return
@@ -179,6 +183,12 @@
         }
 
         private onFileSelected(event) {
+            if (!this.isEditable) {
+                toast.danger('Please select a page first')
+
+                return
+            }
+
             const file = event.target.files[0]
 
             this.isUploading = true
