@@ -19,10 +19,10 @@ install:
   - "%PYTHON%\\python.exe -m pip install cryptography lxml"
   - "%PYTHON%\\python.exe setup.py install"
   - ps: Install-Product node $env:nodejs_version
-  - npm install
+  - yarn
 before_test:
   - "%PYTHON%\\Scripts\\pycodestyle.exe ."
-  - npm run lint
-  - npm run build
+  - yarn lint
+  - yarn build
 test_script:
   - "%PYTHON%\\python.exe setup.py test"

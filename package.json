@@ -38,13 +38,13 @@
     "pug-loader": "^2.4.0",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
-    "typescript": "^3.2.4",
-    "vue-loader": "^15.6.1",
+    "typescript": "^3.3.1",
+    "vue-loader": "^15.6.2",
     "vue-property-decorator": "^7.3.0",
-    "vue-template-compiler": "^2.5.22",
+    "vue-template-compiler": "^2.6.2",
     "vuex-class": "^0.3.1",
-    "webpack": "^4.29.0",
-    "webpack-cli": "^3.2.1"
+    "webpack": "^4.29.1",
+    "webpack-cli": "^3.2.3"
   },
   "dependencies": {
     "axios": "^0.18.0",
