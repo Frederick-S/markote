@@ -13,17 +13,17 @@ environment:
     - PYTHON: "C:\\Python36-x64"
 build: off
 install:
-  - "SET PATH=%PATH%;%PYTHON%;%PYTHON%\\Scripts"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - python --version
   - ps: .\install-cairo.ps1
-  - python -m pip install pycodestyle
-  - python -m pip install cryptography lxml
-  - python setup.py install
+  - "%PYTHON%\\python.exe -m pip install pycodestyle"
+  - "%PYTHON%\\python.exe -m pip install cryptography lxml"
+  - "%PYTHON%\\python.exe setup.py install"
   - ps: Install-Product node $env:nodejs_version
   - yarn
 before_test:
-  - pycodestyle.exe .
+  - "%PYTHON%\\Scripts\\pycodestyle.exe ."
   - yarn lint
   - yarn build
 test_script:
-  - python setup.py test
+  - "%PYTHON%\\python.exe setup.py test"
