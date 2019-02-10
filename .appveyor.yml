@@ -15,14 +15,14 @@ build: off
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - ps: .\install-cairo.ps1
-  - "%PYTHON%\\python.exe -m pip install pycodestyle"
-  - "%PYTHON%\\python.exe -m pip install cryptography lxml"
-  - "%PYTHON%\\python.exe setup.py install"
+  - python -m pip install pycodestyle
+  - python -m pip install cryptography lxml
+  - python setup.py install
   - ps: Install-Product node $env:nodejs_version
   - yarn
 before_test:
-  - "%PYTHON%\\Scripts\\pycodestyle.exe ."
+  - pycodestyle.exe .
   - yarn lint
   - yarn build
 test_script:
-  - "%PYTHON%\\python.exe setup.py test"
+  - python setup.py test
