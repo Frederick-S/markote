@@ -14,6 +14,7 @@ environment:
 build: off
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - python --version
   - ps: .\install-cairo.ps1
   - python -m pip install pycodestyle
   - python -m pip install cryptography lxml
