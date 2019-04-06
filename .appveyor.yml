@@ -17,7 +17,7 @@ install:
   - python --version
   - ps: .\install-cairo.ps1
   - "%PYTHON%\\python.exe -m pip install pycodestyle"
-  - "%PYTHON%\\python.exe -m pip install cryptography lxml"
+  - "%PYTHON%\\python.exe -m pip install cryptography lxml tinycss2"
   - "%PYTHON%\\python.exe setup.py install"
   - ps: Install-Product node $env:nodejs_version
   - yarn
