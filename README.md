@@ -39,7 +39,7 @@
 ## Deployment
 ### Ubuntu 18.04 LTS
 1. Run the app
-   1. Run from docker ([known issue](https://github.com/Frederick-S/markote/issues/8))
+   1. Run from docker
       1. Create an env file called `graph.key` with the following content:
          ```
          GRAPH_CLIENT_ID=your client id
@@ -79,7 +79,8 @@
             proxy_pass http://localhost:5000;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-Proto $proxy_add_x_forwarded_for;
+            proxy_set_header X-Scheme $scheme;
         }
     }
     ```
