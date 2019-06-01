@@ -9,10 +9,6 @@ class Config(object):
     GRAPH_CLIENT_SECRET = \
         os.environ.get('GRAPH_CLIENT_SECRET') or 'client secret'
 
-    @staticmethod
-    def init_app(app):
-        pass
-
 
 class DevelopmentConfig(Config):
     ENV = 'development'

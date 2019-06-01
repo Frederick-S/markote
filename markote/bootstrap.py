@@ -5,6 +5,7 @@ from markote.views.notes import notes_blueprint
 from markote.api.api_blueprint import api_blueprint
 from markote.api.api_bootstrap import init_api_routes
 from markote.oauth import oauth, register_graph_client
+from markote.reverse_proxied import ReverseProxied
 
 
 def create_app(config_name):
@@ -12,11 +13,11 @@ def create_app(config_name):
     app = Flask(__name__, template_folder='static/dist',
                 static_folder='static/dist', static_url_path='')
     app.config.from_object(config)
+    app.wsgi_app = ReverseProxied(app.wsgi_app)
 
-    config.init_app(app)
     oauth.init_app(app)
-    init_api_routes()
 
+    init_api_routes()
     register_graph_client(config.GRAPH_CLIENT_ID, config.GRAPH_CLIENT_SECRET)
 
     app.register_blueprint(auth_blueprint)
