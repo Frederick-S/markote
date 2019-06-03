@@ -86,8 +86,5 @@
     ```
 11. Restart `nginx`
 
-## Supporting through Ko-fi
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C8N8OU)
-
 ## License
 [MIT](LICENSE)
