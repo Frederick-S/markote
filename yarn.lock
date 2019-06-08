@@ -50,12 +50,12 @@
     tslint "^5.0.0"
     tsutils "^3.5.0"
 
-"@fimbul/ve@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@fimbul/ve/-/ve-0.18.0.tgz#42de413997f702664ccb5344c4aa3c05b15c43d1"
-  integrity sha512-G3Rk290V6uMpODK50JOchiXDpijkvwsHttWcLKOXpZHSpSzg0GDt6VBv6N/M7HVg071JWM7ffXuXH63o+6cQ/g==
+"@fimbul/ve@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@fimbul/ve/-/ve-0.21.0.tgz#5f573186bfa10f93dcece5173afecb55d94f3ee5"
+  integrity sha512-vaOiaQP2sX52CJ1tNCO689P3tBPo60B0OB7nIoxLLFys1aI+HAjIi6x/EKh9rB+AozAIF0/zteYTh1IGmvrBDA==
   dependencies:
-    "@fimbul/ymir" "^0.18.0"
+    "@fimbul/ymir" "^0.21.0"
     parse5-sax-parser "^5.0.0"
     tslib "^1.8.1"
     void-elements "^3.1.0"
@@ -90,6 +90,15 @@
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/@fimbul/ymir/-/ymir-0.18.0.tgz#9032bdd3b1ec536840ece2725e19eb12084f1f8e"
   integrity sha512-fZHvoy3lO7WyapLa0vYmJ4iKVbm/NWEqa6yPQpbSTUlWI7Kj1wfHRd5Aa2eOdTXpGHYeU8GkZ35Xb/51dnv95A==
+  dependencies:
+    inversify "^5.0.0"
+    reflect-metadata "^0.1.12"
+    tslib "^1.8.1"
+
+"@fimbul/ymir@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@fimbul/ymir/-/ymir-0.21.0.tgz#8525726787aceeafd4e199472c0d795160b5d4a1"
+  integrity sha512-T/y7WqPsm4n3zhT08EpB5sfdm2Kvw3gurAxr2Lr5dQeLi8ZsMlNT/Jby+ZmuuAAd1PnXYzKp+2SXgIkQIIMCUg==
   dependencies:
     inversify "^5.0.0"
     reflect-metadata "^0.1.12"
