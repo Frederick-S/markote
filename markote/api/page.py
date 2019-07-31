@@ -7,7 +7,7 @@ from markote.oauth import oauth
 from markote.onenote_html_mapper import OneNoteHtmlMapper
 
 MARKDOWN_FILE_OBJECT_HTML = '<object data-id="markdown-file" ' \
-                            'data-attachment="markdown.md" ' \
+                            'data-attachment="content.md" ' \
                             'data="name:markdown" ' \
                             'type="text/markdown" />'
 
@@ -28,7 +28,7 @@ def create_page(section_id):
     '''.format(page['title'], MARKDOWN_FILE_OBJECT_HTML)
     files = {
         'Presentation': ('', io.StringIO(content), 'text/html'),
-        'markdown': ('markdown.md', io.StringIO(''), 'text/markdown')
+        'markdown': ('content.md', io.StringIO(''), 'text/markdown')
     }
 
     oauth_client = oauth.microsoft_graph
@@ -112,7 +112,7 @@ def update_page(page_id):
     files = {
         'Commands': ('', io.StringIO(json.dumps(commands)),
                      'application/json'),
-        'markdown': ('markdown.md', io.StringIO(page['markdown']),
+        'markdown': ('content.md', io.StringIO(page['markdown']),
                      'text/markdown')
     }
 
