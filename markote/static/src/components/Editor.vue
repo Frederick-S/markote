@@ -194,7 +194,7 @@
             this.isUploading = true
 
             GraphClient.uploadFile(file).then((data: any) => {
-                this.editor.session.insert(this.editor.getCursorPosition(), `![alt text](/api/v1/onedrive/files/${data.name}/content)`)
+                this.editor.session.insert(this.editor.getCursorPosition(), `![${file.name}](/api/v1/onedrive/files/${data.name}/content)`)
             }).catch((error) => {
                 toast.danger('Failed to upload file')
             }).finally(() => {
