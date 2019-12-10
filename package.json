@@ -40,7 +40,7 @@
     "tslint": "^5.18.0",
     "typescript": "^3.3.3333",
     "vue-loader": "^15.7.2",
-    "vue-property-decorator": "^8.2.1",
+    "vue-property-decorator": "^8.3.0",
     "vue-template-compiler": "^2.6.10",
     "vuex-class": "^0.3.2",
     "webpack": "^4.41.2",
