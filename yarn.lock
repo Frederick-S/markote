@@ -138,10 +138,10 @@
   resolved "https://registry.yarnpkg.com/@types/mathjax/-/mathjax-0.0.36.tgz#18cf766f88ac0cd4e7ee8282b1286049bb6aa682"
   integrity sha512-TqDJc2GWuTqd/m+G/FbNkN+/TF2OCCHvcawmhIrUaZkdVquMdNZmNiNUkupNg9qctorXXkVLVSogZv1DhmgLmg==
 
-"@types/promise.prototype.finally@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/promise.prototype.finally/-/promise.prototype.finally-2.0.3.tgz#e77b4911f4b0564ee9142bd7cb6ba34a5c7dccc3"
-  integrity sha512-hQfmCK9Hw8diRIa3KoIDY4aimdxckamHUcmaZeB9tBMyb/Shi1yCBIPfry+nqN4jILNVThY1tnTwdMhQeMjqrw==
+"@types/promise.prototype.finally@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@types/promise.prototype.finally/-/promise.prototype.finally-2.0.4.tgz#ec872a06ade3e4cf38ba461bae5aca1d8b0ff672"
+  integrity sha512-bkzsMz11tGI5r/ZhJIVI1+QSWKKBcX/Llv0zoM2ufOH+o/3sLXwE5xCW0OUX81xPa4EGOyPKFlNrH9GH+IF4lg==
 
 "@vue/component-compiler-utils@^3.1.0":
   version "3.1.0"
