@@ -44,7 +44,7 @@
     "vue-template-compiler": "^2.6.10",
     "vuex-class": "^0.3.2",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "axios": "^0.19.2",
