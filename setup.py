@@ -4,7 +4,8 @@ requires = [
     'Flask==1.1.1',
     'Authlib==0.14.1',
     'pyquery==1.4.1',
-    'cairosvg==2.1.3'
+    'cairosvg==2.1.3',
+    'requests==2.23.0'
 ]
 
 setup(
