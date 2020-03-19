@@ -1,5 +1,5 @@
 from flask import session
-from authlib.flask.client import OAuth
+from authlib.integrations.flask_client import OAuth
 from markote.graph import Graph
 
 
