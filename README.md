@@ -24,7 +24,7 @@
 1. Log in to `Microsoft Azure`
 2. Find `App registrations` under `All services`
 3. Click `New registration`, select `Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)` under `Supported account types`, and add `http://localhost:5000/login/authorized` as `Redirect URI`
-4. Add `Files.ReadWrite`, `Notes.ReadWrite`, `User.Read`, `offline_access` under `API permissions`
+4. Click `Add a permission` to add `Files.ReadWrite`, `Notes.ReadWrite`, `User.Read`, `offline_access` under `API permissions > Microsoft Graph > Delegated permissions`
 5. Click `New client secret` under `Certificates & secrets` and store it securely
 
 ### Run from source code
