@@ -57,6 +57,11 @@ module.exports = {
             filename: 'notes.html',
             template: './markote/static/public/notes.pug'
         }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            filename: 'logout.html',
+            template: './markote/static/public/logout.pug'
+        }),
         new VueLoaderPlugin()
     ],
     devtool: 'source-map',

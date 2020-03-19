@@ -1,4 +1,4 @@
-from flask import session, redirect, url_for, Blueprint
+from flask import session, redirect, url_for, Blueprint, render_template
 from markote.oauth import oauth
 
 
@@ -11,6 +11,13 @@ def login():
     redirect_uri = url_for('auth_blueprint.authorized', _external=True)
 
     return oauth_client.authorize_redirect(redirect_uri)
+
+
+@auth_blueprint.route('/logout')
+def logout():
+    session.clear()
+
+    return render_template('logout.html')
 
 
 @auth_blueprint.route('/login/authorized')

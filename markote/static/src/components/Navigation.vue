@@ -8,6 +8,7 @@
                 </a>
                 <b-dropdown-item @click="openSettings">Settings</b-dropdown-item>
                 <b-dropdown-item @click="invalidateCachesAndReload">Invalidate Caches & Reload</b-dropdown-item>
+                <b-dropdown-item @click="logout">Logout</b-dropdown-item>
             </b-dropdown>
         </div>
         <b-modal :active.sync="isSettingsModalActive" has-modal-card :can-cancel="false">
@@ -51,6 +52,10 @@
 
         private openSettings() {
             this.isSettingsModalActive = true
+        }
+
+        private logout() {
+            window.location.href = '/logout'
         }
     }
 </script>
