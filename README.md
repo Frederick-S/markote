@@ -21,11 +21,11 @@
 
 ## Development
 ### Register your app
-1. Navigate to the [Application Registration Portal](https://identity.microsoft.com/Landing) and sign in
-2. Click `Add an app` and name your app
-3. Set a platform by clicking `Add Platform`, select `Web`, and add a `Redirect URL` of `http://localhost:5000/login/authorized`
-4. Click `Generate New Password` and store it securely
-5. Add `Notes.Create`, `User.Read`, `Files.ReadWrite.AppFolder` to `Delegated Permissions`
+1. Log in to `Microsoft Azure`
+2. Find `App registrations` under `All services`
+3. Click 'New registration`, select `Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)` under `Supported account types`, and add `http://localhost:5000/login/authorized` as `Redirect URI`
+4. Add `Files.ReadWrite`, `Notes.ReadWrite`, `User.Read`, `offline_access` under `API permissions`
+5. Click `New client secret` under `Certificates & secrets` and store it securely
 
 ### Run from source code
 1. Install [Cairo](https://cairographics.org/). For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable
