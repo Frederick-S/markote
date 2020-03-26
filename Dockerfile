@@ -15,4 +15,4 @@ RUN npm run build
 
 EXPOSE 5000
 
-CMD [ "gunicorn", "-c", "gunicorn.py", "wsgi:app"]
+CMD ["gunicorn", "-c", "gunicorn.py", "wsgi:app"]
