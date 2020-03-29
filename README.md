@@ -86,5 +86,10 @@
     ```
 11. Restart `nginx`
 
+### Azure App Services
+1. Click `Add` under `App Services`, select `Docker Container` as publish method
+2. Select `Single Container` as `Options`, `Docker Hub` as `Image Source`, `Public` as `Acess Type` and type `xiaodanmao/markote` in `Image and tag` field
+3. Add `GRAPH_CLIENT_ID=your client id`, `GRAPH_CLIENT_SECRET=your client secret`, `MARKOTE_URL_SCHEME=https` as application settings under `Configuration` 
+
 ## License
 [MIT](LICENSE)
