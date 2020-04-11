@@ -64,8 +64,8 @@
           ```
           gunicorn -c gunicorn.py wsgi:app &
           ```
-2. Install [certbot](https://certbot.eff.org/)
-3. Install [nginx](https://www.nginx.com/)
+2. Install [nginx](https://www.nginx.com/)
+3. Install [certbot](https://certbot.eff.org/) and run [instructions](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx)
 4. Create `markote.conf` under `/etc/nginx/conf.d` with the following content:
 
     ```
