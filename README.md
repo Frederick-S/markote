@@ -31,7 +31,7 @@
 1. Install [Cairo](https://cairographics.org/). For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable
 2. Clone the code
 3. Add your own `Application Id` and `Application secret` to `config.py` or add them as environment variables
-4. Run `yarn && yarn build`
+4. Run `npm install && npm run build`
 5. Create an isolated Python virtual environment and run `python setup.py install` in it
 6. Run `python run.py` to start the app
 7. Navigate to `http://localhost:5000/`
@@ -48,14 +48,14 @@
       2. Run `sudo docker run -d -p 5000:5000 --env-file graph.key xiaodanmao/markote:latest`
    2. Run from source code
       1. Install [cairo](https://cairographics.org/)
-      2. Install [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/)
+      2. Install [Node.js](https://nodejs.org/en/)
       3. Clone the code
       4. Install
 
           ```
           python3 setup.py install
-          yarn
-          yarn build
+          npm install
+          npm run build
           ```
       5. Install [gunicorn](http://gunicorn.org/)
       6. Add `GRAPH_CLIENT_ID` and `GRAPH_CLIENT_SECRET` in `gunicorn.py` 
