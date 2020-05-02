@@ -39,7 +39,7 @@
     "ts-loader": "^7.0.1",
     "tslint": "^6.1.1",
     "typescript": "^3.3.3333",
-    "vue-loader": "^15.8.3",
+    "vue-loader": "^15.9.2",
     "vue-property-decorator": "^8.4.2",
     "vue-template-compiler": "^2.6.10",
     "vuex-class": "^0.3.2",
