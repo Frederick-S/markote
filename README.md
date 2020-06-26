@@ -84,7 +84,7 @@
         }
     }
     ```
-11. Restart `nginx`
+11. Run `nginx -s reload`
 
 ### Azure App Services
 1. Click `Add` under `App Services`, select `Docker Container` as publish method
