@@ -28,7 +28,7 @@
 5. Click `New client secret` under `Certificates & secrets` and store it securely
 
 ### Run from source code
-1. Install [Cairo](https://cairographics.org/). For Windows users, you can also download standalone [Cairo dlls](https://github.com/preshing/cairo-windows/releases) and add its path to `PATH` environment variable
+1. Install [Cairo](https://cairographics.org/)
 2. Clone the code
 3. Add your own `Application Id` and `Application secret` to `config.py` or add them as environment variables
 4. Run `npm install && npm run build`
