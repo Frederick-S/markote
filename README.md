@@ -1,5 +1,5 @@
 # Markote - Save markdown notes to OneNote
-[![Build Status](https://travis-ci.org/Frederick-S/markote.svg?branch=master)](https://travis-ci.org/Frederick-S/markote) [![Build status](https://ci.appveyor.com/api/projects/status/w6f5wr4vn4lublch/branch/master?svg=true)](https://ci.appveyor.com/project/Frederick-S/markote/branch/master) [![codecov](https://codecov.io/gh/Frederick-S/markote/branch/master/graph/badge.svg)](https://codecov.io/gh/Frederick-S/markote)
+[![Build](https://github.com/Frederick-S/markote/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/Frederick-S/markote/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/Frederick-S/markote/branch/master/graph/badge.svg)](https://codecov.io/gh/Frederick-S/markote)
 
 ## Features
 * Markdown support
