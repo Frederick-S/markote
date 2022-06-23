@@ -27,7 +27,7 @@ jobs:
       run: |
         sudo apt-get install libcairo2-dev libxslt-dev
         python -m pip install --upgrade pip
-        pip install flake8 pytest codecov
+        pip install flake8 pytest
         python setup.py install
     - name: Lint with flake8
       run: |
@@ -41,7 +41,7 @@ jobs:
         npm run build
     - name: Test with pytest
       run: |
-        pytest
+        pytest --cov=./ --cov-report=xml
     - name: Test coverage
       run: |
-        codecov
+        bash <(curl https://codecov.io/bash)
