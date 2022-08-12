@@ -4,7 +4,7 @@ requires = [
     'Flask==2.2.2',
     'Authlib==0.15.5',
     'pyquery==1.4.3',
-    'cairosvg==2.1.3',
+    'cairosvg==2.5.1',
     'requests==2.25.1'
 ]
 
